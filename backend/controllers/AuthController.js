@@ -3,7 +3,7 @@ import shopModel from "../models/shopModel.js";
 import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken"
 
-//register usser
+//register user
 export const userRegisterController = async(req,res) => {
     try{
         const {fullname,
