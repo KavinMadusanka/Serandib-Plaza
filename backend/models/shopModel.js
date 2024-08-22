@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//shop model
 const shopSchema = new mongoose.Schema(
   {
     fullname: {
