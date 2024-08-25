@@ -1,13 +1,14 @@
-// import logo from './logo.svg';
-import './App.css';
-import Layout from './components/Layout/Layout';
+import { Routes, Route} from "react-router-dom"
+import HomePage from "./pages/HomePage";
+import Pagenotfound from "./pages/Pagenotfound";
 
 function App() {
   return (
     <>
-    <Layout>
-    <h1>Serendib Plaza</h1>
-    </Layout>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="*" element={<Pagenotfound />} />
+    </Routes>
     
      
     </>
