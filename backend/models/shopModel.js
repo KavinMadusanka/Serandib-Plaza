@@ -8,12 +8,11 @@ const shopSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    owneremail: {
+    owner_email: {
       type: String,
       required: true,
-      unique: true,
     },
-    contact: {
+    owner_contact: {
         type: String,
         required: true,
     },
@@ -29,7 +28,7 @@ const shopSchema = new mongoose.Schema(
         type: String,
         required: true,
     },
-    taxidno: {
+    tax_id_no: {
         type: String,
         required: true,
     },
@@ -40,6 +39,7 @@ const shopSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
   },
     businesstype: {
         type: String,
@@ -53,21 +53,17 @@ const shopSchema = new mongoose.Schema(
         type: String,
         required: true,
     },
-    operatinghrs_from: {
+    operating_hrs_from: {
       type: String,
       required: true,
     },
-    operatinghrs_to: {
+    operating_hrs_to: {
       type: String,
       required: true,
     },
     shoplocation: {
         type: String,
         required: true,
-    },
-    businessaddress: {
-        type: String,
-        required: true
     },
     shopcontact: {
         type: String,
