@@ -3,7 +3,12 @@ import colors from "colors";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
+
+import AuthRoutes from './routes/AuthRoute.js'
+import promotionRoutes from "./routes/promotionRoute.js"
+
 import categoryRoutes from './routes/categoryRoute.js'
+
 
 //configure env
 dotenv.config();
@@ -19,7 +24,13 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 //routes
+
+app.use("/api/v1/userauth",AuthRoutes)
+app.use("/api/v1/promotions",promotionRoutes)
+
+
 app.use('/api/v1/category', categoryRoutes);
+
 
 // rest api
 app.get("/" , (req,res) => {
