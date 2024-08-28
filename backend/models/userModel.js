@@ -21,12 +21,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    resaddress: {
+    address: {
       type: String,
       required: true,
     },
-    shoppingpreference: {
-        type: String,
+    shoppingPreference: {
+        type: [String],
         required: false,
       },
     password: {
