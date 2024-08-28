@@ -197,94 +197,58 @@ export const shopRegisterController = async(req,res) => {
 
 
 
-//post login(all the users who use the system)
+// Login user or shop owner
 export const userLoginController = async (req, res) => {
     try {
-      const { email, password } = req.body;
-  
-      // Validate input
-      if (!email || !password) {
+        const { email, password } = req.body;
+
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).send({ success: false, message: "Email and password are required" });
+        }
+
+        // Check in users table
+        let user = await userModel.findOne({ email });
+        if (user) {
+            const match = await comparePassword(password, user.password);
+            if (match) {
+                const token = JWT.sign({ _id: user._id, role: "user" }, process.env.JWT_SECRET, { expiresIn: "7d" });
+                return res.status(200).send({
+                    success: true,
+                    message: "User login successful",
+                    token,
+                    role: "user",
+                });
+            }
+        }
+
+        // Check in shops table
+        let shop = await shopModel.findOne({ email });
+        if (shop) {
+            const match = await comparePassword(password, shop.password);
+            if (match) {
+                const token = JWT.sign({ _id: shop._id, role: "shopOwner" }, process.env.JWT_SECRET, { expiresIn: "7d" });
+                return res.status(200).send({
+                    success: true,
+                    message: "Shop login successful",
+                    token,
+                    role: "shopOwner",
+                });
+            }
+        }
+
+        // If no match found in either table
         return res.status(400).send({
-          success: false,
-          message: "Email and password are required",
+            success: false,
+            message: "Invalid email or password",
         });
-      }
-  
-      // Step 1: Check in users table
-      let user = await userModel.findOne({ email });
-      if (user) {
-        const match = await comparePassword(password, user.password);
-        if (match) {
-          const token = await JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "7d",
-          });
-          return res.status(200).send({
-            success: true,
-            message: "User login successful",
-            user: {
-                fullname: user.fullname,
-                email: user.email,
-                dob: user.dob,
-                phone: user.phone,
-                address: user.address,
-                shoppingPreference: user.shoppingPreference,
-                role: "user",
-            },
-            token,
-          });
-        }
-      }
-  
-      // Step 2: Check in shops table
-      let shop = await shopModel.findOne({ email });
-      if (shop) {
-        const match = await comparePassword(password, shop.password);
-        if (match) {
-          const token = await JWT.sign({ _id: shop._id }, process.env.JWT_SECRET, {
-            expiresIn: "7d",
-          });
-          return res.status(200).send({
-            success: true,
-            message: "Successfully login to shop portal",
-            shopOwner: {
-                fullname: shop.fullname,
-                owner_email: shop.owner_email,
-                owner_contact: shop.owner_contact,
-                nic: shop.nic,
-                businessregno: shop.businessregno,
-                tax_id_no: shop.tax_id_no,
-                shopname: shop.shopname,
-                email: shop.email,
-                businesstype: shop.businesstype,
-                category: shop.category,
-                description: shop.description,
-                operating_hrs_from: shop.operating_hrs_from,
-                operating_hrs_to: shop.operating_hrs_to,
-                shoplocation: shop.shoplocation,
-                shopcontact: shop.shopcontact,
-                role: "shopOwner",
-            },
-            token,
-          });
-        }
-      }
-  
-      // If no match found in either table
-      return res.status(400).send({
-        success: false,
-        message: "Invalid email or password",
-      });
-  
+
     } catch (error) {
-      console.log(error);
-      return res.status(500).send({
-        success: false,
-        message: "Error during login",
-        error,
-      });
+        console.error(error);
+        return res.status(500).send({ success: false, message: "Error during login", error });
     }
-  };
-  
+};
+
 
   //test controller
 export const testcontroller = (req,res) => {
