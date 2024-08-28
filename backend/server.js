@@ -9,7 +9,7 @@ import categoryRoutes from './routes/categoryRoute.js'
 import productRoutes from  './routes/productRoute.js'
 import shoppingcartRoutes from './routes/shoppingcartRoute.js'
 
-
+import cors from "cors";
 
 //configure env
 dotenv.config();
@@ -21,6 +21,7 @@ connectDB();
 const app = express();
 
 //middelwares
+app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
