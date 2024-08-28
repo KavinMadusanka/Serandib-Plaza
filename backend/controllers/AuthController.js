@@ -10,8 +10,8 @@ export const userRegisterController = async(req,res) => {
                email,
                dob,
                phone,
-               resaddress,
-               shoppingpreference,
+               address,
+               shoppingPreference,
                password
             } = req.body
 
@@ -28,7 +28,7 @@ export const userRegisterController = async(req,res) => {
     if (!phone) {
         return res.send({ message: "Phone Number is Required" });
     }
-    if (!resaddress) {
+    if (!address) {
         return res.send({ message: "Residential Address is Required" });
     }
     if (!password) {
@@ -53,8 +53,8 @@ export const userRegisterController = async(req,res) => {
         email,
         dob,
         phone,
-        resaddress,
-        shoppingpreference,
+        address,
+        shoppingPreference,
         password:hashedPassword
     }).save()
 
@@ -80,21 +80,20 @@ export const userRegisterController = async(req,res) => {
 export const shopRegisterController = async(req,res) => {
     try{
         const {fullname,
-               owneremail,
-               contact,
+               owner_email,
+               owner_contact,
                password,
                nic,
                businessregno,
-               taxidno,
+               tax_id_no,
                shopname,
                email,
                businesstype,
                category,
                description,
-               operatinghrs_from,
-               operatinghrs_to,
+               operating_hrs_from,
+               operating_hrs_to,
                shoplocation,
-               businessaddress,
                shopcontact
             } = req.body
 
@@ -102,10 +101,10 @@ export const shopRegisterController = async(req,res) => {
     if (!fullname) {
         return res.send({ message: "Shop Owner full name is Required" });
     }
-    if (!owneremail) {
+    if (!owner_email) {
         return res.send({ message: "Shop Owner email is Required" });
     }
-    if (!contact) {
+    if (!owner_contact) {
         return res.send({ message: "Shop Owner contact number is Required" });
     }
     if (!password) {
@@ -117,7 +116,7 @@ export const shopRegisterController = async(req,res) => {
     if (!businessregno) {
         return res.send({ message: "Business Registration number is Required" });
     }
-    if (!taxidno) {
+    if (!tax_id_no) {
         return res.send({ message: "Taxi Identification number is Required" });
     }
     if (!shopname) {
@@ -135,17 +134,14 @@ export const shopRegisterController = async(req,res) => {
     if (!description) {
         return res.send({ message: "Shop description is Required" });
     }
-    if (!operatinghrs_from) {
+    if (!operating_hrs_from) {
         return res.send({ message: "Shop start time is Required" });
     }
-    if (!operatinghrs_to) {
+    if (!operating_hrs_to) {
         return res.send({ message: "Shop close time is Required" });
     }
     if (!shoplocation) {
         return res.send({ message: "Shop location(floor no) is Required" });
-    }
-    if (!businessaddress) {
-        return res.send({ message: "Shop address is Required" });
     }
     if (!shopcontact) {
         return res.send({ message: "Shop contact number is Required" });
@@ -166,21 +162,20 @@ export const shopRegisterController = async(req,res) => {
     //save
     const shop = await new shopModel({
         fullname,
-        owneremail,
-        contact,
+        owner_email,
+        owner_contact,
         password:hashedPassword,
         nic,
         businessregno,
-        taxidno,
+        tax_id_no,
         shopname,
         email,
         businesstype,
         category,
         description,
-        operatinghrs_from,
-        operatinghrs_to,
+        operating_hrs_from,
+        operating_hrs_to,
         shoplocation,
-        businessaddress,
         shopcontact
     }).save()
 
@@ -231,8 +226,8 @@ export const userLoginController = async (req, res) => {
                 email: user.email,
                 dob: user.dob,
                 phone: user.phone,
-                resaddress: user.resaddress,
-                shoppingpreference: user.shoppingpreference,
+                address: user.address,
+                shoppingPreference: user.shoppingPreference,
                 role: "user",
             },
             token,
@@ -253,20 +248,19 @@ export const userLoginController = async (req, res) => {
             message: "Successfully login to shop portal",
             shopOwner: {
                 fullname: shop.fullname,
-                owneremail: shop.owneremail,
-                contact: shop.contact,
+                owner_email: shop.owner_email,
+                owner_contact: shop.owner_contact,
                 nic: shop.nic,
                 businessregno: shop.businessregno,
-                taxidno: shop.taxidno,
+                tax_id_no: shop.tax_id_no,
                 shopname: shop.shopname,
                 email: shop.email,
                 businesstype: shop.businesstype,
                 category: shop.category,
                 description: shop.description,
-                operatinghrs_from: shop.operatinghrs_from,
-                operatinghrs_to: shop.operatinghrs_to,
+                operating_hrs_from: shop.operating_hrs_from,
+                operating_hrs_to: shop.operating_hrs_to,
                 shoplocation: shop.shoplocation,
-                businessaddress: shop.businessaddress,
                 shopcontact: shop.shopcontact,
                 role: "shopOwner",
             },
