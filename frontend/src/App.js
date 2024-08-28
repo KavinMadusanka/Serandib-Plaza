@@ -7,6 +7,7 @@ import Registration from "./pages/Auth/Registration";
 //import { ToastContainer} from "react-toastify";
 //import 'react-toastify/dist/ReactToastify.css'
 import Login from "./pages/Auth/Login";
+import ShopProfile from "./pages/Shops/ShopProfile";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
       <Route path="/registerUser" element={<RegisterUser/>} />
       <Route path="/registerShop" element={<RegisterShop/>} />
       <Route path="/login" element={<Login/>} />
+      <Route path="/shopProfile" element={<ShopProfile />} />
       <Route path="*" element={<Pagenotfound />} />
     </Routes>
     
