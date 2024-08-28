@@ -47,7 +47,6 @@ code {
   margin-top: 10px;
 }
 
-
 /* ========register========= */
 .register{
   display: flex;
@@ -56,3 +55,4 @@ code {
   height: 100vh;
   flex-direction: column;
 }
+
