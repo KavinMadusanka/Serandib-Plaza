@@ -3,11 +3,14 @@ import Layout from '../../components/Layout/Layout';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
+//import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/auth';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [auth, setAuth] = useAuth();
 
     // Form submission function
     const handleSubmit = async (e) => {
@@ -15,21 +18,27 @@ const Login = () => {
         try {
             const res = await axios.post("api/v1/userauth/userLogin", { email, password });
             if (res && res.data.success) {
-                const { token, role } = res.data;
+                const { token, role, user, shop } = res.data;
 
-                // Store the token in localStorage or state management (e.g., Redux)
-                localStorage.setItem('token', token);
+                // Update auth context with user or shop details
+                setAuth({
+                    ...auth,
+                    token,
+                    user: role === "user" ? user : null,
+                    shopOwner: role === "shopOwner" ? shop : null,
+                });
 
-                // Debugging: Check if role and token are correctly received
-                console.log("Role:", role);
-                console.log("Token:", token);
+                // Store the token and user/shop details in localStorage
+                localStorage.setItem("auth", JSON.stringify({
+                    token,
+                    user: role === "user" ? user : null,
+                    shopOwner: role === "shopOwner" ? shop : null,
+                }));
 
                 // Redirect based on user role
                 if (role === "user") {
-                    console.log("Navigating to home page");
-                    navigate('/'); // Adjust this route to match your route configuration
+                    navigate('/userProfile'); // Adjust this route to match your route configuration
                 } else if (role === "shopOwner") {
-                    console.log("Navigating to shop profile");
                     navigate('/shopProfile'); // Adjust this route to match your route configuration
                 }
 
@@ -72,10 +81,9 @@ const Login = () => {
                         />
                     </div>
                     
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Login</button>
                 </form>
-                <Toaster />
-            </div> 
+            </div>
         </Layout>
     );
 };
