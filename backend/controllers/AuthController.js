@@ -198,6 +198,59 @@ export const shopRegisterController = async(req,res) => {
 
 
 // Login user or shop owner
+// export const userLoginController = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+
+//         // Validate input
+//         if (!email || !password) {
+//             return res.status(400).send({ success: false, message: "Email and password are required" });
+//         }
+
+//         // Check in users table
+//         let user = await userModel.findOne({ email });
+//         if (user) {
+//             const match = await comparePassword(password, user.password);
+//             if (match) {
+//                 const token = JWT.sign({ _id: user._id, role: "user" }, process.env.JWT_SECRET, { expiresIn: "7d" });
+//                 return res.status(200).send({
+//                     success: true,
+//                     message: "User login successful",
+//                     token,
+//                     role: "user",
+//                 });
+//             }
+//         }
+
+//         // Check in shops table
+//         let shop = await shopModel.findOne({ email });
+//         if (shop) {
+//             const match = await comparePassword(password, shop.password);
+//             if (match) {
+//                 const token = JWT.sign({ _id: shop._id, role: "shopOwner" }, process.env.JWT_SECRET, { expiresIn: "7d" });
+//                 return res.status(200).send({
+//                     success: true,
+//                     message: "Shop login successful",
+//                     token,
+//                     role: "shopOwner",
+//                 });
+//             }
+//         }
+
+//         // If no match found in either table
+//         return res.status(400).send({
+//             success: false,
+//             message: "Invalid email or password",
+//         });
+
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).send({ success: false, message: "Error during login", error });
+//     }
+// };
+
+
+// Login user or shop owner
 export const userLoginController = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -218,6 +271,7 @@ export const userLoginController = async (req, res) => {
                     message: "User login successful",
                     token,
                     role: "user",
+                    user, // Return user details
                 });
             }
         }
@@ -233,6 +287,7 @@ export const userLoginController = async (req, res) => {
                     message: "Shop login successful",
                     token,
                     role: "shopOwner",
+                    shop, // Return shop details
                 });
             }
         }
