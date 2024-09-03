@@ -113,6 +113,7 @@ const Login = () => {
                 </Paper>
             </Box>
         </Container>
+        <Toaster/>
         </Layout>
     );
 };
