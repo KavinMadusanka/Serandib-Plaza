@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 //import { useAuth } from '../../context/AuthContext';
 import { useAuth } from '../../context/auth';
+import { Container, Box, Typography, TextField, Button, Paper } from '@mui/material';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -53,37 +54,65 @@ const Login = () => {
     };
 
     return (
-        <Layout title="Login">
-            <div className='register'>
-                <h1>Login</h1>
-                <form onSubmit={handleSubmit}> 
-                    <div className="mb-3">
-                        <label htmlFor="Email" className="form-label">Email</label>
-                        <input 
-                            type="email" 
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="form-control" 
-                            id="Email" 
-                            required
-                        />
-                    </div>
-                    
-                    <div className="mb-3">
-                        <label htmlFor="Password" className="form-label">Password</label>
-                        <input 
-                            type="password" 
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control" 
-                            id="Password" 
-                            required
-                        />
-                    </div>
-                    
-                    <button type="submit" className="btn btn-primary">Login</button>
-                </form>
-            </div>
+        <Layout>
+        <Container maxWidth="xs">
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    marginTop: 8,
+                }}
+            >
+                <Paper elevation={3} sx={{ padding: 3, width: '100%' }}>
+                <Typography
+                        variant="h4"
+                        component="h1"
+                        sx={{
+                            textAlign: 'center',
+                            fontWeight: 'bold',
+                            marginBottom: 2,
+                        }}
+                    >
+                        Login
+                    </Typography>
+                    <form onSubmit={handleSubmit}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 2,
+                            }}
+                        >
+                            <TextField
+                                label="Email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                fullWidth
+                            />
+                            <TextField
+                                label="Password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                fullWidth
+                            />
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                sx={{ marginTop: 2 }}
+                            >
+                                Login
+                            </Button>
+                        </Box>
+                    </form>
+                </Paper>
+            </Box>
+        </Container>
         </Layout>
     );
 };
