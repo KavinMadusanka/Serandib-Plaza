@@ -10,6 +10,11 @@ import Login from "./pages/Auth/Login";
 import ShopProfile from "./pages/Shops/ShopProfile";
 
 import ProfileUser from './pages/User/ProfileUser';
+import UpdateShopProfile from "./pages/Shops/UpdateShopProfile";
+import UpdateUserProfile from "./pages/User/UpdateUserProfile";
+import Shops from "./pages/Shops";
+import Promotions from "./pages/Promotions";
+import AddPromotions from "./pages/Shops/AddPromotions";
 
 function App() {
   return (
@@ -23,6 +28,12 @@ function App() {
       <Route path="/shopProfile" element={<ShopProfile />} />
       <Route path="*" element={<Pagenotfound />} />
       <Route path="/userprofile" element={<ProfileUser />} />
+      <Route path="/updateShopProfile" element={<UpdateShopProfile />} />
+      <Route path="/updateprofile" element={<UpdateUserProfile />}/>
+      <Route path="/shops" element={<Shops />} />
+      <Route path="/promotions" element={<Promotions />} />
+
+      <Route path="/addpromotions" element={<AddPromotions />} />
     </Routes>
     
      
