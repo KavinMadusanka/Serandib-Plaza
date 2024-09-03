@@ -48,11 +48,11 @@ code {
 }
 
 /* ========register========= */
-.register{
+/* .register{
   display: flex;
   align-items: center;
   justify-content: center;
   height: 250vh;
   flex-direction: column;
-}
+} */
 
