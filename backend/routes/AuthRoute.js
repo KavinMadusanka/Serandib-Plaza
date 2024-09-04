@@ -1,5 +1,5 @@
 import express from 'express'
-import { shopRegisterController, testcontroller, userLoginController, userRegisterController } from '../controllers/AuthController.js'
+import { getAllShopsController, shopRegisterController, testcontroller, updateShopProfileController, updateUserProfileController, userLoginController, userRegisterController } from '../controllers/AuthController.js'
 import { isAdmin, requireSignIn } from '../middlewares/AuthMiddleware.js'
 
 //router object
@@ -15,7 +15,16 @@ router.post('/shopregister',shopRegisterController )
 //login || post
 router.post('/userLogin',userLoginController )
 
+// Route to get all shops
+router.get('/shops', getAllShopsController );
+
 //test routes
 router.get('/test',requireSignIn,isAdmin,testcontroller)
+
+//update user profile
+router.put('/updateUserProfile',requireSignIn,updateUserProfileController )
+
+//update shop profile
+router.put('/updateShopProfile',requireSignIn,updateShopProfileController )
 
 export default router

@@ -74,9 +74,51 @@ export const userRegisterController = async(req,res) => {
     }
 };
 
+//update user profile
+export const updateUserProfileController = async (req, res) => {
+    try {
+      const { fullname, email, dob, phone, address, password } = req.body;
+      const user = await userModel.findById(req.user._id);
+  
+      // Validate password length
+      if (password && password.length < 5) {
+        return res.json({ error: "Password is required and must be at least 5 characters long" });
+      }
+  
+      // Hash the new password if provided
+      const hashedPassword = password ? await hashPassword(password) : undefined;
+  
+      // Update user details
+      const updatedUser = await userModel.findByIdAndUpdate(
+        req.user._id,
+        {
+          fullname: fullname || user.fullname,
+          email: email || user.email,
+          dob: dob || user.dob,
+          phone: phone || user.phone,
+          address: address || user.address,
+          password: hashedPassword || user.password,
+        },
+        { new: true }
+      );
+  
+      res.status(200).send({
+        success: true,
+        message: "Profile updated successfully",
+        updatedUser,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error while updating data",
+        error,
+      });
+    }
+  };
+  
 
-
-//register shop owner
+//register shop 
 export const shopRegisterController = async(req,res) => {
     try{
         const {fullname,
@@ -197,60 +239,7 @@ export const shopRegisterController = async(req,res) => {
 
 
 
-// Login user or shop owner
-// export const userLoginController = async (req, res) => {
-//     try {
-//         const { email, password } = req.body;
-
-//         // Validate input
-//         if (!email || !password) {
-//             return res.status(400).send({ success: false, message: "Email and password are required" });
-//         }
-
-//         // Check in users table
-//         let user = await userModel.findOne({ email });
-//         if (user) {
-//             const match = await comparePassword(password, user.password);
-//             if (match) {
-//                 const token = JWT.sign({ _id: user._id, role: "user" }, process.env.JWT_SECRET, { expiresIn: "7d" });
-//                 return res.status(200).send({
-//                     success: true,
-//                     message: "User login successful",
-//                     token,
-//                     role: "user",
-//                 });
-//             }
-//         }
-
-//         // Check in shops table
-//         let shop = await shopModel.findOne({ email });
-//         if (shop) {
-//             const match = await comparePassword(password, shop.password);
-//             if (match) {
-//                 const token = JWT.sign({ _id: shop._id, role: "shopOwner" }, process.env.JWT_SECRET, { expiresIn: "7d" });
-//                 return res.status(200).send({
-//                     success: true,
-//                     message: "Shop login successful",
-//                     token,
-//                     role: "shopOwner",
-//                 });
-//             }
-//         }
-
-//         // If no match found in either table
-//         return res.status(400).send({
-//             success: false,
-//             message: "Invalid email or password",
-//         });
-
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).send({ success: false, message: "Error during login", error });
-//     }
-// };
-
-
-// Login user or shop owner
+// Login user or shop owner(common login)
 export const userLoginController = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -305,7 +294,100 @@ export const userLoginController = async (req, res) => {
 };
 
 
-  //test controller
+//update shop details
+  export const updateShopProfileController = async (req, res) => {
+    try {
+      const {
+        fullname,
+        owner_email,
+        owner_contact,
+        password,
+        nic,
+        businessregno,
+        tax_id_no,
+        shopname,
+        email,
+        businesstype,
+        category,
+        description,
+        operating_hrs_from,
+        operating_hrs_to,
+        shoplocation,
+        shopcontact,
+      } = req.body;
+  
+      // Find the shop by the owner's ID
+      const shop = await shopModel.findById(req.user._id);
+  
+      // Validate password length
+      if (password && password.length < 5) {
+        return res.json({ error: "Password is required and must be at least 5 characters long" });
+      }
+  
+      // Hash the new password if provided
+      const hashedPassword = password ? await hashPassword(password) : undefined;
+  
+      // Update shop details
+      const updatedShop = await shopModel.findByIdAndUpdate(
+        req.user._id,
+        {
+          fullname: fullname || shop.fullname,
+          owner_email: owner_email || shop.owner_email,
+          owner_contact: owner_contact || shop.owner_contact,
+          password: hashedPassword || shop.password,
+          nic: nic || shop.nic,
+          businessregno: businessregno || shop.businessregno,
+          tax_id_no: tax_id_no || shop.tax_id_no,
+          shopname: shopname || shop.shopname,
+          email: email || shop.email,
+          businesstype: businesstype || shop.businesstype,
+          category: category || shop.category,
+          description: description || shop.description,
+          operating_hrs_from: operating_hrs_from || shop.operating_hrs_from,
+          operating_hrs_to: operating_hrs_to || shop.operating_hrs_to,
+          shoplocation: shoplocation || shop.shoplocation,
+          shopcontact: shopcontact || shop.shopcontact,
+        },
+        { new: true }
+      );
+  
+      res.status(200).send({
+        success: true,
+        message: "Profile updated successfully",
+        updatedShop,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error while updating data",
+        error,
+      });
+    }
+  };
+  
+
+//get all shops
+ export const getAllShopsController = async (req, res) => {
+    try {
+        const shops = await shopModel.find(); // Fetch all shops from the database
+        res.status(200).send({
+            success: true,
+            shops,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error fetching shops',
+            error,
+        });
+    }
+};
+
+
+
+//test controller
 export const testcontroller = (req,res) => {
     res.send("Protected route");
 }
@@ -323,127 +405,3 @@ export const testcontroller = (req,res) => {
 
 
 
-
-
-
-
-
-// //seperate user login
-// export const userLoginController = async (req,res) => {
-//     try{
-//         const {email,password} = req.body
-//         //validation
-//         if(!email || !password){
-//             return res.status(404).send({
-//                 success:false,
-//                 message:"Invalid email or password"
-//             })    
-//         }
-//         //check user
-//         const user = await userModel.findOne({email})
-//         if(!user){
-//             return res.status(404).send({
-//                 success:false,
-//                 message:'Email is not registered'
-//             })
-//         }
-//     const match = await comparePassword(password,user.password)
-//     if(!match){
-//         return res.status(200).send({
-//             success:false,
-//             message:"Invalid password"
-//         })
-//     }
-
-//     //token
-//     const token = await JWT.sign({_id: user._id}, process.env.JWT_SECRET,{
-//         expiresIn: "7d",
-//     });
-//     res.status(200).send({
-//         success: true,
-//         message:"login successfully",
-//         user: {
-//             fullname: user.fullname,
-//             email: user.email,
-//             dob: user.dob,
-//             phone: user.phone,
-//             resaddress: user.resaddress,
-//             shoppingpreference: user.shoppingpreference
-//         },
-//         token,
-//     });
-//     }catch(error){
-//             console.log(error)
-//             res.status(500).send({
-//                 success:false,
-//                 message:'Error in login',
-//                 error
-//             })
-//         }
-// };
-
-
-
-// //seperate shops login
-// export const shopController = async (req,res) => {
-//     try{
-//         const {email,password} = req.body
-//         //validation
-//         if(!email || !password){
-//             return res.status(404).send({
-//                 success:false,
-//                 message:"Invalid email or password"
-//             })    
-//         }
-//         //check user
-//         const shop = await shopModel.findOne({email})
-//         if(!shop){
-//             return res.status(404).send({
-//                 success:false,
-//                 message:'Email is not registered'
-//             })
-//         }
-//     const match = await comparePassword(password,shop.password)
-//     if(!match){
-//         return res.status(200).send({
-//             success:false,
-//             message:"Invalid password"
-//         })
-//     }
-
-//     //token
-//     const token = await JWT.sign({_id: shop._id}, process.env.JWT_SECRET,{
-//         expiresIn: "7d",
-//     });
-//     res.status(200).send({
-//         success: true,
-//         message:"login successfully",
-//         shop: {
-//             fullname: shop.fullname,
-//             owneremail: shop.owneremail,
-//             contact: shop.contact,
-//             nic: shop.nic,
-//             businessregno: shop.businessregno,
-//             taxidno: shop.taxidno,
-//             shopname: shop.shopname,
-//             email: shop.email,
-//             businesstype: shop.businesstype,
-//             category: shop.category,
-//             description: shop.description,
-//             operatinghrs_from: shop.operatinghrs_from,
-//             operatinghrs_to: shop.operatinghrs_to,
-//             shoplocation: shop.shoplocation,
-//             businessaddress: shop.businessaddress,
-//             shopcontact: shop.shopcontact
-//         },
-//         token,
-//     });
-//     }catch(error){
-//             console.log(error)
-//             res.status(500).send({
-//                 success:false,
-//                 message:'Error in login',
-//                 error
-//             })
-//         }
-// };
