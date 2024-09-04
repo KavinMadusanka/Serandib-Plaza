@@ -4,12 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import HomeIcon from '@mui/icons-material/Home';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import LogoutIcon from '@mui/icons-material/Logout';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 const ShopHeader = () => {
     const handleLogout = () => {
@@ -49,51 +44,48 @@ const ShopHeader = () => {
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     {/* Home Button */}
-                    <IconButton
+                    <Button
                         color="inherit"
-                        aria-label="homepage"
                         onClick={goToHome}
+                        sx={{ mx: 1 }}
                     >
-                        <HomeIcon />
-                    </IconButton>
+                        Home
+                    </Button>
 
                     {/* Promotions Button */}
-                    <IconButton
+                    <Button
                         color="inherit"
-                        aria-label="promotions"
                         onClick={goToPromotions}
+                        sx={{ mx: 1 }}
                     >
-                        <CampaignIcon />
-                    </IconButton>
+                        Promotions
+                    </Button>
 
                     {/* Inventory Button */}
-                    <IconButton
+                    <Button
                         color="inherit"
-                        aria-label="inventory"
                         onClick={goToInventory}
+                        sx={{ mx: 1 }}
                     >
-                        <InventoryIcon />
-                    </IconButton>
+                        Inventory
+                    </Button>
 
                     {/* Logout Button */}
-                    <IconButton
+                    <Button
                         color="inherit"
-                        aria-label="logout"
                         onClick={handleLogout}
+                        sx={{ mx: 1 }}
                     >
-                        <LogoutIcon />
-                    </IconButton>
+                        Logout
+                    </Button>
 
-                    {/* Optional Account Icon */}
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
+                    {/* Optional Account Button */}
+                    <Button
                         color="inherit"
+                        sx={{ mx: 1 }}
                     >
-                        <AccountCircle />
-                    </IconButton>
+                        Account
+                    </Button>
                 </Box>
             </Toolbar>
         </AppBar>

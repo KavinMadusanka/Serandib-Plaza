@@ -36,13 +36,13 @@ const ShopMenu = () => {
                 <Typography variant="h6" sx={{ color: '#ffffff' }}>Serendib Plaza</Typography>
             </Box>
             <List>
-                <ListItem button component={Link} to="/dashboard" aria-label="Dashboard">
+                <ListItem button component={Link} to="/shopProfile" aria-label="Dashboard">
                     <ListItemIcon>
                         <DashboardIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/update-profile" aria-label="Update Profile">
+                <ListItem button component={Link} to="/updateShopProfile" aria-label="Update Profile">
                     <ListItemIcon>
                         <AccountCircleIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
@@ -54,7 +54,7 @@ const ShopMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary="Set Promotion" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/all-promotions" aria-label="All Promotions">
+                <ListItem button component={Link} to="/shop-promotions" aria-label="All Promotions">
                     <ListItemIcon>
                         <ListAltIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>

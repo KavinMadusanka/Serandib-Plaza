@@ -42,7 +42,7 @@ const UserMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/update-profile" aria-label="Update Profile">
+                <ListItem button component={Link} to="/updateprofile" aria-label="Update Profile">
                     <ListItemIcon>
                         <AccountCircleIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
