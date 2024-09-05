@@ -5,30 +5,44 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Button } from '@mui/material';
+import toast from 'react-hot-toast';
+import { useAuth } from '../../context/auth';
+import { useNavigate } from 'react-router-dom';
 
 const ShopHeader = () => {
+    const [auth, setAuth] = useAuth();
+    const navigate = useNavigate();
+
     const handleLogout = () => {
-        // Implement logout functionality here
-        console.log("Logout clicked");
+        setAuth({
+            user: null,
+            admin: null,
+            shopOwner: null,
+            token: "",
+        });
+        localStorage.removeItem("auth");
+        toast.success("Logged out successfully");
+        navigate('/login'); // Redirect to login after logout
     };
 
     const goToHome = () => {
-        // Implement navigation to the homepage
-        console.log("Home clicked");
+        navigate('/home'); // Adjust the route as needed
     };
 
     const goToPromotions = () => {
-        // Implement navigation to the promotions page
-        console.log("Promotions clicked");
+        navigate('/promotions'); // Adjust the route as needed
     };
 
     const goToInventory = () => {
-        // Implement navigation to the inventory page
-        console.log("Inventory clicked");
+        navigate('/inventory'); // Adjust the route as needed
+    };
+
+    const goToAccount = () => {
+        navigate('/account'); // Adjust the route as needed
     };
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#1c1c1c' }}>
+        <AppBar position="static" sx={{ backgroundColor: '#1c1c1c', padding: 1 }}>
             <Toolbar>
                 <IconButton
                     edge="start"
@@ -43,7 +57,6 @@ const ShopHeader = () => {
                 </Typography>
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    {/* Home Button */}
                     <Button
                         color="inherit"
                         onClick={goToHome}
@@ -51,8 +64,6 @@ const ShopHeader = () => {
                     >
                         Home
                     </Button>
-
-                    {/* Promotions Button */}
                     <Button
                         color="inherit"
                         onClick={goToPromotions}
@@ -60,8 +71,6 @@ const ShopHeader = () => {
                     >
                         Promotions
                     </Button>
-
-                    {/* Inventory Button */}
                     <Button
                         color="inherit"
                         onClick={goToInventory}
@@ -69,19 +78,16 @@ const ShopHeader = () => {
                     >
                         Inventory
                     </Button>
-
-                    {/* Logout Button */}
                     <Button
                         color="inherit"
                         onClick={handleLogout}
-                        sx={{ mx: 1 }}
+                        sx={{ mx: 1, fontWeight: 'bold' }}
                     >
                         Logout
                     </Button>
-
-                    {/* Optional Account Button */}
                     <Button
                         color="inherit"
+                        onClick={goToAccount}
                         sx={{ mx: 1 }}
                     >
                         Account
