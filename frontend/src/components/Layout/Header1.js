@@ -1,59 +1,77 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-//import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Link } from 'react-router-dom'; // Adjust if using a different routing library
+import { Link, useNavigate } from 'react-router-dom'; 
+import { useAuth } from '../../context/auth'; 
 
-const Header = () => {
+const Header1 = () => {
+    const [auth, setAuth] = useAuth();
+    const navigate = useNavigate(); // Hook to navigate programmatically
+
+    const handleLogout = () => {
+        // Clear authentication data
+        setAuth({
+            ...auth,
+            user: null,
+            token: "",
+        });
+        // Redirect to the login page after logging out
+        navigate('/login');
+    };
+
+    // Determine the appropriate dashboard link based on user role
+    const dashboardLink = auth && auth.user ? 
+        (auth.user.role === 1 ? '/adminProfile' : '/userProfile') : 
+        '/login'; // Default to login if no user
+
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#1c1c1c' }}>
+        <AppBar position="static" sx={{ backgroundColor: 'black' }}> {/* Set background color to black */}
             <Toolbar>
-                <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                <IconButton edge="start" color="inherit" aria-label="menu">
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Serendib Plaza
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Button color="inherit" component={Link} to="/">
-                        Home
-                    </Button>
-                    <Button color="inherit" component={Link} to="/">
-                        About Us
-                    </Button>
-                    <Button color="inherit" component={Link} to="/shops">
-                        Shops
-                    </Button>
-                    <Button color="inherit" component={Link} to="/promotions">
-                        Promotions
-                    </Button>
-                    <Button color="inherit" component={Link} to="/*">
-                        Events
-                    </Button>
-                    <Button color="inherit" component={Link} to="/*">
-                        ContactUs
-                    </Button>
-                    <Button color="inherit" component={Link} to="/register">
-                        Register
-                    </Button>
-                    <Button color="inherit" component={Link} to="/login">
-                        Login
-                    </Button>
-                    {/* <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        color="inherit"
-                        component={Link}
-                        to="/profile"
-                    >
-                        <AccountCircle />
-                    </IconButton> */}
-                </Box>
+                <Button color="inherit" component={Link} to="/">
+                    Home
+                </Button>
+                <Button color="inherit" component={Link} to="/about">
+                    About Us
+                </Button>
+                <Button color="inherit" component={Link} to="/promotions">
+                    Promotions
+                </Button>
+                <Button color="inherit" component={Link} to="/events">
+                    Events
+                </Button>
+                <Button color="inherit" component={Link} to="/contact">
+                    Contact Us
+                </Button>
+                
+                {auth && auth.user ? (
+                    <>
+                        <Button color="inherit" component={Link} to={dashboardLink}>
+                            Profile
+                        </Button>
+                        
+                        <Button color="inherit" onClick={handleLogout}>
+                            Logout
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Button color="inherit" component={Link} to="/register">
+                            Register
+                        </Button>
+                        <Button color="inherit" component={Link} to="/login">
+                            Login
+                        </Button>
+                    </>
+                )}
             </Toolbar>
         </AppBar>
     );
 };
 
-export default Header;
+export default Header1;
