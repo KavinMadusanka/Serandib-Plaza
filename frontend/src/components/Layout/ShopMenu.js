@@ -54,7 +54,7 @@ const ShopMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary="Set Promotion" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/shop-promotions" aria-label="All Promotions">
+                <ListItem button component={Link} to="/allpromo" aria-label="All Promotions">
                     <ListItemIcon>
                         <ListAltIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
