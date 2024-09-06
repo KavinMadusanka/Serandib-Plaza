@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllShopsController, shopRegisterController, testcontroller, updateShopProfileController, updateUserProfileController, userLoginController, userRegisterController } from '../controllers/AuthController.js'
+import { deleteShopProfileController, deleteUserProfileController, getAllShopsController, getAllUsersController, shopRegisterController, testcontroller, updateShopProfileController, updateUserProfileController, userLoginController, userRegisterController } from '../controllers/AuthController.js'
 import { isAdmin, requireSignIn } from '../middlewares/AuthMiddleware.js'
 
 //router object
@@ -26,5 +26,14 @@ router.put('/updateUserProfile',requireSignIn,updateUserProfileController )
 
 //update shop profile
 router.put('/updateShopProfile',requireSignIn,updateShopProfileController )
+
+//delete user profile
+router.delete('/deleteUserProfile',requireSignIn,deleteUserProfileController )
+
+//delete shop
+router.delete('/deleteShopProfile',requireSignIn,deleteShopProfileController )
+
+// Route to get all shops
+router.get('/users', getAllUsersController );
 
 export default router

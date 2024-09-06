@@ -238,61 +238,62 @@ export const shopRegisterController = async(req,res) => {
 }
 
 
-
 // Login user, shop owner, or admin
 export const userLoginController = async (req, res) => {
-    try {
-        const { email, password } = req.body;
+  try {
+      const { email, password } = req.body;
 
-        // Validate input
-        if (!email || !password) {
-            return res.status(400).send({ success: false, message: "Email and password are required" });
-        }
+      // Validate input
+      if (!email || !password) {
+          return res.status(400).send({ success: false, message: "Email and password are required" });
+      }
 
-        // Check in users table
-        let user = await userModel.findOne({ email });
-        if (user) {
-            const match = await comparePassword(password, user.password);
-            if (match) {
-                const role = user.isAdmin ? 1 : 0;  // 1 = Admin, 0 = User
-                const token = JWT.sign({ _id: user._id, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
-                return res.status(200).send({
-                    success: true,
-                    message: "Login successful",
-                    token,
-                    role,
-                    user, // Return user details
-                });
-            }
-        }
+      // Check in users table (for both user and admin)
+      let user = await userModel.findOne({ email });
+      if (user) {
+          const match = await comparePassword(password, user.password);
+          if (match) {
+              const role = user.role; // 1 = Admin, 0 = User
+              const token = JWT.sign({ _id: user._id, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+              return res.status(200).send({
+                  success: true,
+                  message: "Login successful",
+                  token,
+                  role,
+                  user, // Return user details
+              });
+          }
+      }
 
-        // Check in shops table
-        let shop = await shopModel.findOne({ email });
-        if (shop) {
-            const match = await comparePassword(password, shop.password);
-            if (match) {
-                const token = JWT.sign({ _id: shop._id, role: 2 }, process.env.JWT_SECRET, { expiresIn: "7d" });  // 2 = Shop Owner
-                return res.status(200).send({
-                    success: true,
-                    message: "Shop owner login successful",
-                    token,
-                    role: 2,  // Shop owner role
-                    shop, // Return shop details
-                });
-            }
-        }
+      // Check in shops table (for shop owner)
+      let shop = await shopModel.findOne({ email });
+      if (shop) {
+          const match = await comparePassword(password, shop.password);
+          if (match) {
+              const token = JWT.sign({ _id: shop._id, role: 2 }, process.env.JWT_SECRET, { expiresIn: "7d" });  // 2 = Shop Owner
+              return res.status(200).send({
+                  success: true,
+                  message: "Shop owner login successful",
+                  token,
+                  role: 2,  // Shop owner role
+                  shop, // Return shop details
+              });
+          }
+      }
 
-        // If no match found in either table
-        return res.status(400).send({
-            success: false,
-            message: "Invalid email or password",
-        });
+      // If no match found in either table
+      return res.status(400).send({
+          success: false,
+          message: "Invalid email or password",
+      });
 
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send({ success: false, message: "Error during login", error });
-    }
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send({ success: false, message: "Error during login", error });
+  }
 };
+
+
 
 //update shop details
   export const updateShopProfileController = async (req, res) => {
@@ -386,6 +387,23 @@ export const userLoginController = async (req, res) => {
 };
 
 
+export const getAllUsersController = async (req, res) => {
+    try {
+      const users = await userModel.find(); // Fetch all users from the database
+      res.status(200).send({
+        success: true,
+        users,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        success: false,
+        message: 'Error fetching users',
+        error,
+      });
+    }
+  };
+
 
 //test controller
 export const testcontroller = (req,res) => {
@@ -393,6 +411,67 @@ export const testcontroller = (req,res) => {
 }
 
 
+//delete user profile
+export const deleteUserProfileController = async (req, res) => {
+    try {
+  
+      // Check if user exists
+      const user = await userModel.findById(req.user._id);
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found" });
+      }
+  
+      // Delete the user
+      await userModel.findByIdAndDelete(user._id);
+  
+      // Optionally, perform any additional cleanup or related actions here
+  
+      res
+        .status(200)
+        .json({ success: true, message: "User deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete user",
+        error: error.message,
+      });
+    }
+  };
+  
+
+
+
+  //delete shop profile
+export const deleteShopProfileController = async (req, res) => {
+    try {
+      
+      // Check if user exists
+      const user = await shopModel.findById(req.user._id);
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Shop not found" });
+      }
+  
+      // Delete the user
+      await shopModel.findByIdAndDelete(user._id);
+  
+      res
+        .status(200)
+        .json({ success: true, message: "Shop deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting shop:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete shop",
+        error: error.message,
+      });
+    }
+  };
+  
 
 
 
