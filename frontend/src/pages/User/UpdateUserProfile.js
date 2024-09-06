@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/auth';
 import axios from 'axios';
-import { Container, Typography, Paper, Box, TextField, Button } from '@mui/material';
+import { Container, Typography, Paper, Box, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import toast, { Toaster } from "react-hot-toast";
 import Header1 from '../../components/Layout/Header1';
 import UserMenu from '../../components/Layout/UserMenu';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const UpdateUserProfile = () => {
   const [auth, setAuth] = useAuth();
@@ -14,9 +15,9 @@ const UpdateUserProfile = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // State to control delete confirmation dialog
 
   useEffect(() => {
-    // Check if auth and auth.user exist before destructuring
     const user = auth?.user || {};
     setFullName(user.fullname || "");
     setEmail(user.email || "");
@@ -34,11 +35,10 @@ const UpdateUserProfile = () => {
         dob,
         phone,
         address,
-        password, // Ensure this is correctly passed
+        password,
       });
 
       if (data?.error) {
-        // Log the error to inspect it further
         console.log("Error from API:", data.error);
         toast.error(data?.error);
       } else {
@@ -55,8 +55,40 @@ const UpdateUserProfile = () => {
     }
   };
 
+  const handleDeleteProfile = async () => {
+    try {
+      const response = await axios.delete("/api/v1/userauth/deleteUserProfile", {
+        data: { userId: auth.user._id },
+      });
+      if (response.status === 200) {
+        localStorage.removeItem("auth");
+        toast.success("Profile Deleted Successfully");
+        window.location.href = "/";
+      } else {
+        console.error("Error deleting profile:", response.statusText);
+        toast.error("Something went wrong while deleting the profile");
+      }
+    } catch (error) {
+      console.error("Error deleting profile:", error.message);
+      toast.error("Something went wrong while deleting the profile");
+    }
+  };
+
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true); // Open the confirmation dialog
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false); // Close the confirmation dialog without deleting
+  };
+
+  const handleConfirmDelete = () => {
+    setOpenDeleteDialog(false); // Close the dialog and proceed with deletion
+    handleDeleteProfile();
+  };
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: 'white' }}>
       <Header1 />
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <UserMenu />
@@ -70,7 +102,7 @@ const UpdateUserProfile = () => {
                 marginTop: 8,
               }}
             >
-              <Paper elevation={3} sx={{ padding: 3, width: '100%' }}>
+              <Paper elevation={6} sx={{ padding: 4, width: '100%', borderRadius: '15px' }}>
                 <Typography
                   variant="h4"
                   component="h1"
@@ -78,6 +110,7 @@ const UpdateUserProfile = () => {
                     textAlign: 'center',
                     fontWeight: 'bold',
                     marginBottom: 3,
+                    //color: '#007bff',
                   }}
                 >
                   Update Profile
@@ -95,6 +128,7 @@ const UpdateUserProfile = () => {
                       value={fullname}
                       onChange={(e) => setFullName(e.target.value)}
                       fullWidth
+                      variant="outlined"
                     />
                     <TextField
                       label="Email"
@@ -102,6 +136,7 @@ const UpdateUserProfile = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       fullWidth
+                      variant="outlined"
                       disabled
                     />
                     <TextField
@@ -109,6 +144,7 @@ const UpdateUserProfile = () => {
                       value={dob}
                       onChange={(e) => setDOB(e.target.value)}
                       fullWidth
+                      variant="outlined"
                       disabled
                       InputLabelProps={{ shrink: true }}
                     />
@@ -117,12 +153,14 @@ const UpdateUserProfile = () => {
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       fullWidth
+                      variant="outlined"
                     />
                     <TextField
                       label="Address"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       fullWidth
+                      variant="outlined"
                     />
                     <TextField
                       label="Password"
@@ -130,14 +168,25 @@ const UpdateUserProfile = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       fullWidth
+                      variant="outlined"
                     />
                     <Button
                       type="submit"
                       variant="contained"
                       color="primary"
-                      sx={{ marginTop: 2 }}
+                      fullWidth
+                      sx={{
+                        marginTop: 2,
+                        padding: 1,
+                        fontWeight: 'bold',
+                        borderRadius: '25px',
+                        backgroundColor: '#007bff',
+                        '&:hover': {
+                          backgroundColor: '#0056b3',
+                        },
+                      }}
                     >
-                      Update
+                      Update Profile
                     </Button>
                   </Box>
                 </form>
@@ -145,9 +194,52 @@ const UpdateUserProfile = () => {
             </Box>
             <Toaster />
           </Container>
-          <br /><br /><br /><br />
+          
+          <Box sx={{ textAlign: 'center', marginTop: 6 }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+            If you want to delete your account, click on delete button.<br/>
+              This action will permanently delete your profile and all associated data.
+            </Typography>
+            <Button
+              onClick={handleOpenDeleteDialog}
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              sx={{
+                backgroundColor: '#ff4d4f',
+                '&:hover': {
+                  backgroundColor: '#d43539',
+                },
+              }}
+            >
+              Delete Profile
+            </Button>
+          </Box>
         </Box>
       </Box>
+
+      {/* Confirmation Dialog for Deletion */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete Profile?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to permanently delete your profile? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmDelete} color="error" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

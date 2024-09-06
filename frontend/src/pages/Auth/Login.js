@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../../components/Layout/Layout';
 import axios from 'axios';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from '../../context/auth';
 import { Container, Box, Typography, TextField, Button, Paper } from '@mui/material';
@@ -13,32 +13,27 @@ const Login = () => {
     const [auth, setAuth] = useAuth();
     const location = useLocation();
 
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        //defind login credentials for Mall administration
-        if (email === "serendibplaza@gmail.com" && password === "@adm67") {
-            return navigate(location.state || "/adminProfile");
-          }
+    
         try {
-            const res = await axios.post("api/v1/userauth/userLogin", { email, password });
+            const res = await axios.post("/api/v1/userauth/userLogin", { email, password });
             if (res && res.data.success) {
-                const { token, role, user, shop } = res.data;
+                const { token, user, shop, role } = res.data;
     
                 // Update auth context with user/shop/admin details
                 setAuth({
                     ...auth,
                     token,
-                    user: role === 0 ? user : null,          // User role
-                    admin: role === 1 ? user : null,         // Admin role
-                    shopOwner: role === 2 ? shop : null,     // Shop owner role
+                    user: role === 0 || role === 1 ? user : null,    // User or Admin
+                    shopOwner: role === 2 ? shop : null,             // Shop owner
                 });
     
                 // Store the token and user/shop/admin details in localStorage
                 localStorage.setItem("auth", JSON.stringify({
                     token,
-                    user: role === 0 ? user : null,
-                    admin: role === 1 ? user : null,
+                    user: role === 0 || role === 1 ? user : null,
                     shopOwner: role === 2 ? shop : null,
                 }));
     
@@ -62,9 +57,9 @@ const Login = () => {
             console.log("Error:", error);
             toast.error("Something went wrong");
         }
-    };
+    };    
     
-    
+
     return (
         <Layout>
             <Container maxWidth="xs">

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/auth';
 import axios from 'axios';
-import { Container, Typography, Paper, Box, TextField, Button } from '@mui/material';
+import { Container, Typography, Paper, Box, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle  } from '@mui/material';
 import toast, { Toaster } from "react-hot-toast";
 import ShopHeader from '../../components/Layout/ShopHeader';
 import ShopMenu from '../../components/Layout/ShopMenu';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const UpdateShopProfile = () => {
   const [auth, setAuth] = useAuth();
@@ -107,6 +108,40 @@ const UpdateShopProfile = () => {
       toast.error("Something went wrong");
     }
   };
+
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false); // State for delete confirmation dialog
+
+    const handleDeleteShop = async () => {
+        try {
+            const response = await axios.delete("/api/v1/userauth/deleteShopProfile", {
+                data: { shopId: auth?.shopOwner?._id },
+            });
+            if (response.status === 200) {
+                localStorage.removeItem("auth");
+                toast.success("Shop profile deleted successfully.");
+                window.location.href = "/"; // Redirect to homepage or a relevant page
+            } else {
+                console.error("Error deleting shop:", response.statusText);
+                toast.error("Failed to delete shop profile.");
+            }
+        } catch (error) {
+            console.error("Error deleting shop:", error.message);
+            toast.error("Something went wrong while deleting the shop profile.");
+        }
+    };
+
+    const handleOpenDeleteDialog = () => {
+        setOpenDeleteDialog(true); // Open the confirmation dialog
+    };
+
+    const handleCloseDeleteDialog = () => {
+        setOpenDeleteDialog(false); // Close the confirmation dialog
+    };
+
+    const handleConfirmDelete = () => {
+        setOpenDeleteDialog(false); // Close the dialog and proceed with deletion
+        handleDeleteShop();
+    };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -261,9 +296,56 @@ const UpdateShopProfile = () => {
             </Box>
             <Toaster />
           </Container>
+
+          {/* Delete Button */}
+          <Box sx={{ textAlign: 'center', marginTop: 6 }}>
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+            If you want to delete your account, click on delete button.<br/>
+              This action will permanently delete your all associated your shop data.
+            </Typography>
+            <Button
+              onClick={handleOpenDeleteDialog}
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              sx={{
+                backgroundColor: '#ff4d4f',
+                '&:hover': {
+                  backgroundColor: '#d43539',
+                },
+              }}
+            >
+                            Delete Shop Profile
+                        </Button>
+                    </Box>
+                </Box>
+            </Box>
+
+            {/* Confirmation Dialog for Deletion */}
+            <Dialog
+                open={openDeleteDialog}
+                onClose={handleCloseDeleteDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Delete Shop Profile?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to permanently delete your shop profile? This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDeleteDialog} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="error" autoFocus>
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        
         </Box>
-      </Box>
-    </Box>
+      
   );
 };
 
