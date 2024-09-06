@@ -8,6 +8,7 @@ const AuthProvider = ({ children }) => {
     user: null,
     shopOwner: null,
     token: "",
+    role: ""
   });
 
   useEffect(() => {

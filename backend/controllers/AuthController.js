@@ -239,7 +239,7 @@ export const shopRegisterController = async(req,res) => {
 
 
 
-// Login user or shop owner(common login)
+// Login user, shop owner, or admin
 export const userLoginController = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -254,12 +254,13 @@ export const userLoginController = async (req, res) => {
         if (user) {
             const match = await comparePassword(password, user.password);
             if (match) {
-                const token = JWT.sign({ _id: user._id, role: "user" }, process.env.JWT_SECRET, { expiresIn: "7d" });
+                const role = user.isAdmin ? 1 : 0;  // 1 = Admin, 0 = User
+                const token = JWT.sign({ _id: user._id, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
                 return res.status(200).send({
                     success: true,
-                    message: "User login successful",
+                    message: "Login successful",
                     token,
-                    role: "user",
+                    role,
                     user, // Return user details
                 });
             }
@@ -270,12 +271,12 @@ export const userLoginController = async (req, res) => {
         if (shop) {
             const match = await comparePassword(password, shop.password);
             if (match) {
-                const token = JWT.sign({ _id: shop._id, role: "shopOwner" }, process.env.JWT_SECRET, { expiresIn: "7d" });
+                const token = JWT.sign({ _id: shop._id, role: 2 }, process.env.JWT_SECRET, { expiresIn: "7d" });  // 2 = Shop Owner
                 return res.status(200).send({
                     success: true,
-                    message: "Shop login successful",
+                    message: "Shop owner login successful",
                     token,
-                    role: "shopOwner",
+                    role: 2,  // Shop owner role
                     shop, // Return shop details
                 });
             }
@@ -292,7 +293,6 @@ export const userLoginController = async (req, res) => {
         return res.status(500).send({ success: false, message: "Error during login", error });
     }
 };
-
 
 //update shop details
   export const updateShopProfileController = async (req, res) => {

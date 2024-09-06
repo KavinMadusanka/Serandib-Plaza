@@ -15,20 +15,17 @@ const ProfileUser = () => {
 
     return (
         <Box>
-        
             <Header1 />
-            {/* Removed minHeight and adjusted padding for better spacing */}
             <Box sx={{ display: 'flex', backgroundColor: '#f5f5f5', padding: 4, minHeight: '100vh' }}>
                 <UserMenu />
                 <Container maxWidth="md" sx={{ flexGrow: 1 }}>
-                    {/* Flex container for name on the left and avatar on the right */}
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
                         <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-                            {user.fullname}
+                            {user.fullname ? user.fullname : 'No Name'}
                         </Typography>
                         <Avatar sx={{ bgcolor: 'secondary.main', width: 100, height: 100 }}>
                             <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
-                                {user.fullname.charAt(0)}
+                                {user.fullname && user.fullname.charAt(0)}
                             </Typography>
                         </Avatar>
                     </Box>
@@ -63,7 +60,7 @@ const ProfileUser = () => {
                     </Paper>
                 </Container>
             </Box>
-            </Box>
+        </Box>
     );
 };
 
