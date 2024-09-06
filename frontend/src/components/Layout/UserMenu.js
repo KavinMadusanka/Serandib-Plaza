@@ -15,6 +15,7 @@ const UserMenu = () => {
             sx={{
                 width: 240,
                 flexShrink: 0,
+                zIndex: 1,
                 '& .MuiDrawer-paper': {
                     width: 240,
                     boxSizing: 'border-box',
@@ -36,7 +37,7 @@ const UserMenu = () => {
                 <Typography variant="h6" sx={{ color: '#ffffff' }}>Serendib Plaza</Typography>
             </Box>
             <List>
-                <ListItem button component={Link} to="/dashboard" aria-label="Dashboard">
+                <ListItem button component={Link} to="/userprofile" aria-label="Dashboard">
                     <ListItemIcon>
                         <DashboardIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
