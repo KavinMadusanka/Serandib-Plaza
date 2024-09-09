@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+//user model
 const userSchema = new mongoose.Schema(
   {
     fullname: {
@@ -20,12 +21,12 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    resaddress: {
+    address: {
       type: String,
       required: true,
     },
-    shoppingpreference: {
-        type: String,
+    shoppingPreference: {
+        type: [String],
         required: false,
       },
     password: {
