@@ -95,7 +95,6 @@ const AddPromotion = () => {
                             isActive: true,
                         }}
                     >
-                        <label></label>
                         <Form.Item name="shop" label="Select Your Shop Name.(All the shops have the same portal to add their promotions.There fore please select your shop name from the below list)" rules={[{ required: true, message: 'Please select a shop!' }]}>
                             <Select
                                 placeholder="Select Shop"

@@ -23,6 +23,11 @@ import AddPromotion from "./pages/Shops/AddPromotion";
 import DisplayProductpage from "./pages/DisplayProductpage";
 
 
+import AllPromo from "./pages/Shops/AllPromo";
+import UpdatePromotion from "./pages/Shops/UpdatePromotion";
+
+
+
 
 function App() {
   return (
@@ -44,6 +49,9 @@ function App() {
       <Route path="/allusers" element={<AllUsers />} />
       <Route path="/allshops" element={<AllShops />} />
       <Route path="/addpromotions" element={<AddPromotion />} />
+
+      <Route path="/allpromo" element={<AllPromo />} />
+      <Route path="/updatePromotion" element={<UpdatePromotion />} />
 
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
 
