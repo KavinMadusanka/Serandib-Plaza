@@ -26,6 +26,16 @@ import AllPromotions from "./pages/Promotions";
 import AllUsers from "./pages/Admin/AllUsers";
 import AllShops from "./pages/Admin/AllShops";
 import AddPromotion from "./pages/Shops/AddPromotion";
+<<<<<<< Updated upstream
+=======
+import DisplayProductpage from "./pages/DisplayProductpage";
+
+
+import AllPromo from "./pages/Shops/AllPromo";
+import UpdatePromotion from "./pages/Shops/UpdatePromotion";
+import { CreateCategory } from './pages/Shops/CreateCategory';
+
+>>>>>>> Stashed changes
 
 
 >>>>>>> Stashed changes
@@ -69,7 +79,16 @@ function App() {
       <Route path="/allshops" element={<AllShops />} />
       <Route path="/addpromotions" element={<AddPromotion />} />
 
+<<<<<<< Updated upstream
       <Route path="/createCategory" element={<CreateCategory/>}/>
+=======
+      <Route path="/createcategory" element={<CreateCategory/>} />
+
+      <Route path="/allpromo" element={<AllPromo />} />
+      <Route path="/updatePromotion" element={<UpdatePromotion />} />
+
+      <Route path="/displayProductpage" element={<DisplayProductpage/>} />
+>>>>>>> Stashed changes
 
     </Routes>
     
