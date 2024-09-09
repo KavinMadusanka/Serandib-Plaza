@@ -16,7 +16,7 @@ const ProfileUser = () => {
     return (
         <Box>
             <Header1 />
-            <Box sx={{ display: 'flex', backgroundColor: '#f5f5f5', padding: 4, minHeight: '100vh' }}>
+            <Box sx={{ display: 'flex', backgroundColor: 'white', padding: 4, minHeight: '100vh' }}>
                 <UserMenu />
                 <Container maxWidth="md" sx={{ flexGrow: 1 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
@@ -31,31 +31,33 @@ const ProfileUser = () => {
                     </Box>
 
                     <Paper elevation={3} sx={{ padding: 4, borderRadius: 2 }}>
-                        <Stack spacing={2} direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between">
-                            <Stack spacing={2}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <EmailIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
-                                    <Typography variant="body1"><strong>Email:</strong> {user.email || 'N/A'}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <CakeIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
-                                    <Typography variant="body1"><strong>Date of Birth:</strong> {user.dob || 'N/A'}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <PhoneIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
-                                    <Typography variant="body1"><strong>Phone:</strong> {user.phone || 'N/A'}</Typography>
-                                </Box>
-                            </Stack>
-                            <Stack spacing={2}>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <HomeIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
-                                    <Typography variant="body1"><strong>Address:</strong> {user.address || 'N/A'}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <ShoppingBasketIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
-                                    <Typography variant="body1"><strong>Shopping Preferences:</strong> {user.shoppingPreference?.length ? user.shoppingPreference.join(", ") : 'None'}</Typography>
-                                </Box>
-                            </Stack>
+                        <Stack spacing={2}>
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <EmailIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
+                                <Typography variant="body1"><strong>Email:</strong> {user.email || 'N/A'}</Typography>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <CakeIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
+                                <Typography variant="body1">
+                                    <strong>Date of Birth:</strong> {user.dob ? new Date(user.dob).toISOString().split('T')[0] : 'N/A'}
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <PhoneIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
+                                <Typography variant="body1"><strong>Phone:</strong> {user.phone || 'N/A'}</Typography>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <HomeIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
+                                <Typography variant="body1"><strong>Address:</strong> {user.address || 'N/A'}</Typography>
+                            </Box>
+
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <ShoppingBasketIcon sx={{ marginRight: 1, color: 'secondary.main' }} />
+                                <Typography variant="body1"><strong>Shopping Preferences:</strong> {user.shoppingPreference?.length ? user.shoppingPreference.join(", ") : 'None'}</Typography>
+                            </Box>
                         </Stack>
                     </Paper>
                 </Container>
