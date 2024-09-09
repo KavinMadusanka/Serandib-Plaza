@@ -15,6 +15,11 @@ import UpdateUserProfile from "./pages/User/UpdateUserProfile";
 
 
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import ContactUs from "./pages/ContactUs";
+import AllPromotions from "./pages/Promotions";
+import AllUsers from "./pages/Admin/AllUsers";
+import AllShops from "./pages/Admin/AllShops";
+import AddPromotion from "./pages/Shops/AddPromotion";
 
 
 
@@ -32,9 +37,12 @@ function App() {
       <Route path="/userprofile" element={<ProfileUser />} />
       <Route path="/updateShopProfile" element={<UpdateShopProfile />} />
       <Route path="/updateprofile" element={<UpdateUserProfile />}/>
-     
-    
       <Route path="/adminProfile" element={<AdminDashboard />} />
+      <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/promotions" element={<AllPromotions />} />
+      <Route path="/allusers" element={<AllUsers />} />
+      <Route path="/allshops" element={<AllShops />} />
+      <Route path="/addpromotions" element={<AddPromotion />} />
 
     </Routes>
     
