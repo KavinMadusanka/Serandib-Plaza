@@ -50,7 +50,7 @@ const AllShops = () => {
                     <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Email</TableCell>
                     <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Business Type</TableCell>
                     <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Category</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Description</TableCell>
+                   
                     <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Operating Hours</TableCell>
                     <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Location</TableCell>
                     <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Contact</TableCell>
@@ -65,7 +65,7 @@ const AllShops = () => {
                       <TableCell sx={{border: '1px solid #ddd'}}>{shop.email}</TableCell>
                       <TableCell sx={{border: '1px solid #ddd'}}>{shop.businesstype}</TableCell>
                       <TableCell sx={{border: '1px solid #ddd'}}>{shop.category}</TableCell>
-                      <TableCell sx={{border: '1px solid #ddd'}}>{shop.description}</TableCell>
+                    
                       <TableCell sx={{border: '1px solid #ddd'}}>{shop.operating_hrs_from} - {shop.operating_hrs_to}</TableCell>
                       <TableCell sx={{border: '1px solid #ddd'}}>{shop.shoplocation}</TableCell>
                       <TableCell sx={{border: '1px solid #ddd'}}>{shop.shopcontact}</TableCell>
