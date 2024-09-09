@@ -51,6 +51,9 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/contactus">
                     Contact Us
                 </Button>
+                <Button color="inherit" component={Link} to="/contactus">
+                    Cart
+                </Button>
                 
                 {auth && auth.user ? (
                     <>
