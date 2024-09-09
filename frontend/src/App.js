@@ -20,6 +20,7 @@ import AllPromotions from "./pages/Promotions";
 import AllUsers from "./pages/Admin/AllUsers";
 import AllShops from "./pages/Admin/AllShops";
 import AddPromotion from "./pages/Shops/AddPromotion";
+import DisplayProductpage from "./pages/DisplayProductpage";
 
 
 
@@ -43,6 +44,8 @@ function App() {
       <Route path="/allusers" element={<AllUsers />} />
       <Route path="/allshops" element={<AllShops />} />
       <Route path="/addpromotions" element={<AddPromotion />} />
+
+      <Route path="/displayProductpage" element={<DisplayProductpage/>} />
 
     </Routes>
     
