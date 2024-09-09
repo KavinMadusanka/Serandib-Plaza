@@ -178,52 +178,7 @@ const UpdateShopProfile = () => {
                       gap: 2,
                     }}
                   >
-                    <TextField
-                      label="Shop Owner Full Name"
-                      value={fullname}
-                      onChange={(e) => setFullName(e.target.value)}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Owner Email"
-                      type="email"
-                      value={owner_email}
-                      onChange={(e) => setOwnerEmail(e.target.value)}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Shop Owner Contact Number"
-                      value={owner_contact}
-                      onChange={(e) => setOwnerContact(e.target.value)}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      fullWidth
-                    />
-                    <TextField
-                      label="NIC"
-                      value={nic}
-                      onChange={(e) => setNIC(e.target.value)}
-                      fullWidth
-                    />
-                    <TextField
-                      label="Business Registration No"
-                      value={businessregno}
-                      onChange={(e) => setBusinessRegNo(e.target.value)}
-                      fullWidth
-                      disabled
-                    />
-                    <TextField
-                      label="Tax ID No"
-                      value={tax_id_no}
-                      onChange={(e) => setTax_ID_No(e.target.value)}
-                      fullWidth
-                      disabled
-                    />
+                    
                     <TextField
                       label="Shop Name"
                       value={shopname}
@@ -281,6 +236,56 @@ const UpdateShopProfile = () => {
                       value={shopcontact}
                       onChange={(e) => setContact(e.target.value)}
                       fullWidth
+                    />
+                    <TextField
+                      label="Password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      fullWidth
+                    />
+
+                    {/* Shop Owner Details */}
+                <Typography sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>***Shop owner details***</Typography>
+                    <TextField
+                      label="Shop Owner Full Name"
+                      value={fullname}
+                      onChange={(e) => setFullName(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      label="Owner Email"
+                      type="email"
+                      value={owner_email}
+                      onChange={(e) => setOwnerEmail(e.target.value)}
+                      fullWidth
+                    />
+
+                    <TextField
+                      label="Shop Owner Contact Number"
+                      value={owner_contact}
+                      onChange={(e) => setOwnerContact(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      label="NIC"
+                      value={nic}
+                      onChange={(e) => setNIC(e.target.value)}
+                      fullWidth
+                    />
+                    <TextField
+                      label="Business Registration No"
+                      value={businessregno}
+                      onChange={(e) => setBusinessRegNo(e.target.value)}
+                      fullWidth
+                      disabled
+                    />
+                    <TextField
+                      label="Tax ID No"
+                      value={tax_id_no}
+                      onChange={(e) => setTax_ID_No(e.target.value)}
+                      fullWidth
+                      disabled
                     />
                     <Button
                       type="submit"

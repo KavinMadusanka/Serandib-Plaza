@@ -38,7 +38,7 @@ const ShopHeader = () => {
     };
 
     const goToAccount = () => {
-        navigate('/account'); // Adjust the route as needed
+        navigate('/ShopProfile'); // Adjust the route as needed
     };
 
     return (
