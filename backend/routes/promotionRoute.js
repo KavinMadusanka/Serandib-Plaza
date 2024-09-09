@@ -4,6 +4,7 @@ import formidable from 'express-formidable'
 import { createPromotionController, 
          deletePromotionController, 
          getAllPromotionsController, 
+         getPromotionByShopController, 
          getSinglePromotionsController, 
          promotionImageController, 
          updatePromotionController 
@@ -30,5 +31,7 @@ router.put('/update-promotion/:pid',requireSignIn,formidable(),updatePromotionCo
 
 //delete promotion
 router.delete('/delete-promotion/:pid',deletePromotionController )
+
+router.get('/get-promotions-by-shop/:shopId',getPromotionByShopController )
 
 export default router
