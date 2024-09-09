@@ -6,7 +6,8 @@ import Cart from '../models/shoppingcartModel.js';
 
 export const addToCart = async (req,res) => {
     try {
-        const{product, quantity,email } =req.body
+        const{product, quantity,email } =req.body;
+        console.log(req.body);
         //validation
         if(!product){
             return res.send({message:'product is Required'});
@@ -17,6 +18,12 @@ export const addToCart = async (req,res) => {
         
         if(!email){
             return res.send({message:'email is Required'});
+        }
+
+        // Check if the product exists in the database
+        const productExists = await product.findById(product);
+        if (!productExists) {
+            return res.status(404).send({ message: 'Product not found' });
         }
         //check cart
         const exisitingcart = await Cart.findOne({product,email});
