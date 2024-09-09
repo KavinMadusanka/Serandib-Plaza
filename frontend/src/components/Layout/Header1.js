@@ -39,13 +39,16 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/about">
                     About Us
                 </Button>
+                <Button color="inherit" component={Link} to="/shops">
+                    Shops
+                </Button>
                 <Button color="inherit" component={Link} to="/promotions">
                     Promotions
                 </Button>
                 <Button color="inherit" component={Link} to="/events">
                     Events
                 </Button>
-                <Button color="inherit" component={Link} to="/contact">
+                <Button color="inherit" component={Link} to="/contactus">
                     Contact Us
                 </Button>
                 
