@@ -187,7 +187,7 @@ const RegisterShop = () => {
                 />
 
                 {/* Shop Owner Details */}
-                <Typography>***Please provide your shop owner details below to continue your registration***</Typography>
+                <Typography sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>***Please provide your shop owner details below to continue your registration***</Typography>
 
                 {/* Owner Full Name */}
                 <TextField
