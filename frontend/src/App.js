@@ -28,6 +28,7 @@ import UpdatePromotion from "./pages/Shops/UpdatePromotion";
 import CartPage from "./pages/CartPage";
 
 import { CreateCategory } from "./pages/Shops/CreateCategory";
+import CreateProduct from "./pages/Shops/CreateProduct";
 
 
 
@@ -60,6 +61,7 @@ function App() {
       <Route path="/cart" element={<CartPage/>} />
 
       <Route path="/createCategory" element={<CreateCategory/>}/>
+      <Route path="/createProduct" element={<CreateProduct/>}/>
 
     </Routes>
     
