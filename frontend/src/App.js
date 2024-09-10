@@ -38,6 +38,12 @@ import { CreateCategory } from './pages/Shops/CreateCategory';
 >>>>>>> Stashed changes
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+import { CreateCategory } from "./pages/Shops/CreateCategory";
+
+
 >>>>>>> Stashed changes
 
 function App() {
@@ -80,9 +86,13 @@ function App() {
       <Route path="/addpromotions" element={<AddPromotion />} />
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <Route path="/createCategory" element={<CreateCategory/>}/>
 =======
       <Route path="/createcategory" element={<CreateCategory/>} />
+=======
+      <Route path="/createCategory" element={<CreateCategory />} />
+>>>>>>> Stashed changes
 
       <Route path="/allpromo" element={<AllPromo />} />
       <Route path="/updatePromotion" element={<UpdatePromotion />} />
