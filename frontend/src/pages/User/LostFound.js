@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
+import {} from '../../components/style/lostfound.css'
 import { DescriptionIcon } from '@mui/icons-material/Description';
 
 const LostFound = () => {
@@ -36,6 +37,7 @@ const LostFound = () => {
         setDescription('');
         setRole('');
         setEmail('');
+        setImage('');
       }else{
         toast.error(data.message);
       }
@@ -62,12 +64,14 @@ const LostFound = () => {
 
   return (
     <Layout title={"Lost & Found"}>
-        <div>
         <div className='grid-container'>
+        <div >
+          <div className='left'>
+          <div className="col-md-3" id='all'>
       <form onSubmit={handleSubmit}>
         <div className='KAboarder'>
-            <div className='item1'>
-              <div className='KApayment'> Your payment information is safe with us</div>
+            <div>
+              <div className='KApayment'> Add Your Item</div>
             </div>
             <div className='item2'>
               <div className='KAbar'>
@@ -80,8 +84,8 @@ const LostFound = () => {
               </div>
             </div>
             {/* Photo Upload */}
-            <div className="mb-3">
-              <label className="btn btn-outline-secondary col-md-3">
+            <div className='uploadbox'>
+              <label className="btn btn-outline-secondary col-md-12">
                 {image ? image.name : "Upload Photo"}
                 <input
                   type="file"
@@ -92,15 +96,29 @@ const LostFound = () => {
                 />
               </label>
             </div>
+
+            {/* Display Uploaded Photo */}
+            <div>
+              <div className="mb-3">
+                {image && (
+                  <div className="text-center">
+                    <img src={URL.createObjectURL(image)} alt="LOst or Found Image" height={"200px"} className="img img-responsive" />
+                  </div>
+                )}
+              </div>
+            </div>
+
+
             <div className="item3">
-                <table id="table">
+                <table id="Ktable">
                   <tbody>
                   <tr><td className='texting'>Name :</td>
                       <td className='texting'>Phone Number :</td></tr>
                       <tr></tr>
                     <tr>
-                      <td>
+                      <td className='texting'>
                         <input 
+                      className='textInput'
                       type="text"
                       value={name} 
                       onChange={(e) => setName(e.target.value)}
@@ -109,8 +127,9 @@ const LostFound = () => {
                       required
                       />                      
                       </td>
-                      <td>
+                      <td className='texting'>
                         <input 
+                      className='textInput'
                       type="text"
                       value={pNumber} 
                       onChange={(e) => setPNumber(e.target.value)}
@@ -120,7 +139,7 @@ const LostFound = () => {
                       />
                       </td></tr>
                       <tr><br/></tr>
-                      <tr><td className='texting'>Email :</td></tr>
+                      {/* <tr><td className='texting'>Email :</td></tr>
                       <tr><td>
                       <input 
                       type="text"
@@ -130,17 +149,19 @@ const LostFound = () => {
                       // onKeyPress={handleKeyPress}
                       required
                       />   
-                        </td></tr>
-                      <tr><td>
+                        </td></tr> */}
+                      <tr><td className='texting'>
                       <input
+                      className='RadioInput'
                       type="radio"
                       name="status"
                       value="lost"
                       onChange={(e) => setRole(e.target.value)}
                     /> Lost
                       </td>
-                      <td>
+                      <td className='texting'>
                       <input
+                      className='RadioInput'
                       type="radio"
                       name="status"
                       value="found"
@@ -148,11 +169,12 @@ const LostFound = () => {
                     /> Found
                       </td></tr>
 
-                      <tr><td>
+                      <tr><td className='texting'>
                         Description : 
                         </td></tr>
-                      <tr><td>
+                      <tr><td className='texting'>
                       <input 
+                      className='textInput'
                       type="text"
                       value={Description} 
                       onChange={(e) => setDescription(e.target.value)}
@@ -167,10 +189,12 @@ const LostFound = () => {
                 
             </div>
             <div className='item9'>
-              <button className='btnsub'>Save card Details</button>
+              <button className='btnsub'>Add Item</button>
             </div>
         </div>
         </form>
+        </div>
+        </div>
       </div>
         </div>
     </Layout>
