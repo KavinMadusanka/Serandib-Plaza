@@ -29,6 +29,7 @@ import CartPage from "./pages/CartPage";
 
 import { CreateCategory } from "./pages/Shops/CreateCategory";
 import CreateProduct from "./pages/Shops/CreateProduct";
+import LostFound from './pages/User/LostFound';
 
 
 
@@ -47,6 +48,9 @@ function App() {
       <Route path="/userprofile" element={<ProfileUser />} />
       <Route path="/updateShopProfile" element={<UpdateShopProfile />} />
       <Route path="/updateprofile" element={<UpdateUserProfile />}/>
+      <Route path="/lostFound" element={<LostFound />}/>
+     
+    
       <Route path="/adminProfile" element={<AdminDashboard />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/promotions" element={<AllPromotions />} />
