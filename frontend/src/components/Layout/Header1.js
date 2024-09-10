@@ -3,9 +3,12 @@ import { AppBar, Toolbar, Typography, IconButton, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../../context/auth'; 
+import { useCart } from '../../context/cart';
+
 
 const Header1 = () => {
     const [auth, setAuth] = useAuth();
+    const [cart] = useCart();
     const navigate = useNavigate(); // Hook to navigate programmatically
 
     const handleLogout = () => {
@@ -51,9 +54,12 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/contactus">
                     Contact Us
                 </Button>
-                <Button color="inherit" component={Link} to="/contactus">
-                    Cart
+                
+                  
+                <Button  color="inherit" component={Link} to="/cart">
+                       Cart {cart?.length}
                 </Button>
+               
                 
                 {auth && auth.user ? (
                     <>

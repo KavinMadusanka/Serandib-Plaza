@@ -25,6 +25,7 @@ import DisplayProductpage from "./pages/DisplayProductpage";
 
 import AllPromo from "./pages/Shops/AllPromo";
 import UpdatePromotion from "./pages/Shops/UpdatePromotion";
+import CartPage from "./pages/CartPage";
 
 
 
@@ -54,6 +55,7 @@ function App() {
       <Route path="/updatePromotion" element={<UpdatePromotion />} />
 
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
+      <Route path="/cart" element={<CartPage/>} />
 
     </Routes>
     
