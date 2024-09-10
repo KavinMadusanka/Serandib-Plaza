@@ -15,6 +15,20 @@ import UpdateUserProfile from "./pages/User/UpdateUserProfile";
 
 
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import ContactUs from "./pages/ContactUs";
+import AllPromotions from "./pages/Promotions";
+import AllUsers from "./pages/Admin/AllUsers";
+import AllShops from "./pages/Admin/AllShops";
+import AddPromotion from "./pages/Shops/AddPromotion";
+import DisplayProductpage from "./pages/DisplayProductpage";
+
+
+import AllPromo from "./pages/Shops/AllPromo";
+import UpdatePromotion from "./pages/Shops/UpdatePromotion";
+import CartPage from "./pages/CartPage";
+
+import { CreateCategory } from "./pages/Shops/CreateCategory";
+import LostFound from './pages/User/LostFound';
 
 
 
@@ -32,6 +46,7 @@ function App() {
       <Route path="/userprofile" element={<ProfileUser />} />
       <Route path="/updateShopProfile" element={<UpdateShopProfile />} />
       <Route path="/updateprofile" element={<UpdateUserProfile />}/>
+      <Route path="/lostFound" element={<LostFound />}/>
      
     
       <Route path="/adminProfile" element={<AdminDashboard />} />

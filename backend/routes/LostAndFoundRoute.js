@@ -1,13 +1,10 @@
-import { express } from 'express';
-import { AddItem } from '../controllers/LostAndFoundController';
-import { get } from './../node_modules/mongodb/src/utils';
+import express from 'express';
+import { AddItemController, getLostItemController } from '../controllers/LostAndFoundController.js';  // Ensure this path is correct
 
 const router = express.Router();
 
-//
-router.post('/addLostItem', AddItem);
-
-router.get('/getLostItem', getLostItemController);
-
+// Add routes here
+router.post('/addLostItem', AddItemController);
+router.get('/getLostItems', getLostItemController);
 
 export default router;
