@@ -27,6 +27,8 @@ import AllPromo from "./pages/Shops/AllPromo";
 import UpdatePromotion from "./pages/Shops/UpdatePromotion";
 import CartPage from "./pages/CartPage";
 
+import { CreateCategory } from "./pages/Shops/CreateCategory";
+
 
 
 
@@ -56,6 +58,8 @@ function App() {
 
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
       <Route path="/cart" element={<CartPage/>} />
+
+      <Route path="/createCategory" element={<CreateCategory/>}/>
 
     </Routes>
     
