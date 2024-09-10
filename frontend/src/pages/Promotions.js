@@ -47,7 +47,7 @@ const AllPromotions = ({ shopId }) => {
         <Layout>
             <div className="all-promotions-container" style={{ padding: '20px' }}>
                 <Title level={1} style={{ textAlign: 'center', marginBottom: '30px' }}>Promotions</Title>
-                <Title level={4} style={{ textAlign: 'center', marginBottom: '30px' }}>We love promotions and it
+                <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>We love promotions and it
                      appears you do too! Which is why we have a lot planned for the coming months.<br/>
 Discounts,free gifts – just to name a few.</Title>
                 

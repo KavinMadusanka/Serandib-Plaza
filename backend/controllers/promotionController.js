@@ -148,73 +148,33 @@ export const deletePromotionController = async (req, res) => {
     }
 };
 
+// Update promotion
+export const updatePromotionController = async (req, res) => {
+    try {
+        const promotion = await promotionModel.findByIdAndUpdate(req.params.pid, req.fields, {
+            new: true,
+        });
 
-//update promotion
-export const updatePromotionController = async(req,res) => {
-    try{
-        const {
-            promotionTitle,
-            slug,
-            promotionDescription,
-            discountType,
-            discountValue,
-            startDate,
-            endDate,
-            termsConditions,
-            promoCode,
-            applicableItems,
-            shop,
-            isActive
-        } = req.fields
-        const {promotionImage} = req.files
-
-        //validation
-        switch(true){
-            case !promotionTitle:
-                return res.status(500).send({error:'Promo title is required'})
-            case !promotionDescription:
-                    return res.status(500).send({error:'Promo description is required'})
-            case !discountType:
-                    return res.status(500).send({error:'Discount type is required'})
-            case !discountValue:
-                return res.status(500).send({error:'Discount value is required'})
-            case !startDate:
-                return res.status(500).send({error:'Promo start date is required'})
-            case !endDate:
-                return res.status(500).send({error:'Promo end date is required'})
-            case !shop:
-                return res.status(500).send({error:'Offering shop is required'})
-            case !isActive:
-                return res.status(500).send({error:'Activation is required'}) 
-            case promotionImage>1000000:
-                return res.status(500).send({error:'Image should be less than 1mb'})  
+        if (req.files && req.files.promotionImage) {
+            promotion.promotionImage.data = fs.readFileSync(req.files.promotionImage.path);
+            promotion.promotionImage.contentType = req.files.promotionImage.type;
         }
 
-        const promotions = await promotionModel.findByIdAndUpdate(
-            req.params.pid,
-            {...req.fields, slug: slugify(promotionTitle)},
-            { new: true}
-        )
-
-        if(promotionImage){
-            promotions.promotionImage.data = fs.readFileSync(promotionImage.path)
-            promotions.promotionImage.contentType = promotionImage.type
-        }
-        await promotions.save();
-        res.status(201).send({
-            success:true,
-            message:"Promotion updated successfully",
-            promotions
-        })
-    }catch(error){
-    console.log(error)
-    res.status(500).send({
-        success:false,
-        error,
-        message:'Error in updating promotion'
-    })
+        await promotion.save();
+        res.status(200).send({
+            success: true,
+            message: 'Promotion updated successfully',
+            promotion,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({
+            success: false,
+            message: 'Error while updating promotion',
+            error,
+        });
     }
-}
+};
 
 
 // Get promotions by shop

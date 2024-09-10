@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom'; // useLocation to access passed state
-import { Select, Input, DatePicker, Checkbox, Button, Typography, Form, message } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom'; 
+import { Select, Input, DatePicker, Checkbox, Button, Typography, Form, message, Modal } from 'antd';
 import { Box } from '@mui/material';
 import ShopHeader from '../../components/Layout/ShopHeader';
 import ShopMenu from '../../components/Layout/ShopMenu';
 import dayjs from 'dayjs';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -25,13 +26,11 @@ const UpdatePromotion = () => {
     const [shop, setShop] = useState('');
 
     const navigate = useNavigate();
-    const location = useLocation();  // Access the state passed from the previous page
-    const promotion = location.state?.promotion || {};  // Fallback to an empty object
+    const location = useLocation();  
+    const promotion = location.state?.promotion || {};
 
-    // Pre-fill form data with the promotion's existing data
     useEffect(() => {
         if (promotion) {
-          console.log("Promotion ID:", promotion._id);
             setPromotionTitle(promotion.promotionTitle);
             setPromotionDescription(promotion.promotionDescription);
             setDiscountType(promotion.discountType);
@@ -42,11 +41,11 @@ const UpdatePromotion = () => {
             setPromoCode(promotion.promoCode);
             setApplicableItems(promotion.applicableItems);
             setIsActive(promotion.isActive);
-            setShop(promotion.shop);  // Adjust this if shop data is structured differently
+            setShop(promotion.shop);
         }
     }, [promotion]);
 
-    const handleSubmit = async (values) => {
+    const handleSubmit = async () => {
         const formData = new FormData();
         formData.append('promotionTitle', promotionTitle);
         formData.append('promotionDescription', promotionDescription);
@@ -72,7 +71,7 @@ const UpdatePromotion = () => {
 
             if (data.success) {
                 message.success('Promotion updated successfully');
-                navigate('/shopProfile');
+                navigate('/allpromo');
             } else {
                 message.error(data.message);
             }
@@ -80,6 +79,31 @@ const UpdatePromotion = () => {
             console.error('Error updating promotion:', error);
             message.error('An error occurred while updating the promotion.');
         }
+    };
+
+    const handleDeletePromotion = async () => {
+        try {
+            const { data } = await axios.delete(`/api/v1/promotions/delete-promotion/${promotion._id}`);
+            if (data.success) {
+                message.success('Promotion deleted successfully');
+                navigate('/allpromo');
+            } else {
+                message.error(data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting promotion:', error);
+            message.error('An error occurred while deleting the promotion.');
+        }
+    };
+
+    const confirmDelete = () => {
+        Modal.confirm({
+            title: 'Are you sure you want to delete this promotion?',
+            content: 'This action cannot be undone.',
+            onOk: handleDeletePromotion,
+            okText: 'Yes',
+            cancelText: 'No',
+        });
     };
 
     return (
@@ -107,10 +131,10 @@ const UpdatePromotion = () => {
                             <Input type="number" value={discountValue} onChange={(e) => setDiscountValue(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Start Date" rules={[{ required: true }]}>
-                            <DatePicker value={startDate} onChange={(date) => setStartDate(date)} />
+                            <DatePicker value={startDate} onChange={(date) => setStartDate(date)} style={{ width: '100%' }}/>
                         </Form.Item>
                         <Form.Item label="End Date" rules={[{ required: true }]}>
-                            <DatePicker value={endDate} onChange={(date) => setEndDate(date)} />
+                            <DatePicker value={endDate} onChange={(date) => setEndDate(date)}  style={{ width: '100%' }}/>
                         </Form.Item>
                         <Form.Item label="Promo Code (optional)">
                             <Input value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
@@ -128,9 +152,46 @@ const UpdatePromotion = () => {
                             <Checkbox onChange={(e) => setIsActive(e.target.checked)}>Active</Checkbox>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">Update Promotion</Button>
+                            <Box 
+                                sx={{ 
+                                display: 'flex', 
+                                justifyContent: 'center',  // Centers the button horizontally
+                                alignItems: 'center',      // Centers the button vertically (if needed)
+                            }}
+                            >
+                                <Button type="primary" htmlType="submit">Update Promotion</Button>
+                            </Box>        
                         </Form.Item>
                     </Form>
+                    <hr/>
+                    <br/>
+                    <Box 
+                        sx={{ 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            textAlign: 'center' 
+                        }}
+                    >
+                    <Typography>
+                        If you want to delete this promotion, click on the delete button.<br />
+                        This action can't be undone and all the relevant data will be lost regarding this.
+                    </Typography>
+
+                    <Button 
+                        danger 
+                        icon={<DeleteOutlined />} 
+                        style={{ marginTop: '20px', 
+                        backgroundColor: '#ff4d4f', // Red background color
+                        borderColor: '#ff4d4f',     // Matches the border color with the background
+                        color: '#fff'
+                    }}  // Adds space between text and button
+                    onClick={confirmDelete}
+                    >
+                        Delete Promotion
+                    </Button>
+                </Box>
                 </Box>
             </Box>
         </Box>
