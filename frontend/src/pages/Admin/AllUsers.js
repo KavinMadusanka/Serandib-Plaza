@@ -34,11 +34,11 @@ const AllUsers = () => {
         <Box sx={{ flexGrow: 1, p: 3 }}>
           <Container maxWidth="lg">
             <Typography
-              variant="h4"
+              variant="h5"
               component="h1"
               sx={{ textAlign: 'center', marginBottom: 3 }}
             >
-              All Users
+              All Registered Users
             </Typography>
             <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
               <Table>
