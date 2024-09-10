@@ -1,5 +1,5 @@
 import express from 'express';
-import { AddItemController, getLostItemController } from '../controllers/LostAndFoundController.js';  // Ensure this path is correct
+import { AddItemController, getLostItemController, ItemPhotoController } from '../controllers/LostAndFoundController.js';  // Ensure this path is correct
 
 const router = express.Router();
 
@@ -7,4 +7,6 @@ const router = express.Router();
 router.post('/addLostItem', AddItemController);
 router.get('/getLostItems', getLostItemController);
 
+//get photo
+router.get("/getLostItem-photo/:pid",ItemPhotoController);
 export default router;

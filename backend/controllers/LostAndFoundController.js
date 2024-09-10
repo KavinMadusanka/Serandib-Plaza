@@ -67,7 +67,7 @@ export const AddItemController = async(req,res) => {
 // // Get all Items controller
 export const getLostItemController = async(req,res) =>{
     try {
-        const Items = await InventoryModel
+        const Items = await LostModel
         .find({})
         .select("-photo")
         .limit(12)
@@ -86,5 +86,25 @@ export const getLostItemController = async(req,res) =>{
             message:"Error in getting Items",
             error: error.message,
         });
+    }
+};
+
+// Get product photo controller
+export const ItemPhotoController = async(req,res) => {
+    try {
+        const item = await LostModel.findById(req.params.pid).select("image");
+        if(item.image.data){
+            res.set("Content-type",item.image.contentType);
+            return res.status(200).send(item.image.data);
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:"Error while getting photo",
+            error,
+        });
+        
     }
 };
