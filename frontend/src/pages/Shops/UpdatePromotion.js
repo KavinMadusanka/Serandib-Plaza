@@ -131,10 +131,10 @@ const UpdatePromotion = () => {
                             <Input type="number" value={discountValue} onChange={(e) => setDiscountValue(e.target.value)} />
                         </Form.Item>
                         <Form.Item label="Start Date" rules={[{ required: true }]}>
-                            <DatePicker value={startDate} onChange={(date) => setStartDate(date)} style={{ width: '100%' }}/>
+                            <DatePicker value={startDate} onChange={(date) => setStartDate(date)} disabledDate={(current) => current && current < dayjs().startOf('day')} style={{ width: '100%' }}/>
                         </Form.Item>
                         <Form.Item label="End Date" rules={[{ required: true }]}>
-                            <DatePicker value={endDate} onChange={(date) => setEndDate(date)}  style={{ width: '100%' }}/>
+                            <DatePicker value={endDate} onChange={(date) => setEndDate(date)} disabledDate={(current) => current && current < dayjs().startOf('day')} style={{ width: '100%' }}/>
                         </Form.Item>
                         <Form.Item label="Promo Code (optional)">
                             <Input value={promoCode} onChange={(e) => setPromoCode(e.target.value)} />
