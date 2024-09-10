@@ -6,8 +6,8 @@ import fs from 'fs'
 export const AddItemController = async(req,res) => {
     try {
         const {name,pNumber,Description,role,email} = req.body
-        const image = req.files.file;
-        // const image = req.files
+        // const image = req.files.file;
+        const {image} = req.files
 
         // Validation
         switch(true){
@@ -41,7 +41,7 @@ export const AddItemController = async(req,res) => {
         const LostItems = new LostModel({ name, pNumber, Description, role, email });
 
         // Handle image upload
-        if (image) {
+        if (image && image.data && image.mimetype) {
             LostItems.image.data = image.data;
             LostItems.image.contentType = image.mimetype;
         }
