@@ -1,13 +1,13 @@
 import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CampaignIcon from '@mui/icons-material/Campaign';
+import CategoryIcon from '@mui/icons-material/AddBox';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import SettingsIcon from '@mui/icons-material/Settings';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
-const ShopMenu = () => {
+const InventoryMenu = () => {
     return (
         <Drawer
             variant="permanent"
@@ -36,33 +36,33 @@ const ShopMenu = () => {
                 <Typography variant="h6" sx={{ color: '#ffffff' }}>Serendib Plaza</Typography>
             </Box>
             <List>
-                <ListItem button component={Link} to="/shopProfile" aria-label="Dashboard">
+                <ListItem button component={Link} to="/createCategory" aria-label="Create Category">
                     <ListItemIcon>
-                        <DashboardIcon sx={{ color: '#ffffff' }} />
+                        <CategoryIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
-                    <ListItemText primary="Dashboard" sx={{ color: '#ffffff' }} />
+                    <ListItemText primary="Create Category" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/updateShopProfile" aria-label="Update Profile">
+                <ListItem button component={Link} to="/createProduct" aria-label="Create Product">
                     <ListItemIcon>
-                        <AccountCircleIcon sx={{ color: '#ffffff' }} />
+                        <AddBoxIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
-                    <ListItemText primary="Update Profile" sx={{ color: '#ffffff' }} />
+                    <ListItemText primary="Create Product" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/addpromotions" aria-label="Set Promotion">
-                    <ListItemIcon>
-                        <CampaignIcon sx={{ color: '#ffffff' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Set Promotion" sx={{ color: '#ffffff' }} />
-                </ListItem>
-                <ListItem button component={Link} to="/allpromo" aria-label="All Promotions">
+                <ListItem button component={Link} to="/products" aria-label="Products">
                     <ListItemIcon>
                         <ListAltIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
-                    <ListItemText primary="All Promotions" sx={{ color: '#ffffff' }} />
+                    <ListItemText primary="Products" sx={{ color: '#ffffff' }} />
+                </ListItem>
+                <ListItem button component={Link} to="/orders" aria-label="Orders">
+                    <ListItemIcon>
+                        <ShoppingCartIcon sx={{ color: '#ffffff' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Orders" sx={{ color: '#ffffff' }} />
                 </ListItem>
             </List>
         </Drawer>
     );
 };
 
-export default ShopMenu;
+export default InventoryMenu;

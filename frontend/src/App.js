@@ -50,6 +50,19 @@ function App() {
      
     
       <Route path="/adminProfile" element={<AdminDashboard />} />
+      <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/promotions" element={<AllPromotions />} />
+      <Route path="/allusers" element={<AllUsers />} />
+      <Route path="/allshops" element={<AllShops />} />
+      <Route path="/addpromotions" element={<AddPromotion />} />
+
+      <Route path="/allpromo" element={<AllPromo />} />
+      <Route path="/updatePromotion" element={<UpdatePromotion />} />
+
+      <Route path="/displayProductpage" element={<DisplayProductpage/>} />
+      <Route path="/cart" element={<CartPage/>} />
+
+      <Route path="/createCategory" element={<CreateCategory/>}/>
 
     </Routes>
     
