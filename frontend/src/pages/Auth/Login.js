@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
 import { useAuth } from '../../context/auth';
-import { Container, Box, Typography, TextField, Button, Paper } from '@mui/material';
+import { Container,Link, Box, Typography, TextField, Button, Paper } from '@mui/material';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -13,6 +13,9 @@ const Login = () => {
     const [auth, setAuth] = useAuth();
     const location = useLocation();
 
+    const handleLoginClick = () => {
+      navigate('/register'); // Redirect to the login page
+    };
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -117,6 +120,14 @@ const Login = () => {
                                 </Button>
                             </Box>
                         </form>
+                        <br/>
+                        <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
+                    <Typography>If you Don't have an Account, Please
+                        <Link component="button" variant="body2" onClick={handleLoginClick} sx={{ cursor: 'pointer', color: 'blue', marginLeft: 1 }}>
+                        Register
+                        </Link>
+                    </Typography>
+                </Box>
                     </Paper>
                 </Box>
             </Container>
