@@ -70,7 +70,7 @@ const AddPromotion = () => {
 
             if (response.data.success) {
                 message.success('Promotion created successfully');
-                navigate('/');
+                navigate('/allpromo');
             } else {
                 message.error(response.data.message);
             }

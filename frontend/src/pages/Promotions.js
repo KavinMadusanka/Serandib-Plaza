@@ -65,6 +65,8 @@ Discounts,free gifts – just to name a few.</Title>
                                         borderRadius: '8px',
                                         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                         marginBottom: '20px',
+                                        width: '80%',
+                                        margin:'0 auto'
                                     }}
                                     cover={
                                         <div style={{ position: 'relative' }}>
@@ -73,7 +75,7 @@ Discounts,free gifts – just to name a few.</Title>
                                                 alt={promotion.promotionTitle}
                                                 style={{
                                                     width: '100%',
-                                                    height: '15rem',
+                                                    height: '30rem',
                                                     objectFit: 'cover',
                                                     borderTopLeftRadius: '8px',
                                                     borderTopRightRadius: '8px',
@@ -124,7 +126,7 @@ Discounts,free gifts – just to name a few.</Title>
                         <img
                             src={`/api/v1/promotions/promotion-image/${selectedPromotion._id}`}
                             alt={selectedPromotion.promotionTitle}
-                            style={{ width: '100%', height: '20rem', objectFit: 'cover', borderRadius: '8px', marginBottom: '20px' }}
+                            style={{ width: '100%', height: '30rem', objectFit: 'cover', borderRadius: '8px', marginBottom: '20px' }}
                         />
 
                         <Paragraph>{selectedPromotion.promotionDescription}</Paragraph>
