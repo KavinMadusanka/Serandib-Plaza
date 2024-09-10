@@ -95,7 +95,7 @@ const AddPromotion = () => {
                             isActive: true,
                         }}
                     >
-                        <Form.Item name="shop" label="Select Your Shop Name" rules={[{ required: true, message: 'Please select a shop!' }]}>
+                        <Form.Item name="shop" label="Select Your Shop Name.(All the shops have the same portal to add their promotions.There fore please select your shop name from the below list)" rules={[{ required: true, message: 'Please select a shop!' }]}>
                             <Select
                                 placeholder="Select Shop"
                                 style={{ width: '100%' }}
@@ -162,7 +162,7 @@ const AddPromotion = () => {
 
                         <div className='mb-3'>
                             <label className='btn btn-outline-secondary col-md-12'>
-                                {promotionImage ? promotionImage.name:"Upload photo"}
+                                {promotionImage ? promotionImage.name:"Upload promotion banner"}
                                 <input type="file" name="photo" accept="image/*"
                                 onChange={(e)=> setPromotionImage(e.target.files[0])}
                                 hidden

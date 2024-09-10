@@ -5,7 +5,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import SettingsIcon from '@mui/icons-material/Settings';
 
 const UserMenu = () => {
     return (
@@ -60,12 +59,6 @@ const UserMenu = () => {
                         <ShoppingBasketIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
                     <ListItemText primary="Shopping List" sx={{ color: '#ffffff' }} />
-                </ListItem>
-                <ListItem button component={Link} to="/settings" aria-label="Settings">
-                    <ListItemIcon>
-                        <SettingsIcon sx={{ color: '#ffffff' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings" sx={{ color: '#ffffff' }} />
                 </ListItem>
             </List>
         </Drawer>

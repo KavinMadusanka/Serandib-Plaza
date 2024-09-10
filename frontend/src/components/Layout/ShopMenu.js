@@ -60,12 +60,6 @@ const ShopMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary="All Promotions" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/settings" aria-label="Settings">
-                    <ListItemIcon>
-                        <SettingsIcon sx={{ color: '#ffffff' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings" sx={{ color: '#ffffff' }} />
-                </ListItem>
             </List>
         </Drawer>
     );

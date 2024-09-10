@@ -51,7 +51,7 @@ function App() {
       <Route path="/allshops" element={<AllShops />} />
       <Route path="/addpromotions" element={<AddPromotion />} />
 
-      <Route path="/allpromo" element={<AllPromo />} /> 
+      <Route path="/allpromo" element={<AllPromo />} />
       <Route path="/updatePromotion" element={<UpdatePromotion />} />
 
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
