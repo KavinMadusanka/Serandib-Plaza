@@ -17,11 +17,10 @@ const AdminDashboard = () => {
     // Fetch counts from your API and update state
     useEffect(() => {
         // Example of how to fetch the counts, replace these with your real API calls
-        setUserCount(41); // Example data
-        setShopCount(12); // Example data
-        setProductCount(6); // Example data
-     
-        setCategoryCount(12); // Example data
+        setUserCount(11); // Example data
+        setShopCount(7); // Example data
+        setProductCount(10); // Example data
+        setCategoryCount(7); // Example data
     }, []);
 
     const StatCard = ({ title, count, IconComponent }) => (
