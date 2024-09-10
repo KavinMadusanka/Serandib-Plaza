@@ -1,10 +1,10 @@
-import { express } from 'express';
-import { AddItem } from '../controllers/LostAndFoundController';
+import express from 'express';
+import { AddItemController, getLostItemController } from '../controllers/LostAndFoundController.js';  // Ensure this path is correct
 
 const router = express.Router();
 
-//
-router.post('/addLostItem', AddItem);
-
+// Add routes here
+router.post('/addLostItem', AddItemController);
+router.get('/getLostItems', getLostItemController);
 
 export default router;

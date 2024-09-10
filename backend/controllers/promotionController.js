@@ -215,3 +215,21 @@ export const updatePromotionController = async(req,res) => {
     })
     }
 }
+
+
+// Get promotions by shop
+export const getPromotionByShopController = async (req, res) => {
+    try {
+        const promotions = await promotionModel.find({ shop: req.params.shopId });
+        res.status(200).send({
+            success: true,
+            promotions,
+        });
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'Error fetching promotions',
+            error,
+        });
+    }
+};
