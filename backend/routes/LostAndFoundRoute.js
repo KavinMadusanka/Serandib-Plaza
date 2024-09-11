@@ -8,6 +8,8 @@ const router = express.Router();
 
 // Add routes here
 router.post('/addLostItem', AddItemController);
+
+//get all items
 router.get('/getLostItems', getLostItemController);
 
 //get photo

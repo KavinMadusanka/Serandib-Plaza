@@ -10,6 +10,9 @@ import { DescriptionIcon } from '@mui/icons-material/Description';
 const LostFound = () => {
   const [Items, setItems] = useState([]);
 	const [name,setName] = useState("");
+  const [filteredItem, setFilteredItem] = useState([]);
+  const [selectedItemRole, setSelectedItemRole] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
     const [pNumber,setPNumber] = useState("");
     const [Description,setDescription] = useState("");
     const [role,setRole] = useState("");
@@ -18,6 +21,11 @@ const LostFound = () => {
     const [auth,setAuth] = useAuth();
     const navigate = useNavigate();
 
+
+    const handleRoleChange = (e) => {
+      const value = e.target.value;
+      setSelectedItemRole(value === "all" ? "" : value);
+  };
 
       //form function
   const handleSubmit = async (e) => {
@@ -104,6 +112,15 @@ const handleDeleteItem = async (CId) => {
   }
 };
 
+// filter
+useEffect(() => {
+  const filtered = Items.filter((item) =>
+    // item.address.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedItemRole === "" || item.role === selectedItemRole) // Filtering by role
+  );
+  setFilteredItem(filtered);
+}, [selectedItemRole, selectedItemRole, Items]);
+
   return (
     <Layout title={"Lost & Found"}>
         <div className ="row flex-nowrap">
@@ -181,8 +198,9 @@ const handleDeleteItem = async (CId) => {
                             type="text"
                             value={pNumber} 
                             onChange={(e) => setPNumber(e.target.value)}
-                            placeholder="Contact Number"
+                            placeholder="07xxxxxxxx"
                             onKeyPress={handleKeyNumber}
+                            maxLength={10}
                             required
                             />
                             </td></tr>
@@ -250,6 +268,13 @@ const handleDeleteItem = async (CId) => {
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
             {/* <div className='KApayment'> */}
               <h2>Lost & Found Items</h2>
+              <div>
+                <select value={selectedItemRole} onChange={handleRoleChange} className='selectitem'>
+                  <option value="">All Items</option>
+                  <option value="lost">Lost</option>
+                  <option value="found">Found</option>
+                </select>
+              </div>
             {/* </div> */}
             {/* <div className='exportReBtn'>
                 <button onClick={generatePDF}>Export Report</button>
@@ -257,13 +282,13 @@ const handleDeleteItem = async (CId) => {
           </div>
             <div>
               <div className="d-flex flex-wrap justify-content-around">
-                {Items.map((p) => (
+                {filteredItem.map((p) => (
                   // <Link
                   //   to={`/dashboard/admin/product/${p.slug}`}
                   //   className="product-link"
                   //   key={p._id}
                   // >
-                    <div>
+                    <div className='OneItem'>
                     {/* <div className={`card m-2 ${p.quantity === 0 ? 'out-of-stock' : ''}`} style={{ width: "18rem" }}> */}
                       {/* {p.quantity === 0 && (
                         <div className="out-of-stock-label">Out of Stock</div>
@@ -272,6 +297,7 @@ const handleDeleteItem = async (CId) => {
                         src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
                         className="card-img-top"
                         height={"200px"}
+                        width={"200px"}
                         alt={p.name}
                       />
                       <div className="card-body">
@@ -279,8 +305,8 @@ const handleDeleteItem = async (CId) => {
                         <p className="card-text">Contact Number : {p.pNumber}</p>
                         <p className="card-text">Description : {p.Description}</p><br/>
                         <div className={`card m-2 ${p.email === email ? 'Delete' : ''}`} style={{ width: "18rem" }}>
-                          {p.email === email && (
-                            <button className='btnsub'
+                          {p.email === email && p.role === "lost" &&(
+                            <button className='btn btn-danger'
                             onClick={() => {
                               handleDeleteItem(p._id);
                               }}>
@@ -288,10 +314,30 @@ const handleDeleteItem = async (CId) => {
                             onClick={()} => {
                               handleDeleteCard(p._id);
                             }}> */}
-                            items Found
+                            Items Found
                             </button>
                           )}
+                          {p.email === email && p.role === "found" &&(
+                            <button className='btn btn-danger'
+                            onClick={() => {
+                              handleDeleteItem(p._id);
+                              }}>
+                            Remove Item
+                            </button>
+                          )}
+                          {p.email !== email && (
+                            <button className='btnsubb'
+                            // onClick={() => {
+                            //   handleDeleteItem(p._id);
+                            //   }}
+                              >
+                            items Found and inform owner
+                            </button>
+                          )}
+                          
                         </div>
+                        
+                        <div className={'card m-2'} style={{ width: "18rem" }}></div>
                       </div>
                     </div>
                   // </Link>
