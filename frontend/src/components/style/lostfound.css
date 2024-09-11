@@ -43,7 +43,7 @@
 .btnsub{
     padding-left: 10px;
     padding-right: 10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     padding-top: 3px;
     padding-bottom: 3px;
     border-radius: 5px;

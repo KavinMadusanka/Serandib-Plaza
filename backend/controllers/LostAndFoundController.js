@@ -108,3 +108,22 @@ export const ItemPhotoController = async(req,res) => {
         
     }
 };
+
+//delete Address
+export const deleteLostItemController = async (req, res) =>{
+    try {
+        const { id } = req.params;
+        await LostModel.findByIdAndDelete(id);
+        res.status(200).send({
+            success: true,
+            message: "Items Removed Successfully",
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "error while deleting Address",
+            error,
+        });
+    }
+};
