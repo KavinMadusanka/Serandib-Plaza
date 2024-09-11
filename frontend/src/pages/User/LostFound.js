@@ -56,6 +56,14 @@ const LostFound = () => {
     }
   };
 
+      //only gets numbers
+      const handleKeyNumber = (event) => {
+        const regex = /^[0-9\s]*$/;
+        if(!regex.test(event.key)){
+          event.preventDefault();
+        }
+      };
+
   //get all lost & found items
   const getAllItems = async () => {
     try {
@@ -78,6 +86,23 @@ const LostFound = () => {
     useEffect(() => {
       getAllItems();
     }, []);
+
+    // Handle delete card details
+const handleDeleteItem = async (CId) => {
+  const confirmed = window.confirm("Are you sure you want to remove this Item?");
+  if (confirmed) {
+    try {
+      const { data } = await axios.delete(`/api/v1/LostAndFound/delete-item/${CId}`);
+      if (data.success) {
+        toast.success('Card Details deleted successfully');
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  }
+};
 
   return (
     <Layout title={"Lost & Found"}>
@@ -146,7 +171,7 @@ const LostFound = () => {
                             value={name} 
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Name"
-                            // onKeyPress={handleKeyPress}
+                            onKeyPress={handleKeyPress}
                             required
                             />                      
                             </td>
@@ -157,7 +182,7 @@ const LostFound = () => {
                             value={pNumber} 
                             onChange={(e) => setPNumber(e.target.value)}
                             placeholder="Contact Number"
-                            onKeyPress={handleKeyPress}
+                            onKeyPress={handleKeyNumber}
                             required
                             />
                             </td></tr>
@@ -195,14 +220,14 @@ const LostFound = () => {
                             <tr><td className='texting'>
                               Description : 
                               </td></tr>
-                            <tr><td className='texting'>
+                            <tr><td className='texting' colSpan={2}>
                             <input 
                             className='textInput'
                             type="text"
                             value={Description} 
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Description"
-                            onKeyPress={handleKeyPress}
+                            // onKeyPress={handleKeyPress}
                             required
                             />
                               </td></tr>
@@ -223,9 +248,9 @@ const LostFound = () => {
           {/* <div> */}
           <div className="col p-0 m-0">
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
-            <div className='KApayment'>
+            {/* <div className='KApayment'> */}
               <h2>Lost & Found Items</h2>
-            </div>
+            {/* </div> */}
             {/* <div className='exportReBtn'>
                 <button onClick={generatePDF}>Export Report</button>
             </div> */}
@@ -252,7 +277,21 @@ const LostFound = () => {
                       <div className="card-body">
                         <h5 className="card-title">Name : {p.name}</h5>
                         <p className="card-text">Contact Number : {p.pNumber}</p>
-                        <p className="card-text">Description : {p.Description}</p>
+                        <p className="card-text">Description : {p.Description}</p><br/>
+                        <div className={`card m-2 ${p.email === email ? 'Delete' : ''}`} style={{ width: "18rem" }}>
+                          {p.email === email && (
+                            <button className='btnsub'
+                            onClick={() => {
+                              handleDeleteItem(p._id);
+                              }}>
+                            {/* <button className='btnsub'
+                            onClick={()} => {
+                              handleDeleteCard(p._id);
+                            }}> */}
+                            items Found
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   // </Link>
