@@ -37,6 +37,18 @@ import Shops from "./pages/Shops";
 
 
 
+
+
+
+
+
+
+import Products from "./pages/Shops/Products";
+import UpdateProduct from './pages/Shops/UpdateProduct';
+
+
+
+
 function App() {
   return (
     <>
@@ -66,7 +78,12 @@ function App() {
       <Route path="/cart" element={<CartPage/>} />
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
+
+      <Route path="/products/:slug" element={<UpdateProduct/>}/>
+      <Route path="/products" element={<Products/>}/>
+
       <Route path="/shops" element={<Shops />}/>
+
 
 
     </Routes>
