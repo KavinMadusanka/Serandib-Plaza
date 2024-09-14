@@ -9,7 +9,7 @@ import categoryRoutes from './routes/categoryRoute.js'
 import productRoutes from  './routes/productRoute.js'
 import shoppingcartRoutes from './routes/shoppingcartRoute.js'
 import LostAndFoundRoutes from './routes/LostAndFoundRoute.js'
-import fileUpload from 'express-fileupload';
+//import fileUpload from 'express-fileupload';
 
 import cors from "cors";
 
@@ -23,7 +23,7 @@ connectDB();
 const app = express();
 
 // Middleware to handle file uploads
-app.use(fileUpload());
+//app.use(fileUpload());
 
 //middelwares
 app.use(cors())

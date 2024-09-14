@@ -34,6 +34,18 @@ import LostFound from './pages/User/LostFound';
 
 
 
+
+
+
+
+
+
+import Products from "./pages/Shops/Products";
+import UpdateProduct from './pages/Shops/UpdateProduct';
+
+
+
+
 function App() {
   return (
     <>
@@ -66,6 +78,8 @@ function App() {
 
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
+      <Route path="/products/:slug" element={<UpdateProduct/>}/>
+      <Route path="/products" element={<Products/>}/>
 
     </Routes>
     
