@@ -6,7 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EventIcon from '@mui/icons-material/Event';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import PeopleIcon from '@mui/icons-material/People';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+//import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import StoreIcon from '@mui/icons-material/Store';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -148,7 +148,7 @@ const AdminMenu = () => {
         </ListItem>
 
         {/* Logout */}
-        <ListItem 
+        {/* <ListItem 
           button 
           selected={location.pathname === '/logout'} 
           onClick={() => handleListItemClick('/logout')}
@@ -158,7 +158,7 @@ const AdminMenu = () => {
             <ExitToAppIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="Log out" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </Drawer>
   );
