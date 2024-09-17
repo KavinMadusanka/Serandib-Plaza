@@ -22,10 +22,19 @@ const LostFound = () => {
     const navigate = useNavigate();
 
 
+    useEffect(() => {
+      if (auth && auth.user) {
+        setEmail(auth.user.email);
+       
+      }
+    }, [auth]);
+
     const handleRoleChange = (e) => {
       const value = e.target.value;
       setSelectedItemRole(value === "all" ? "" : value);
   };
+
+
 
       //form function
   const handleSubmit = async (e) => {
@@ -38,15 +47,15 @@ const LostFound = () => {
       LostItemData.append("role", role);
       LostItemData.append("email", email);
       LostItemData.append("image", image);
-      const {data} = await axios.post('http://localhost:8088/api/v1/LostAndFound/addLostItem',LostItemData);
-      if(data.success){
+      const {data} = await axios.post('/api/v1/LostAndFound/addLostItem',LostItemData);
+      if(data?.success){
         toast.success(data.message);
         setPNumber('');
         setName('');
         setDescription('');
         setRole('');
         setEmail('');
-        setImage('');
+        setImage(null);
       }else{
         toast.error(data.message);
       }
@@ -83,12 +92,6 @@ const LostFound = () => {
       toast.error("Failed to fetch Items");
     }
   };
-  useEffect(() => {
-    if (auth && auth.user) {
-      setEmail(auth.user.email);
-     
-    }
-  }, [auth]);
   
     // Lifecycle method
     useEffect(() => {
@@ -102,7 +105,7 @@ const handleDeleteItem = async (CId) => {
     try {
       const { data } = await axios.delete(`/api/v1/LostAndFound/delete-item/${CId}`);
       if (data.success) {
-        toast.success('Card Details deleted successfully');
+        toast.success('Item Removed successfully');
       } else {
         toast.error(data.message);
       }
@@ -119,7 +122,7 @@ useEffect(() => {
       (selectedItemRole === "" || item.role === selectedItemRole) // Filtering by role
   );
   setFilteredItem(filtered);
-}, [selectedItemRole, selectedItemRole, Items]);
+}, [selectedItemRole, Items]);
 
   return (
     <Layout title={"Lost & Found"}>
@@ -154,7 +157,7 @@ useEffect(() => {
                       {image ? image.name : "Upload Photo"}
                       <input
                         type="file"
-                        name="photo"
+                        name="image"
                         accept="image/*"
                         onChange={(e) => setImage(e.target.files[0])}
                         hidden
