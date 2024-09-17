@@ -328,13 +328,14 @@ useEffect(() => {
                             Remove Item
                             </button>
                           )}
-                          {p.email !== email && (
-                            <button className='btnsubb'
-                            // onClick={() => {
-                            //   handleDeleteItem(p._id);
-                            //   }}
-                              >
+                          {p.email !== email && p.role === "lost" &&(
+                            <button className='btnsubb'>
                             items Found and inform owner
+                            </button>
+                          )}
+                          {p.email !== email && p.role === "found" &&(
+                            <button className='btnsubb'>
+                            This items belongs to me
                             </button>
                           )}
                           
