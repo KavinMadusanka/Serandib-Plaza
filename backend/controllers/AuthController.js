@@ -81,8 +81,8 @@ export const updateUserProfileController = async (req, res) => {
       const user = await userModel.findById(req.user._id);
   
       // Validate password length
-      if (password && password.length < 5) {
-        return res.json({ error: "Password is required and must be at least 5 characters long" });
+      if (password && password.length < 8) {
+        return res.json({ error: "Password is required and must be at least 8 characters long" });
       }
   
       // Hash the new password if provided
@@ -321,8 +321,8 @@ export const userLoginController = async (req, res) => {
       const shop = await shopModel.findById(req.user._id);
   
       // Validate password length
-      if (password && password.length < 5) {
-        return res.json({ error: "Password is required and must be at least 5 characters long" });
+      if (password && password.length < 8) {
+        return res.json({ error: "Password is required and must be at least 8 characters long" });
       }
   
       // Hash the new password if provided

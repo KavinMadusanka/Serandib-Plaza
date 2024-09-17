@@ -70,7 +70,7 @@ const AddPromotion = () => {
 
             if (response.data.success) {
                 message.success('Promotion created successfully');
-                navigate('/');
+                navigate('/allpromo');
             } else {
                 message.error(response.data.message);
             }
@@ -137,14 +137,17 @@ const AddPromotion = () => {
                                 value={startDate ? dayjs(startDate) : null}
                                 onChange={(date) => setStartDate(date)}
                                 style={{ width: '100%' }}
+                                disabledDate={(current) => current && current < dayjs().startOf('day')}  // Disables past dates
                             />
                         </Form.Item>
+
 
                         <Form.Item label="End Date" name="endDate" rules={[{ required: true, message: 'Please select the end date!' }]}>
                             <DatePicker
                                 value={endDate ? dayjs(endDate) : null}
                                 onChange={(date) => setEndDate(date)}
                                 style={{ width: '100%' }}
+                                disabledDate={(current) => current && current < dayjs().startOf('day')}  // Disables past dates
                             />
                         </Form.Item>
 

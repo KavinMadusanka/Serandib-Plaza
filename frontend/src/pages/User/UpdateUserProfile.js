@@ -87,12 +87,17 @@ const UpdateUserProfile = () => {
     handleDeleteProfile();
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Formats the date as YYYY-MM-DD
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: 'white' }}>
       <Header1 />
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <UserMenu />
-        <Box sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ flexGrow: 1, p: 2 }}>
           <Container maxWidth="sm">
             <Box
               sx={{
@@ -141,7 +146,7 @@ const UpdateUserProfile = () => {
                     />
                     <TextField
                       label="Date Of Birth"
-                      value={dob}
+                      value={dob ? formatDate(dob) : ''}
                       onChange={(e) => setDOB(e.target.value)}
                       fullWidth
                       variant="outlined"

@@ -56,3 +56,40 @@ code {
   flex-direction: column;
 } */
 
+/* ================Product====================== */
+.product-link{
+  text-decoration: none !important;
+  color: black !important;
+}
+
+.product-card {
+  width: 18rem; /* Fixed width for all cards */
+  height: 100%; /* Let the height grow based on content, but keep them consistent */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribute space between content */
+  margin-bottom: 20px;
+}
+
+.product-img {
+  height: 200px; /* Fixed height for images */
+  object-fit: cover; /* Crop the image to fit the space */
+}
+
+.card-body {
+  flex-grow: 1; /* Ensure the card body grows to fill available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Keep the content aligned to the bottom */
+}
+
+.card-title, .card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* If the title or description is too long, truncate it */
+}
+
+.d-flex {
+  gap: 20px; /* Adds space between the cards horizontally */
+  justify-content: center; /* Centers the content */
+}

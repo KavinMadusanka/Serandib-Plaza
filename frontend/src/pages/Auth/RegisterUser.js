@@ -46,6 +46,29 @@ const RegisterUser = () => {
         }
     };
 
+    const [error, setError] = useState('');
+    const [isValid, setIsValid] = useState(false);
+
+    // Password validation function
+    const validatePassword = (value) => {
+        const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;
+        if (regex.test(value)) {
+            setError('');
+            setIsValid(true);
+        } else {
+            setError('Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.');
+            setIsValid(false);
+        }
+    };
+
+    // Handle password input change
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+        validatePassword(value);
+    };
+
+
     return (
         <Layout title="User Registration">
             <Container maxWidth="sm">
@@ -140,9 +163,11 @@ const RegisterUser = () => {
                                     label="Password"
                                     type="password"
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                     required
                                     fullWidth
+                                    error={!!error}
+                                    helperText={error}
                                 />
 
                                 {/* Shopping Preferences - Checkboxes */}
@@ -188,10 +213,12 @@ const RegisterUser = () => {
                                     </FormGroup>
                                 </FormControl>
 
+                                
                                 <Button
                                     type="submit"
                                     variant="contained"
                                     color="primary"
+                                    disabled={!isValid}  // Disable submit button until the password is valid
                                     sx={{ marginTop: 2 }}
                                 >
                                     Submit

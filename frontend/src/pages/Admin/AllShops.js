@@ -34,26 +34,26 @@ const AllShops = () => {
         <Box sx={{ flexGrow: 1, p: 3 }}>
           <Container maxWidth="lg">
             <Typography
-              variant="h4"
+              variant="h5"
               component="h1"
               sx={{ textAlign: 'center', marginBottom: 3 }}
             >
-              All Shops
+              All Registered Shops
             </Typography>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
-                  <TableRow sx={{ backgroundColor: '#ADD8E6' }}>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Shop Name</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Owner Full Name</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Owner NIC</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Email</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Business Type</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Category</TableCell>
+                  <TableRow sx={{ backgroundColor: '#1976d2' }}>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Shop Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Owner Full Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Owner NIC</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Email</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Business Type</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Category</TableCell>
                    
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Operating Hours</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Location</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' ,border: '1px solid #ddd'}}>Contact</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Operating Hours</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Location</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Contact</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

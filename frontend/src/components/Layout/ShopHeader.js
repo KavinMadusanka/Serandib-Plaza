@@ -30,11 +30,11 @@ const ShopHeader = () => {
     };
 
     const goToPromotions = () => {
-        navigate('/promotions'); // Adjust the route as needed
+        navigate('/allpromo'); // Adjust the route as needed
     };
 
     const goToInventory = () => {
-        navigate('/inventory'); // Adjust the route as needed
+        navigate('/products'); // Adjust the route as needed
     };
 
     const goToAccount = () => {
