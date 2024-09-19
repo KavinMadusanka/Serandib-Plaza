@@ -12,6 +12,7 @@ const LostFound = () => {
 	const [name,setName] = useState("");
   const [filteredItem, setFilteredItem] = useState([]);
   const [selectedItemRole, setSelectedItemRole] = useState("");
+  const [loading, setLoading] = useState(true);
   // const [searchTerm, setSearchTerm] = useState("");
     const [pNumber,setPNumber] = useState("");
     const [Description,setDescription] = useState("");
@@ -90,7 +91,9 @@ const LostFound = () => {
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch Items");
-    }
+    }finally {
+      setLoading(false);
+  }
   };
   
     // Lifecycle method
@@ -285,69 +288,75 @@ useEffect(() => {
             </div> */}
           </div>
             <div>
-              <div className="d-flex flex-wrap justify-content-around">
-                {filteredItem.map((p) => (
-                  // <Link
-                  //   to={`/dashboard/admin/product/${p.slug}`}
-                  //   className="product-link"
-                  //   key={p._id}
-                  // >
-                    <div className='OneItem'>
-                    {/* <div className={`card m-2 ${p.quantity === 0 ? 'out-of-stock' : ''}`} style={{ width: "18rem" }}> */}
-                      {/* {p.quantity === 0 && (
-                        <div className="out-of-stock-label">Out of Stock</div>
-                      )} */}
-                      <img
-                        src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
-                        className="card-img-top"
-                        height={"200px"}
-                        width={"200px"}
-                        alt={p.name}
-                      />
-                      <div className="card-body">
-                        <h5 className="card-title">Name : {p.name}</h5>
-                        <p className="card-text">Contact Number : {p.pNumber}</p>
-                        <p className="card-text">Description : {p.Description}</p><br/>
-                        <div className={`card m-2 ${p.email === email ? 'Delete' : ''}`} style={{ width: "18rem" }}>
-                          {p.email === email && p.role === "lost" &&(
-                            <button className='btn btn-danger'
-                            onClick={() => {
-                              handleDeleteItem(p._id);
-                              }}>
-                            {/* <button className='btnsub'
-                            onClick={()} => {
-                              handleDeleteCard(p._id);
-                            }}> */}
-                            Items Found
-                            </button>
-                          )}
-                          {p.email === email && p.role === "found" &&(
-                            <button className='btn btn-danger'
-                            onClick={() => {
-                              handleDeleteItem(p._id);
-                              }}>
-                            Remove Item
-                            </button>
-                          )}
-                          {p.email !== email && p.role === "lost" &&(
-                            <button className='btnsubb'>
-                            items Found and inform owner
-                            </button>
-                          )}
-                          {p.email !== email && p.role === "found" &&(
-                            <button className='btnsubb'>
-                            This items belongs to me
-                            </button>
-                          )}
-                          
+            {loading ? (
+                  <div className="pnf">
+                    <h3 className="pnf-heading">Loading Items...</h3>
+                  </div>
+                ) : (
+                  <div className="d-flex flex-wrap justify-content-around">
+                    {filteredItem.map((p) => (
+                      // <Link
+                      //   to={`/dashboard/admin/product/${p.slug}`}
+                      //   className="product-link"
+                      //   key={p._id}
+                      // >
+                        <div className='OneItem'>
+                        {/* <div className={`card m-2 ${p.quantity === 0 ? 'out-of-stock' : ''}`} style={{ width: "18rem" }}> */}
+                          {/* {p.quantity === 0 && (
+                            <div className="out-of-stock-label">Out of Stock</div>
+                          )} */}
+                          <img
+                            src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
+                            className="card-img-top"
+                            height={"200px"}
+                            width={"200px"}
+                            alt={p.name}
+                          />
+                          <div className="card-body">
+                            <h5 className="card-title">Name : {p.name}</h5>
+                            <p className="card-text">Contact Number : {p.pNumber}</p>
+                            <p className="card-text">Description : {p.Description}</p><br/>
+                            <div className={`card m-2 ${p.email === email ? 'Delete' : ''}`} style={{ width: "18rem" }}>
+                              {p.email === email && p.role === "lost" &&(
+                                <button className='btn btn-danger'
+                                onClick={() => {
+                                  handleDeleteItem(p._id);
+                                  }}>
+                                {/* <button className='btnsub'
+                                onClick={()} => {
+                                  handleDeleteCard(p._id);
+                                }}> */}
+                                Items Found
+                                </button>
+                              )}
+                              {p.email === email && p.role === "found" &&(
+                                <button className='btn btn-danger'
+                                onClick={() => {
+                                  handleDeleteItem(p._id);
+                                  }}>
+                                Remove Item
+                                </button>
+                              )}
+                              {p.email !== email && p.role === "lost" &&(
+                                <button className='btnsubb'>
+                                items Found and inform owner
+                                </button>
+                              )}
+                              {p.email !== email && p.role === "found" &&(
+                                <button className='btnsubb'>
+                                This items belongs to me
+                                </button>
+                              )}
+                              
+                            </div>
+                            
+                            <div className={'card m-2'} style={{ width: "18rem" }}></div>
+                          </div>
                         </div>
-                        
-                        <div className={'card m-2'} style={{ width: "18rem" }}></div>
-                      </div>
-                    </div>
-                  // </Link>
-                ))}
-              </div>
+                      // </Link>
+                    ))}
+                  </div>
+                )}
             </div>
           </div>
         </div>
