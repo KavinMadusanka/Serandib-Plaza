@@ -13,7 +13,6 @@ const LostFound = () => {
   const [filteredItem, setFilteredItem] = useState([]);
   const [selectedItemRole, setSelectedItemRole] = useState("");
   const [loading, setLoading] = useState(true);
-  // const [searchTerm, setSearchTerm] = useState("");
     const [pNumber,setPNumber] = useState("");
     const [Description,setDescription] = useState("");
     const [role,setRole] = useState("");
@@ -121,7 +120,6 @@ const handleDeleteItem = async (CId) => {
 // filter
 useEffect(() => {
   const filtered = Items.filter((item) =>
-    // item.address.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedItemRole === "" || item.role === selectedItemRole || item.email === selectedItemRole) // Filtering by role
   );
   setFilteredItem(filtered);
@@ -211,17 +209,7 @@ useEffect(() => {
                             />
                             </td></tr>
                             <tr><br/></tr>
-                            {/* <tr><td className='texting'>Email :</td></tr>
-                            <tr><td>
-                            <input 
-                            type="text"
-                            value={email} 
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="email@gmail.com"
-                            // onKeyPress={handleKeyPress}
-                            required
-                            />   
-                              </td></tr> */}
+
                             <tr><td className='texting'>
                             <input
                             className='RadioInput'
@@ -251,7 +239,6 @@ useEffect(() => {
                             value={Description} 
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder=" write a description"
-                            // onKeyPress={handleKeyPress}
                             required
                             />
                               </td></tr>
@@ -269,10 +256,8 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* <div> */}
           <div className="col p-0 m-0">
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
-            {/* <div className='KApayment'> */}
               <h2>Lost & Found Items</h2>
               <div>
                 <select value={selectedItemRole} onChange={handleRoleChange} className='selectitem'>
@@ -282,10 +267,6 @@ useEffect(() => {
                   <option value={email}>My Items</option>
                 </select>
               </div>
-            {/* </div> */}
-            {/* <div className='exportReBtn'>
-                <button onClick={generatePDF}>Export Report</button>
-            </div> */}
           </div>
             <div>
             {loading ? (
@@ -301,10 +282,6 @@ useEffect(() => {
                       //   key={p._id}
                       // >
                         <div className='OneItem'>
-                        {/* <div className={`card m-2 ${p.quantity === 0 ? 'out-of-stock' : ''}`} style={{ width: "18rem" }}> */}
-                          {/* {p.quantity === 0 && (
-                            <div className="out-of-stock-label">Out of Stock</div>
-                          )} */}
                           <img
                             src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
                             className="card-img-top"
@@ -322,10 +299,6 @@ useEffect(() => {
                                 onClick={() => {
                                   handleDeleteItem(p._id);
                                   }}>
-                                {/* <button className='btnsub'
-                                onClick={()} => {
-                                  handleDeleteCard(p._id);
-                                }}> */}
                                 Items Found
                                 </button>
                               )}
