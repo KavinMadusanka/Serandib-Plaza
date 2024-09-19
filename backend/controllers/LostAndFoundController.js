@@ -72,11 +72,7 @@ export const AddItemController = async(req,res) => {
 // // Get all Items controller
 export const getLostItemController = async(req,res) =>{
     try {
-        const Items = await LostModel
-        .find({})
-        .select("-photo")
-        .limit(12)
-        .sort({createdAt: -1});
+        const Items = await LostModel.find({}).select("-image").limit(12).sort({createdAt: -1});
         res.status(200).send({
             success:true,
             counTotal: Items.length,
