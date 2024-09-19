@@ -25,7 +25,7 @@ const LostModel = new mongoose.Schema(
             data: Buffer,
             contentType: String
         }
-    }
+    },{timestamps:true}
 )
 
 export default mongoose.model("LostAndFounds",LostModel);

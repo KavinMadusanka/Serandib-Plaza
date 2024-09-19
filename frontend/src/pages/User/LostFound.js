@@ -119,7 +119,7 @@ const handleDeleteItem = async (CId) => {
 useEffect(() => {
   const filtered = Items.filter((item) =>
     // item.address.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedItemRole === "" || item.role === selectedItemRole) // Filtering by role
+      (selectedItemRole === "" || item.role === selectedItemRole || item.email === selectedItemRole) // Filtering by role
   );
   setFilteredItem(filtered);
 }, [selectedItemRole, Items]);
@@ -242,12 +242,12 @@ useEffect(() => {
                               Description : 
                               </td></tr>
                             <tr><td className='texting' colSpan={2}>
-                            <input 
-                            className='textInput'
-                            type="text"
+                            <textarea
+                            className='form-control'
+                            type= "text"
                             value={Description} 
                             onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Description"
+                            placeholder=" write a description"
                             // onKeyPress={handleKeyPress}
                             required
                             />
@@ -276,6 +276,7 @@ useEffect(() => {
                   <option value="">All Items</option>
                   <option value="lost">Lost</option>
                   <option value="found">Found</option>
+                  <option value={email}>My Items</option>
                 </select>
               </div>
             {/* </div> */}
