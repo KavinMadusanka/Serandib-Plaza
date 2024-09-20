@@ -282,11 +282,8 @@ useEffect(() => {
                     <h3 className="pnf-heading">Loading Items...</h3>
                   </div>
                 ) : (
-                  // <div 
-                  // className="d-flex flex-wrap justify-content-around"
-                  // >
                   <List
-                        grid={{ gutter: 1, column: 3 }} // Display 3 promotions in one row
+                        grid={{ gutter: 1, column: 3 }} // Display 3 Items in one row
                         dataSource={filteredItem}
                         renderItem={p => {
                             return (
@@ -301,27 +298,22 @@ useEffect(() => {
                                             height: '400px' ,
                                             margin: '0 auto'
                                         }}
-                                        onClick={() => handleItemClick(p)} // Handle click event
+                                        onClick={() => handleItemClick(p)} // Handle click
                                     >
                                       <div >
                                             <div className='OneItem'>
                                               <div className='Imagebox' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                                {/* <div className='OneItemImage'> */}
                                                   <img
                                                     src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
                                                     // className="card-img-top"
-                                                    // height={"200px"}
-                                                    // width={"200px"}
                                                     alt={p.name}
                                                     style={{
                                                       width: 'auto',
                                                       height: '100%',
                                                       objectFit: 'cover',
                                                       borderRadius: '8px',
-                                                      // border: '1px solid #ddd'
                                                   }}
                                                     />
-                                                {/* </div> */}
                                               </div>
                                               
                                               <div className="card-body">
@@ -365,7 +357,6 @@ useEffect(() => {
                                   );
                                 }}
                             />
-                  // </div>
                 )}
             </div>
           </div>
