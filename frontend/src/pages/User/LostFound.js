@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/auth';
 import toast from 'react-hot-toast';
 import {} from '../../components/style/lostfound.css'
-import { DescriptionIcon } from '@mui/icons-material/Description';
+import { Card, List, Typography, Modal, Tag } from 'antd';
 
 const LostFound = () => {
   const [Items, setItems] = useState([]);
@@ -274,7 +274,9 @@ useEffect(() => {
                     <h3 className="pnf-heading">Loading Items...</h3>
                   </div>
                 ) : (
-                  <div className="d-flex flex-wrap justify-content-around">
+                  <div 
+                  className="d-flex flex-wrap justify-content-around"
+                  >
                     {filteredItem.map((p) => (
                       // <Link
                       //   to={`/dashboard/admin/product/${p.slug}`}
@@ -282,15 +284,20 @@ useEffect(() => {
                       //   key={p._id}
                       // >
                         <div className='OneItem'>
-                          <img
-                            src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
-                            className="card-img-top"
-                            height={"200px"}
-                            width={"200px"}
-                            alt={p.name}
-                          />
+                          <div className='Imagebox'>
+                            <div className='OneItemImage'>
+                              <img
+                                src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
+                                // className="card-img-top"
+                                // height={"200px"}
+                                // width={"200px"}
+                                alt={p.name}
+                                />
+                            </div>
+                          </div>
+                          
                           <div className="card-body">
-                            <h5 className="card-title">Name : {p.name}</h5>
+                            <p className="card-title">Name : {p.name}</p>
                             <p className="card-text">Contact Number : {p.pNumber}</p>
                             <p className="card-text">Description : {p.Description}</p><br/>
                             <div className={`card m-2 ${p.email === email ? 'Delete' : ''}`} style={{ width: "18rem" }}>

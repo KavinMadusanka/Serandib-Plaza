@@ -81,6 +81,13 @@
 .OneItem{
     width: 300px;
 }
+.Imagebox{
+    /* height: 200px; */
+}
+.OneItemImage{
+    /* height: 200px; */
+    width: 200px;
+}
 
 .selectitem{
     width: 150px;
