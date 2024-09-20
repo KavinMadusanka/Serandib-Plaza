@@ -125,6 +125,12 @@ useEffect(() => {
   setFilteredItem(filtered);
 }, [selectedItemRole, Items]);
 
+    // Handle item click
+    const handleItemClick = (p) => {
+      // setSelectedPromotion(promotion);
+      // setIsModalVisible(true);
+  };
+
   return (
     <Layout title={"Lost & Found"}>
         <div className ="row flex-nowrap">
@@ -258,7 +264,9 @@ useEffect(() => {
 
           <div className="col p-0 m-0">
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
+            <div style={{ marginLeft: '20%'}}>
               <h2>Lost & Found Items</h2>
+            </div>
               <div>
                 <select value={selectedItemRole} onChange={handleRoleChange} className='selectitem'>
                   <option value="">All Items</option>
@@ -274,68 +282,90 @@ useEffect(() => {
                     <h3 className="pnf-heading">Loading Items...</h3>
                   </div>
                 ) : (
-                  <div 
-                  className="d-flex flex-wrap justify-content-around"
-                  >
-                    {filteredItem.map((p) => (
-                      // <Link
-                      //   to={`/dashboard/admin/product/${p.slug}`}
-                      //   className="product-link"
-                      //   key={p._id}
-                      // >
-                        <div className='OneItem'>
-                          <div className='Imagebox'>
-                            <div className='OneItemImage'>
-                              <img
-                                src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
-                                // className="card-img-top"
-                                // height={"200px"}
-                                // width={"200px"}
-                                alt={p.name}
-                                />
-                            </div>
-                          </div>
-                          
-                          <div className="card-body">
-                            <p className="card-title">Name : {p.name}</p>
-                            <p className="card-text">Contact Number : {p.pNumber}</p>
-                            <p className="card-text">Description : {p.Description}</p><br/>
-                            <div className={`card m-2 ${p.email === email ? 'Delete' : ''}`} style={{ width: "18rem" }}>
-                              {p.email === email && p.role === "lost" &&(
-                                <button className='btn btn-danger'
-                                onClick={() => {
-                                  handleDeleteItem(p._id);
-                                  }}>
-                                Items Found
-                                </button>
-                              )}
-                              {p.email === email && p.role === "found" &&(
-                                <button className='btn btn-danger'
-                                onClick={() => {
-                                  handleDeleteItem(p._id);
-                                  }}>
-                                Remove Item
-                                </button>
-                              )}
-                              {p.email !== email && p.role === "lost" &&(
-                                <button className='btnsubb'>
-                                items Found and inform owner
-                                </button>
-                              )}
-                              {p.email !== email && p.role === "found" &&(
-                                <button className='btnsubb'>
-                                This items belongs to me
-                                </button>
-                              )}
-                              
-                            </div>
-                            
-                            <div className={'card m-2'} style={{ width: "18rem" }}></div>
-                          </div>
-                        </div>
-                      // </Link>
-                    ))}
-                  </div>
+                  // <div 
+                  // className="d-flex flex-wrap justify-content-around"
+                  // >
+                  <List
+                        grid={{ gutter: 1, column: 3 }} // Display 3 promotions in one row
+                        dataSource={filteredItem}
+                        renderItem={p => {
+                            return (
+                              <List.Item>
+                                    <Card
+                                        hoverable
+                                        style={{
+                                            borderRadius: '8px',
+                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                            marginBottom: '30px',
+                                            width: '80%',
+                                            height: '400px' ,
+                                            margin: '0 auto'
+                                        }}
+                                        onClick={() => handleItemClick(p)} // Handle click event
+                                    >
+                                      <div >
+                                            <div className='OneItem'>
+                                              <div className='Imagebox' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                {/* <div className='OneItemImage'> */}
+                                                  <img
+                                                    src={`/api/v1/LostAndFound/getLostItem-photo/${p._id}`}
+                                                    // className="card-img-top"
+                                                    // height={"200px"}
+                                                    // width={"200px"}
+                                                    alt={p.name}
+                                                    style={{
+                                                      width: 'auto',
+                                                      height: '100%',
+                                                      objectFit: 'cover',
+                                                      borderRadius: '8px',
+                                                      // border: '1px solid #ddd'
+                                                  }}
+                                                    />
+                                                {/* </div> */}
+                                              </div>
+                                              
+                                              <div className="card-body">
+                                                <p className="card-title">Name : {p.name}</p>
+                                                <p className="card-text">Contact Number : {p.pNumber}</p>
+                                                <p className="card-text">Description : {p.Description}</p><br/>
+                                                <div className={`card ${p.email === email ? 'Delete' : ''}`} style={{ width: "100%" }}>
+                                                  {p.email === email && p.role === "lost" &&(
+                                                    <button className='btn btn-danger'
+                                                    onClick={() => {
+                                                      handleDeleteItem(p._id);
+                                                      }}>
+                                                    Items Found
+                                                    </button>
+                                                  )}
+                                                  {p.email === email && p.role === "found" &&(
+                                                    <button className='btn btn-danger'
+                                                    onClick={() => {
+                                                      handleDeleteItem(p._id);
+                                                      }}>
+                                                    Remove Item
+                                                    </button>
+                                                  )}
+                                                  {p.email !== email && p.role === "lost" &&(
+                                                    <button className='btnsubb'>
+                                                    items Found and inform owner
+                                                    </button>
+                                                  )}
+                                                  {p.email !== email && p.role === "found" &&(
+                                                    <button className='btnsubb'>
+                                                    This items belongs to me
+                                                    </button>
+                                                  )}
+                                                  
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                      </Card>
+                                    </List.Item>
+                                  );
+                                }}
+                            />
+                  // </div>
                 )}
             </div>
           </div>
