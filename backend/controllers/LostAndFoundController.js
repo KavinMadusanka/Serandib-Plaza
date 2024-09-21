@@ -128,3 +128,23 @@ export const deleteLostItemController = async (req, res) =>{
         });
     }
 };
+
+//get single promotion
+export const getLostSingleItemController = async(req,res) => {
+    try{
+        const SingleItem = await LostModel.findById(req.params.Iid).select("-image")
+        res.status(200).send({
+            success:true,
+            message:"Single Item fetched",
+            SingleItem
+        })
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error while getting single Item',
+            error
+        })
+    }
+}

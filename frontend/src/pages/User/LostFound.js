@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import {} from '../../components/style/lostfound.css'
 import { Card, List, Typography, Modal, Tag } from 'antd';
 
+const { Title, Paragraph, Text } = Typography;
+
 const LostFound = () => {
   const [Items, setItems] = useState([]);
 	const [name,setName] = useState("");
@@ -20,6 +22,8 @@ const LostFound = () => {
     const [image,setImage] = useState("");
     const [auth,setAuth] = useAuth();
     const navigate = useNavigate();
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
 
     useEffect(() => {
@@ -111,6 +115,7 @@ const handleDeleteItem = async (CId) => {
       } else {
         toast.error(data.message);
       }
+      handleCloseModal();
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -127,9 +132,15 @@ useEffect(() => {
 
     // Handle item click
     const handleItemClick = (p) => {
-      // setSelectedPromotion(promotion);
-      // setIsModalVisible(true);
+      setSelectedItem(p);
+      setIsModalVisible(true);
   };
+
+  // Close modal
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    setSelectedItem(null);
+};
 
   return (
     <Layout title={"Lost & Found"}>
@@ -358,6 +369,68 @@ useEffect(() => {
                                 }}
                             />
                 )}
+                
+                {selectedItem && (
+                  <div>
+                    <Modal
+                        visible={isModalVisible}
+                        onCancel={handleCloseModal}
+                        footer={null}
+                        width={600} // Optional: Adjust modal width
+                        bodyStyle={{ padding: '10px' }}
+                    >
+                      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <img
+                            src={`/api/v1/LostAndFound/getLostItem-photo/${selectedItem._id}`}
+                            alt={selectedItem.name}
+                            style={{ width: 'auto', height: '20rem', objectFit: 'cover', borderRadius: '8px', }}
+                            />
+                      </div>
+                        <Paragraph>
+                            <strong>Name:</strong> {selectedItem.name}
+                        </Paragraph>
+                        <Paragraph>
+                            <strong>Contact No:</strong> {selectedItem.pNumber}
+                        </Paragraph>
+                        <Paragraph>
+                            <strong>Description:</strong> {selectedItem.Description}
+                        </Paragraph>
+                        {/* <Tag color={selectedPromotion.isActive ? 'green' : 'red'} style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                            {selectedPromotion.isActive ? 'Active' : 'Inactive'}
+                        </Tag> */}
+                        <div className={`card ${selectedItem.email === email ? 'Delete' : ''}`} style={{ width: "100%" }}>
+                                                  {selectedItem.email === email && selectedItem.role === "lost" &&(
+                                                    <button className='btn btn-danger'
+                                                    onClick={() => {
+                                                      handleDeleteItem(selectedItem._id);
+                                                      }}>
+                                                    Items Found
+                                                    </button>
+                                                  )}
+                                                  {selectedItem.email === email && selectedItem.role === "found" &&(
+                                                    <button className='btn btn-danger'
+                                                    onClick={() => {
+                                                      handleDeleteItem(selectedItem._id);
+                                                      }}>
+                                                    Remove Item
+                                                    </button>
+                                                  )}
+                                                  {selectedItem.email !== email && selectedItem.role === "lost" &&(
+                                                    <button className='btnsubb'>
+                                                    items Found and inform owner
+                                                    </button>
+                                                  )}
+                                                  {selectedItem.email !== email && selectedItem.role === "found" &&(
+                                                    <button className='btnsubb'>
+                                                    This items belongs to me
+                                                    </button>
+                                                  )}
+                                                  
+                        </div>
+                    </Modal>
+                  </div>
+                )}
+
             </div>
           </div>
         </div>
