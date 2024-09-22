@@ -120,7 +120,7 @@ const AdminMenu = () => {
           <ListItemText primary="Events" />
         </ListItem>
 
-        {/* Promotions */}
+        {/* Promotions
         <ListItem 
           button 
           selected={location.pathname === '/p'} 
@@ -131,7 +131,7 @@ const AdminMenu = () => {
             <LocalOfferIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="Promotions" />
-        </ListItem>
+        </ListItem> */}
 
         {/* Logout */}
         {/* <ListItem 
