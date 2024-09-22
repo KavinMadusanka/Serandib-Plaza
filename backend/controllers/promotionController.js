@@ -64,25 +64,31 @@ export const createPromotionController = async(req,res) => {
     }
 }
 
-//get all promotions
-export const getAllPromotionsController = async(req,res) => {
-    try{
-        const promotions = await promotionModel.find({}).populate('shop').select("-promotionImage").limit(20).sort({createdAt:-1})
+export const getAllPromotionsController = async(req, res) => {
+    try {
+        const promotions = await promotionModel
+            .find({})
+            .populate('shop', 'shopname')  // populate only the shopname field
+            .select("-promotionImage")
+            .limit(20)
+            .sort({ createdAt: -1 });
+        
         res.status(200).send({
-            success:true,
-            counTotal: promotions.length,
-            message:"All products",
+            success: true,
+            countTotal: promotions.length,
+            message: "All promotions",
             promotions
-        })
-    }catch(error){
-        console.log(error)
+        });
+    } catch (error) {
+        console.log(error);
         res.status(500).send({
-            success:false,
-            message:"Error in getting all products",
-            error:error.message
-        })
+            success: false,
+            message: "Error in getting promotions",
+            error: error.message
+        });
     }
-}
+};
+
 
 
 //get single promotion

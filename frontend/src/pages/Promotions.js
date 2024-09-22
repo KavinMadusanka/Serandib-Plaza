@@ -126,6 +126,8 @@ const AllPromotions = ({ shopId }) => {
 
                                         <div style={{ padding: '10px', textAlign: 'center' }}>
                                             <Title level={4} style={{ marginBottom: '10px' }}>{promotion.promotionTitle}</Title>
+                                            {/* Display the shop name */}
+                                            <Paragraph><strong>{promotion.shop?.shopname || 'Unknown Shop'}</strong></Paragraph>
                                             <Paragraph
                                                 ellipsis={{ rows: 2 }}
                                                 style={{ color: 'rgba(0, 0, 0, 0.65)' }}
@@ -157,6 +159,8 @@ const AllPromotions = ({ shopId }) => {
                         />
 
                         <Paragraph>{selectedPromotion.promotionDescription}</Paragraph>
+                        {/* Display the shop name */}
+                        <Paragraph><strong>Shop:</strong> {selectedPromotion.shop?.shopname || 'Unknown Shop'}</Paragraph>
                         <Paragraph>
                             <strong>Discount:</strong> {selectedPromotion.discountValue} {selectedPromotion.discountType === 'percentage' ? '%' : '$'}
                         </Paragraph>
