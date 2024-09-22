@@ -1,7 +1,6 @@
 import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EventIcon from '@mui/icons-material/Event';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -93,19 +92,6 @@ const AdminMenu = () => {
             <PeopleIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="All Users" />
-        </ListItem>
-
-        {/* Category */}
-        <ListItem 
-          button 
-          selected={location.pathname === '/c'} 
-          onClick={() => handleListItemClick('/c')}
-          sx={location.pathname === '/c' ? { backgroundColor: '#1976d2' } : {}}
-        >
-          <ListItemIcon>
-            <CategoryIcon style={{ color: '#fff' }} />
-          </ListItemIcon>
-          <ListItemText primary="Category" />
         </ListItem>
         
         {/* Products */}
