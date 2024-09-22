@@ -5,7 +5,7 @@ import Layout from '../components/Layout/Layout';
 
 const { Title, Paragraph, Text } = Typography;
 
-const AllPromotions = ({ shopId }) => {
+const Promotions = ({ shopId }) => {
     const [promotions, setPromotions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedPromotion, setSelectedPromotion] = useState(null);
@@ -188,4 +188,4 @@ const AllPromotions = ({ shopId }) => {
     );
 };
 
-export default AllPromotions;
+export default Promotions;
