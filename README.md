@@ -2,7 +2,7 @@
 
 This branch contains the implementation of Login, Register, and Shop Management functionality for the shopping mall application. Users can register new accounts, log in, and manage their profiles based on their roles (Admin, Shop Owner, or Customer). Additionally, shop owners can register their shops and manage their shop profiles.
 
-##Features
+## Features
 
 - **User Registration**: Users can sign up for the application using their email and password.
 - **Login**: Users can log in to access their account and respective dashboards.
