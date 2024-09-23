@@ -17,3 +17,8 @@ Serendib Plaza is a fully integrated shopping mall application designed to enhan
 - **Promotions Management**: Schedule and manage store-specific promotions for customers.
 - **Customer Engagement**: Push notifications to keep customers informed about promotions and updates.
   
+Technologies Used
+Frontend: React.js, Material-UI, HTML5, CSS3, Bootstrap
+Backend: Node.js, Express.js
+Database: MongoDB
+Authentication: JWT (JSON Web Token)
