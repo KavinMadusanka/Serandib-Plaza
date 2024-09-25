@@ -106,6 +106,13 @@ const DisplayProductpage = () => {
                         ))}
                         </Radio.Group>
                 </div>
+                <div className="d-flex flex-column">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => window.location.reload()}>
+                        RESET FILTERS
+                      </button>
+                </div>
             </div>
 
                 <div className="col-md-9">
