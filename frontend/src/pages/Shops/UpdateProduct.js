@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Select, message } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../context/auth';
 
 const {Option} = Select
 
@@ -21,12 +22,14 @@ const UpdateProduct = () => {
     const [shipping,setShipping] = useState("")
     const [photo,setPhoto] = useState("")
     const [id,setId] = useState("")
+    const [slug,setSlug] = useState("")
+    const [auth,setAuth] = useAuth();
 
 
     // get single product
     const getSingleProduct = async () => {
         try {
-            const {data} = await axios.get(`/api/v1/product/get-product/${params.slug}`)
+            const {data} = await axios.get(`/api/v1/product/get-single-product/${params.slug}`)
             setName(data.product.name);
             setId(data.product._id);
             setDescription(data.product.description);
@@ -156,7 +159,7 @@ const UpdateProduct = () => {
                                     className='img img-responsive'
                                     />
                                 </div>
-                            ) : (
+                            ) : id ? (
                                 <div className="text-center">
                                     <img src={`/api/v1/product/product-photo/${id}`} 
                                     alt='product-photo' 
@@ -164,7 +167,10 @@ const UpdateProduct = () => {
                                     className='img img-responsive'
                                     />
                                 </div>
-                            )}
+                            ) : (
+                                <div className="text-center">
+                                    <p>No product photo available</p> 
+                                </div>)}
                         </div>
                         <div className='mb-3'>
                             <input type='text' 
