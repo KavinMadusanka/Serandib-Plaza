@@ -24,6 +24,7 @@ const LostFound = () => {
     const navigate = useNavigate();
     const [selectedItem, setSelectedItem] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [message, setMessage] = useState('');
 
 
     useEffect(() => {
@@ -349,12 +350,20 @@ useEffect(() => {
                                                     </button>
                                                   )}
                                                   {p.email !== email && p.role === "lost" &&(
-                                                    <button className='btnsubb'>
+                                                    <button className='btnsubb' 
+                                                    onClick={() => {
+                                                      setMessage('Owner has been informed about the found item!');
+                                                      // Optionally, trigger your logic to send a message to the owner here
+                                                    }}>
                                                     items Found and inform owner
                                                     </button>
                                                   )}
                                                   {p.email !== email && p.role === "found" &&(
-                                                    <button className='btnsubb'>
+                                                    <button className='btnsubb'
+                                                    onClick={() => {
+                                                      setMessage('Owner has been informed about the found item!');
+                                                      // Optionally, trigger your logic to send a message to the owner here
+                                                    }}>
                                                     This items belongs to me
                                                     </button>
                                                   )}
@@ -416,15 +425,24 @@ useEffect(() => {
                                                     </button>
                                                   )}
                                                   {selectedItem.email !== email && selectedItem.role === "lost" &&(
-                                                    <button className='btnsubb'>
+                                                    <button className='btnsubb'
+                                                    onClick={() => {
+                                                      setMessage('Owner has been informed about the found item!');
+                                                      // Optionally, trigger your logic to send a message to the owner here
+                                                    }}>
                                                     items Found and inform owner
                                                     </button>
                                                   )}
                                                   {selectedItem.email !== email && selectedItem.role === "found" &&(
-                                                    <button className='btnsubb'>
+                                                    <button className='btnsubb'
+                                                    onClick={() => {
+                                                      setMessage('Owner has been informed about the found item!');
+                                                      // Optionally, trigger your logic to send a message to the owner here
+                                                    }}>
                                                     This items belongs to me
                                                     </button>
                                                   )}
+                                            {/* {message && <p style={{ color: 'green', marginTop: '10px' }}>{message}</p>} */}
                                                   
                         </div>
                     </Modal>
