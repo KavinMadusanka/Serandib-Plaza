@@ -24,6 +24,7 @@ const UpdateProduct = () => {
 
 
     // get single product
+<<<<<<< Updated upstream
     const getSingleProduct = async () => {
         try {
             const {data} = await axios.get(`/api/v1/product/get-product/${params.slug}`)
@@ -35,10 +36,34 @@ const UpdateProduct = () => {
             setCategory(data.product.category._id);
         } catch (error) {
             console.log(error)
+=======
+const getSingleProduct = async () => {
+    try {
+        const { data } = await axios.get(`/api/v1/product/get-single-product/${params.slug}`);
+        console.log("Fetched product data:", data); // Add this to inspect the response
+
+        if (data?.product?.length > 0) {
+            const fetchedProduct = data.product[0]; // Access the first item in the array
+            setName(fetchedProduct.name);
+            setId(fetchedProduct._id);
+            setDescription(fetchedProduct.description);
+            setPrice(fetchedProduct.price);
+            setQuantity(fetchedProduct.quantity);
+            
+            // Ensure category exists before accessing _id
+            setCategory(fetchedProduct.category?._id || "");
+        } else {
+            toast.error("Product not found");
+>>>>>>> Stashed changes
         }
-    }   
+    } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong while fetching the product");
+    }
+}; 
 
     useEffect(() => {
+        console.log("Slug:", params.slug);
         getSingleProduct()
         //eslint-disable-next-line
     }, [])
