@@ -10,7 +10,7 @@ router.post('/create-product', formidable(), createProductController);
 // update product
 router.put('/update-product/:pid', formidable(), updateProductController);
 // get product
-router.get('/get-product', getProductController)
+router.get('/get-product/:email', getProductController);
 // single product
 router.get('/get-product/:slug', getSingleProductController)
 // get photo
