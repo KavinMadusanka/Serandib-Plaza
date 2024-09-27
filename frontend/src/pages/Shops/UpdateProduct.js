@@ -24,22 +24,6 @@ const UpdateProduct = () => {
 
 
     // get single product
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    const getSingleProduct = async () => {
-        try {
-            const {data} = await axios.get(`/api/v1/product/get-product/${params.slug}`)
-            setName(data.product.name);
-            setId(data.product._id);
-            setDescription(data.product.description);
-            setPrice(data.product.price);
-            setQuantity(data.product.quantity);
-            setCategory(data.product.category._id);
-        } catch (error) {
-            console.log(error)
-=======
-=======
->>>>>>> Stashed changes
 const getSingleProduct = async () => {
     try {
         const { data } = await axios.get(`/api/v1/product/get-single-product/${params.slug}`);
