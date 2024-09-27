@@ -25,6 +25,7 @@ const UpdateProduct = () => {
 
     // get single product
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     const getSingleProduct = async () => {
         try {
             const {data} = await axios.get(`/api/v1/product/get-product/${params.slug}`)
@@ -37,6 +38,8 @@ const UpdateProduct = () => {
         } catch (error) {
             console.log(error)
 =======
+=======
+>>>>>>> Stashed changes
 const getSingleProduct = async () => {
     try {
         const { data } = await axios.get(`/api/v1/product/get-single-product/${params.slug}`);
@@ -54,7 +57,7 @@ const getSingleProduct = async () => {
             setCategory(fetchedProduct.category?._id || "");
         } else {
             toast.error("Product not found");
->>>>>>> Stashed changes
+
         }
     } catch (error) {
         console.log(error);
