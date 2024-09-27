@@ -70,6 +70,26 @@ export const getProductController = async (req,res) => {
     }
 };
 
+// get all products
+export const getAllProductController = async (req,res) => {
+    // const {email} = req.params;
+    try {
+        const products = await productModel.find({}).populate('category').select("-photo").limit(12).sort({createdAt:-1});
+        res.status(200).send({
+            success:true,
+            countTotal:products.length,
+            message:"All Products",
+            products,
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error in getting Products',
+            error: error.message
+        })
+    }
+};
 
 // get single product
 export const getSingleProductController = async (req,res) => {

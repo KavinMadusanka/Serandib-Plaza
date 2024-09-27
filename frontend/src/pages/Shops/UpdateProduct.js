@@ -129,7 +129,6 @@ const UpdateProduct = () => {
                         onChange={(value) => {
                             setCategory(value);
                         }}
-                            value={category}
                         >
                             {categories?.map((c) => (
                                 <Option key={c._id} value={c._id}>
