@@ -6,15 +6,18 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Layout, Select, message } from 'antd';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/auth';
 
 const Products = () => {
-    const [products,setProducts] = useState([])
+    const [products,setProducts] = useState([]);
+    const [email,setEmail] = useState("");
+    const [auth,setAuth] = useAuth();
 
 
     // get all products
     const getAllProducts = async () => {
         try {
-            const {data} = await axios.get('/api/v1/product/get-product')
+            const {data} = await axios.get(`/api/v1/product/get-product/${auth?.shopOwner?.email}`);
             setProducts(data.products);
         } catch (error) {
             console.log(error)
@@ -25,7 +28,14 @@ const Products = () => {
     // lifecycle method
     useEffect(() => {
         getAllProducts();
-    }, []);
+    }, [auth]);
+
+    useEffect(() =>{
+        if(auth && auth?.shopOwner){
+            setEmail(auth?.shopOwner?.email);
+            // console.log(email)
+        }
+    },[auth]);
 
 
     return (

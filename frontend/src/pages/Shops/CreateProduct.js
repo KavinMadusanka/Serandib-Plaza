@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Select, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/auth';
 
 const {Option} = Select
 
@@ -19,6 +20,8 @@ const CreateProduct = () => {
     const [quantity,setQuantity] = useState("")
     const [shipping,setShipping] = useState("")
     const [photo,setPhoto] = useState("")
+    const [email,setEmail] = useState("");
+    const [auth,setAuth] = useAuth();
 
 
     // get all categories
@@ -39,6 +42,12 @@ const CreateProduct = () => {
         getAllCategory();
     },[])
 
+    useEffect(() =>{
+        if(auth && auth.shopOwner){
+            setEmail(auth.shopOwner.email);
+            console.log(email)
+        }
+    },[auth]);
 
     // create product function
     const handleCreate = async (e) => {
@@ -51,6 +60,7 @@ const CreateProduct = () => {
             productData.append("quantity", quantity)
             productData.append("photo", photo)
             productData.append("category", category)
+            productData.append("email", email)
             const {data} = await axios.post('/api/v1/product/create-product', productData);
             if(data?.success){
                 toast.success('Product Created Successfully')
@@ -59,6 +69,7 @@ const CreateProduct = () => {
                 setPrice("");
                 setQuantity("");
                 setPhoto(null);
+                setEmail('');
                 setCategory(null);
                 navigate('/products')
             } else{

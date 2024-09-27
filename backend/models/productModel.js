@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const productSchema = new mongoose.Schema({
     name:{
@@ -32,6 +33,10 @@ const productSchema = new mongoose.Schema({
     },
     shipping:{
         type:Boolean,
+    },
+    email:{
+        type:String,
+        required:true
     }
 },{timestamps:true}
 );
