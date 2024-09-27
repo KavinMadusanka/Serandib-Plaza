@@ -51,7 +51,7 @@
 .btnsubb{
     padding-left: 10px;
     padding-right: 10px;
-    /* margin-bottom: 10px; */
+    height: 38px;
     padding-top: 3px;
     padding-bottom: 3px;
     border-radius: 5px;
@@ -79,7 +79,10 @@
 }
 
 .OneItem{
-    width: 300px;
+    /* width: 300px; */
+}
+.Imagebox{
+    height: 190px;
 }
 
 .selectitem{

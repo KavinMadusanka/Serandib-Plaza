@@ -19,4 +19,11 @@ router.get('/product-photo/:pid',productPhotoController)
 // delete product
 router.delete('/delete-product/:pid', deleteProductController)
 
+
+
+
+//piyusha filter product 
+router.post('/product-filters', productFiltersController)
+
+
 export default router

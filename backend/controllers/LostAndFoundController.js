@@ -6,7 +6,7 @@ import fs from 'fs'
 export const AddItemController = async(req,res) => {
     try {
         const {name,pNumber,Description,role,email} = req.body
-        // const image = req.files.file;
+        // const {image} = req.files.file;
         const {image} = req.files
 
         // Validation
@@ -39,12 +39,17 @@ export const AddItemController = async(req,res) => {
 
             // Create new LostItem document
         const LostItems = new LostModel({ name, pNumber, Description, role, email });
+        // const LostItems = new LostModel({ ...req.fields });
 
         // Handle image upload
         if (image && image.data && image.mimetype) {
             LostItems.image.data = image.data;
             LostItems.image.contentType = image.mimetype;
         }
+        // if(image){
+        //     LostItems.image.data = fs.readFileSync(image.path)
+        //     LostItems.image.contentType = image.type
+        // }
 
         // Save the document
         await LostItems.save();
@@ -67,11 +72,7 @@ export const AddItemController = async(req,res) => {
 // // Get all Items controller
 export const getLostItemController = async(req,res) =>{
     try {
-        const Items = await LostModel
-        .find({})
-        .select("-photo")
-        .limit(12)
-        .sort({createdAt: -1});
+        const Items = await LostModel.find({}).select("-image").limit(12).sort({createdAt: -1});
         res.status(200).send({
             success:true,
             counTotal: Items.length,
@@ -127,3 +128,23 @@ export const deleteLostItemController = async (req, res) =>{
         });
     }
 };
+
+//get single promotion
+export const getLostSingleItemController = async(req,res) => {
+    try{
+        const SingleItem = await LostModel.findById(req.params.Iid).select("-image")
+        res.status(200).send({
+            success:true,
+            message:"Single Item fetched",
+            SingleItem
+        })
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error while getting single Item',
+            error
+        })
+    }
+}

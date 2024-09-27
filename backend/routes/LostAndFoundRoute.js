@@ -2,12 +2,17 @@ import express from 'express';
 import { AddItemController, 
     getLostItemController, 
     ItemPhotoController, 
-    deleteLostItemController } from '../controllers/LostAndFoundController.js';  // Ensure this path is correct
+    deleteLostItemController,
+    getLostSingleItemController, } from '../controllers/LostAndFoundController.js';
+import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 const router = express.Router();
 
 // Add routes here
-router.post('/addLostItem', AddItemController);
+router.post('/addLostItem',uploadMiddleware, AddItemController);
+
+//get single item
+router.get('/getLostItem/:Iid', getLostSingleItemController);
 
 //get all items
 router.get('/getLostItems', getLostItemController);
