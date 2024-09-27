@@ -141,7 +141,7 @@ const Products = () => {
                         <Link key={p._id} to={`/products/${p.slug}`} className='product-link'>
                             <div className="card product-card"
                                 style={{
-                                        backgroundColor: p.quantity <= p.reorderLevel ? 'lightcoral' : 'white', // Change color if quantity is lower than or equal to reorder level
+                                        backgroundColor: p.quantity <= p.reorderLevel ? 'lightpink' : 'white', // Change color if quantity is lower than or equal to reorder level
                                         border: '1px solid #ccc', // Optional: add a border
                                         margin: '10px', // Optional: margin for spacing
                                         }}
