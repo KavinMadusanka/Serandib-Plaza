@@ -13,7 +13,7 @@ router.put('/update-product/:pid', formidable(), updateProductController);
 router.get('/get-product/:email', getProductController);
 router.get('/get-product', getAllProductController);
 // single product
-router.get('/get-product/:slug', getSingleProductController)
+router.get('/get-single-product/:slug', getSingleProductController)
 // get photo
 router.get('/product-photo/:pid',productPhotoController)
 // delete product
