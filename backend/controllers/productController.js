@@ -52,8 +52,7 @@ export const createProductController = async (req,res) => {
 export const getProductController = async (req,res) => {
     const {email} = req.params;
     try {
-        const products = await productModel.find({email})
-        //.populate('category').select("-photo").limit(12).sort({createdAt:-1});
+        const products = await productModel.find({email}).populate('category').select("-photo").limit(12).sort({createdAt:-1});
         res.status(200).send({
             success:true,
             countTotal:products.length,
@@ -93,8 +92,9 @@ export const getAllProductController = async (req,res) => {
 
 // get single product
 export const getSingleProductController = async (req,res) => {
+    const {slug} = req.params
     try {
-        const product = await productModel.findOne({slug:req.params.slug}).select("-photo").populate("category");
+        const product = await productModel.find({slug}).select("-photo").populate("category");
         res.status(200).send({
             success:true,
             message:'Single Product Fetched',
