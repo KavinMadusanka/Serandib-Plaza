@@ -8,10 +8,15 @@ import { Layout, Select, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 
+const {Option} = Select
+
 const Products = () => {
     const [products,setProducts] = useState([]);
     const [email,setEmail] = useState("");
     const [auth,setAuth] = useAuth();
+    const [categories, setCategories] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
 
     // get all products
@@ -19,15 +24,39 @@ const Products = () => {
         try {
             const {data} = await axios.get(`/api/v1/product/get-product/${auth?.shopOwner?.email}`);
             setProducts(data.products);
+            setFilteredProducts(data.products);
         } catch (error) {
             console.log(error)
             toast.error('something went wrong')
         }
     }
 
+    // Get all categories
+    const getAllCategories = async () => {
+        try {
+        const { data } = await axios.get('/api/v1/category/get-category');
+        setCategories(data.category);
+        } catch (error) {
+        console.log(error);
+        toast.error('Something went wrong while fetching categories');
+        }
+    };
+
+    // Handle category change
+    const handleCategoryChange = (value) => {
+        setSelectedCategory(value);
+        if (value) {
+        const filtered = products.filter((p) => p.category === value);
+        setFilteredProducts(filtered);
+        } else {
+        setFilteredProducts(products); // Show all products if no category is selected
+        }
+    };
+
     // lifecycle method
     useEffect(() => {
         getAllProducts();
+        getAllCategories();
     }, [auth]);
 
     useEffect(() =>{
@@ -48,6 +77,24 @@ const Products = () => {
                   <Box sx={{ flexGrow: 1, p: 3 }}>
                     <div className='col md-9'>
                   <h1 className='text-center'>All Products List</h1><br/>
+
+                  <div className="d-flex justify-content-center mb-4">
+                  <Select
+                    // placeholder="Select a Category"
+                    value={selectedCategory}
+                    onChange={handleCategoryChange}
+                    style={{ width: 300 }}
+                    allowClear
+                  >
+                    <Option value={null}>All Categories</Option>
+                    {categories?.map((category) => (
+                      <Option key={category._id} value={category.name}>
+                        {category.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+
                   <div className='d-flex flex-wrap justify-content-center'>
                                     {products?.map((p) => (
                                         <Link key={p._id} to={`/products/${p.slug}`} className='product-link'>
