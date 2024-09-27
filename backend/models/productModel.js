@@ -27,6 +27,12 @@ const productSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    reorderLevel:{
+        type:Number,
+        required:true,
+        default: 10, // Default reorder level, changeable per product
+        min: 0 // Ensures reorder level is non-negative
+    },
     photo:{
         data:Buffer,
         contentType:String
