@@ -18,6 +18,7 @@ const CreateProduct = () => {
     const [price,setPrice] = useState("")
     const [category,setCategory] = useState("")
     const [quantity,setQuantity] = useState("")
+    const [reorderLevel, setReorderLevel] = useState("");
     const [shipping,setShipping] = useState("")
     const [photo,setPhoto] = useState("")
     const [email,setEmail] = useState("");
@@ -61,6 +62,7 @@ const CreateProduct = () => {
             productData.append("photo", photo)
             productData.append("category", category)
             productData.append("email", email)
+            productData.append("reorderLevel", reorderLevel);
             const {data} = await axios.post('/api/v1/product/create-product', productData);
             if(data?.success){
                 toast.success('Product Created Successfully')
@@ -68,6 +70,7 @@ const CreateProduct = () => {
                 setDescription("");
                 setPrice("");
                 setQuantity("");
+                setReorderLevel("");
                 setPhoto(null);
                 setEmail('');
                 setCategory(null);
@@ -164,6 +167,14 @@ const CreateProduct = () => {
                             onChange={(e) => setQuantity(e.target.value)}
                             />
                         </div>
+                        <div className='mb-3'>
+                            <input type='number'
+                                value={reorderLevel}
+                                placeholder='Reorder Level' // New input for reorder level
+                                className='form-control'
+                                onChange={(e) => setReorderLevel(e.target.value)}
+                            />
+                                </div>
                         <div className='mb-3'>
                             <button className='btn btn-primary' onClick={handleCreate}>ADD PRODUCT</button>
                         </div>
