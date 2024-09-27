@@ -19,6 +19,7 @@ const UpdateProduct = () => {
     const [price,setPrice] = useState("")
     const [category,setCategory] = useState("")
     const [quantity,setQuantity] = useState("")
+    const [reorderLevel, setReorderLevel] = useState("");
     const [shipping,setShipping] = useState("")
     const [photo,setPhoto] = useState("")
     const [id,setId] = useState("")
@@ -39,6 +40,7 @@ const getSingleProduct = async () => {
             setDescription(fetchedProduct.description);
             setPrice(fetchedProduct.price);
             setQuantity(fetchedProduct.quantity);
+            setReorderLevel(fetchedProduct.reorderLevel || "");
             
             // Ensure category exists before accessing _id
             setCategory(fetchedProduct.category?._id || "");
@@ -89,6 +91,7 @@ const getSingleProduct = async () => {
             productData.append("quantity", quantity)
             photo && productData.append("photo", photo)
             productData.append("category", category)
+            productData.append("reorderLevel", reorderLevel);
             const {data} = await axios.put(`/api/v1/product/update-product/${id}`, productData);
             if(data?.success){
                 toast.success('Product Updated Successfully')
@@ -98,6 +101,7 @@ const getSingleProduct = async () => {
                 setQuantity("");
                 setPhoto(null);
                 setCategory(null);
+                setReorderLevel("");
                 navigate('/products');
             } else{
                 toast.error(data?.message);
@@ -214,6 +218,14 @@ const getSingleProduct = async () => {
                             placeholder='quantity' 
                             className='form-control' 
                             onChange={(e) => setQuantity(e.target.value)}
+                            />
+                        </div>
+                        <div className='mb-3'>
+                        <input type='number' 
+                            value={reorderLevel} 
+                            placeholder='Reorder Level' 
+                            className='form-control' 
+                            onChange={(e) => setReorderLevel(e.target.value)}
                             />
                         </div>
                         <div className='mb-3'>
