@@ -4,7 +4,7 @@ import ShopHeader from '../../components/Layout/ShopHeader';
 import { Paper, Typography, Box, Stack } from '@mui/material';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { Layout, Select, message } from 'antd';
+import { Layout, Select, Input, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 
@@ -17,6 +17,7 @@ const Products = () => {
     const [categories, setCategories] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
 
     // get all products
@@ -55,6 +56,29 @@ const Products = () => {
         }
     };
 
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+        filterProducts(selectedCategory, value);
+    };
+
+    const filterProducts = (category, query) => {
+        let filtered = products;
+
+        if (category) {
+            filtered = filtered.filter((p) => p.category.name === category);
+        }
+
+        if (query) {
+            filtered = filtered.filter((p) => 
+                p.name.toLowerCase().includes(query.toLowerCase()) || 
+                p.description.toLowerCase().includes(query.toLowerCase())
+            );
+        }
+
+        setFilteredProducts(filtered);
+    };
+
     // lifecycle method
     useEffect(() => {
         getAllProducts();
@@ -87,6 +111,15 @@ const Products = () => {
                   <h1 className='text-center'>All Products List</h1><br/>
 
                   <div className="d-flex justify-content-center mb-4">
+
+                    {/* search product */}
+                  <Input
+                        placeholder="Search Products"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        style={{ width: 300 }} // Adjust width as needed
+                    />
+
                   <Select
                     // placeholder="Select a Category"
                     value={selectedCategory}
