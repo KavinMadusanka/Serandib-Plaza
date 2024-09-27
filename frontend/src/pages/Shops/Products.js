@@ -31,33 +31,41 @@ const Products = () => {
         }
     }
 
-    // Get all categories
-    const getAllCategories = async () => {
+    // Get all categories that are used by products
+    const getUsedCategories = async () => {
         try {
-        const { data } = await axios.get('/api/v1/category/get-category');
-        setCategories(data.category);
+            const { data: categoryData } = await axios.get('/api/v1/category/get-category');
+            const usedCategories = categoryData.category.filter((category) =>
+                products.some((product) => product.category._id === category._id)
+            );
+            setCategories(usedCategories);
         } catch (error) {
-        console.log(error);
-        toast.error('Something went wrong while fetching categories');
+            console.log(error);
+            toast.error('Something went wrong while fetching categories');
         }
     };
 
-    // Handle category change
     const handleCategoryChange = (value) => {
         setSelectedCategory(value);
         if (value) {
-        const filtered = products.filter((p) => p.category === value);
-        setFilteredProducts(filtered);
+            const filtered = products.filter((p) => p.category.name === value);
+            setFilteredProducts(filtered);
         } else {
-        setFilteredProducts(products); // Show all products if no category is selected
+            setFilteredProducts(products); // Show all products if no category is selected
         }
     };
 
     // lifecycle method
     useEffect(() => {
         getAllProducts();
-        getAllCategories();
     }, [auth]);
+
+    // Fetch categories only after products are loaded
+    useEffect(() => {
+        if (products.length > 0) {
+            getUsedCategories();
+        }
+    }, [products]);
 
     useEffect(() =>{
         if(auth && auth?.shopOwner){
@@ -88,31 +96,31 @@ const Products = () => {
                   >
                     <Option value={null}>All Categories</Option>
                     {categories?.map((category) => (
-                      <Option key={category._id} value={category.name}>
-                        {category.name}
-                      </Option>
+                        <Option key={category._id} value={category.name}>
+                            {category.name}
+                        </Option>
                     ))}
                   </Select>
                 </div>
 
-                  <div className='d-flex flex-wrap justify-content-center'>
-                                    {products?.map((p) => (
-                                        <Link key={p._id} to={`/products/${p.slug}`} className='product-link'>
-                                            <div className="card product-card">
-                                                <img
-                                                    src={`/api/v1/product/product-photo/${p._id}`}
-                                                    className="card-img-top product-img"
-                                                    alt={p.name}
-                                                />
-                                                <div className="card-body">
-                                                    <h5 className="card-title">{p.name}</h5>
-                                                    <p className="card-text">{p.description}</p>
-                                                    <p className="card-text"><b>LKR {p.price}</b></p>
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    ))}
+                <div className='d-flex flex-wrap justify-content-center'>
+                    {filteredProducts?.map((p) => (
+                        <Link key={p._id} to={`/products/${p.slug}`} className='product-link'>
+                            <div className="card product-card">
+                                <img
+                                    src={`/api/v1/product/product-photo/${p._id}`}
+                                    className="card-img-top product-img"
+                                    alt={p.name}
+                                />
+                                <div className="card-body">
+                                    <h5 className="card-title">{p.name}</h5>
+                                    <p className="card-text">{p.description}</p>
+                                    <p className="card-text"><b>LKR {p.price}</b></p>
                                 </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
                   </div>
                   </Box>
               </Box>
