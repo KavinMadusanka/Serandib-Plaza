@@ -6,7 +6,7 @@ import slugify from 'slugify';
 // create product
 export const createProductController = async (req,res) => {
     try {
-        const {name,slug,description,price,category,quantity,shipping} = req.fields
+        const {name,slug,description,price,category,quantity,shipping,email} = req.fields
         const {photo} = req.files
         //validation
         switch(true){
@@ -20,6 +20,8 @@ export const createProductController = async (req,res) => {
                 return res.status(500).send({error:'Category is Required'})
             case !quantity:
                 return res.status(500).send({error:'Quantity is Required'})
+            case !email:
+                return res.status(500).send({error:'email is Required'})
             case photo && photo.size > 1000000:
                 return res.status(500).send({error:'Photo is Required and less than 1MB'})
         }
@@ -48,8 +50,10 @@ export const createProductController = async (req,res) => {
 
 // get all products
 export const getProductController = async (req,res) => {
+    const {email} = req.params;
     try {
-        const products = await productModel.find({}).populate('category').select("-photo").limit(12).sort({createdAt:-1})
+        const products = await productModel.find({email})
+        //.populate('category').select("-photo").limit(12).sort({createdAt:-1});
         res.status(200).send({
             success:true,
             countTotal:products.length,
