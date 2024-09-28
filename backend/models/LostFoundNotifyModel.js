@@ -1,22 +1,20 @@
 import mongoose from "mongoose";
-import { type } from "os";
+import LostAndFounds from './LostAndFoundModel.js';
 
 const Notify = new mongoose.Schema(
     {
-        name:{
+        userName:{
             type:String,
             required: true
         },
-        Pnumber:{
+        userPNumber:{
             type:String,
             required:true
         },
-        email: {
-            type: String,
-            required: true
-        },
-        role: {
-            type: String
+        ItemID: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "LostAndFounds",
+            required:true
         }
     },{timestamps:true}
 )
