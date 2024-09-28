@@ -25,7 +25,7 @@ router.get("/getLostItem-photo/:pid",ItemPhotoController);
 router.delete("/delete-item/:id",deleteLostItemController);
 
 //notify route
-router.post('/addNotification',addNotifyControll);
+router.post('/addNotification/:Iid',addNotifyControll);
 
 
 export default router;
