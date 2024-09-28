@@ -152,12 +152,32 @@ export const getLostSingleItemController = async(req,res) => {
 //store notification details
 export const addNotifyControll = async(req,res) => {
     try {
+        const{name , pNumber, email} = req.body
+
+        switch (true) {
+            case !name:
+                return res.status(500).send({error:'Name catch faild'})
+            case !pNumber:
+                return res.status(500).send({error:"Phone Number catch faild"})
+            case !email:
+                return res.status(500).send({error:"email catch faild"})
+        }
+
+        //save to database
+        const notifyDetails = await new LostModel({name,pNumber,email}).save();
+
+        res.status(201).send({
+            success:true,
+            message:'Notification Send Successfully',
+            deliaddress
+        });
+
         
     } catch (error) {
         res.status(500).send({
             success:false,
             error,
-            message:"Error in catch details",
+            message:"Error in send Notification",
         });
         
     }
