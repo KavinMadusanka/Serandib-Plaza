@@ -46,6 +46,7 @@ import Shops from "./pages/Shops";
 import Products from "./pages/Shops/Products";
 import UpdateProduct from './pages/Shops/UpdateProduct';
 import LowLevelStock from './pages/Shops/LowLevelStock';
+import OutOfStock from './pages/Shops/OutOfStock';
 
 
 
@@ -80,6 +81,7 @@ function App() {
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
       <Route path="/lowLevelStock" element={<LowLevelStock/>}/>
+      <Route path="/outOfStock" element={<OutOfStock/>}/>
 
       <Route path="/products/:slug" element={<UpdateProduct/>}/>
       <Route path="/products" element={<Products/>}/>
