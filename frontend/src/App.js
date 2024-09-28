@@ -32,23 +32,12 @@ import CreateProduct from "./pages/Shops/CreateProduct";
 import LostFound from './pages/User/LostFound';
 
 import Shops from "./pages/Shops";
-
-
-
-
-
-
-
-
-
-
-
 import Products from "./pages/Shops/Products";
 import UpdateProduct from './pages/Shops/UpdateProduct';
 import LowLevelStock from './pages/Shops/LowLevelStock';
 import OutOfStock from './pages/Shops/OutOfStock';
 
-
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 
 function App() {
@@ -87,6 +76,7 @@ function App() {
       <Route path="/products" element={<Products/>}/>
 
       <Route path="/shops" element={<Shops />}/>
+      <Route path="/forgot-password" element={<ForgotPassword /> }/>
 
 
 
