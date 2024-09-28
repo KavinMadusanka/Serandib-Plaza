@@ -108,7 +108,24 @@ const Products = () => {
                   <InventoryMenu />
                   <Box sx={{ flexGrow: 1, p: 3 }}>
                     <div className='col md-9'>
-                  <h1 className='text-center'>All Products List</h1><br/>
+                    <h1 className='text-center' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        All Products List
+                        <div style={{
+                            width: '50px',
+                            height: '50px',
+                            borderRadius: '50%',
+                            backgroundColor: '#4CAF50',
+                            marginLeft: '10px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <span style={{ fontSize: '30px', color: 'white' }}>
+                                {products.length}
+                            </span>
+                        </div>
+                    </h1>
+                    <br/>
 
                   <div className="d-flex justify-content-center mb-4">
 
