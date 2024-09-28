@@ -15,22 +15,25 @@ const LostFound = () => {
   const [filteredItem, setFilteredItem] = useState([]);
   const [selectedItemRole, setSelectedItemRole] = useState("");
   const [loading, setLoading] = useState(true);
-    const [pNumber,setPNumber] = useState("");
-    const [Description,setDescription] = useState("");
-    const [role,setRole] = useState("");
-    const [email, setEmail] = useState("");
-    const [image,setImage] = useState("");
-    const [auth,setAuth] = useAuth();
-    const navigate = useNavigate();
-    const [selectedItem, setSelectedItem] = useState(null);
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [message, setMessage] = useState('');
+  const [pNumber,setPNumber] = useState("");
+  const [Description,setDescription] = useState("");
+  const [role,setRole] = useState("");
+  const [email, setEmail] = useState("");
+  const [image,setImage] = useState("");
+  const [auth,setAuth] = useAuth();
+  const navigate = useNavigate();
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [message, setMessage] = useState('');
+  const [userName,setUserName] = useState('');
+  const [userPNumber,setUserPNumber] = useState('');
 
 
     useEffect(() => {
       if (auth && auth.user) {
         setEmail(auth.user.email);
-       
+        setUserName(auth.user.fullname);
+        setUserPNumber(auth.user.phone);
       }
     }, [auth]);
 
@@ -278,6 +281,9 @@ useEffect(() => {
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
             <div style={{ marginLeft: '20%'}}>
               <h2>Lost & Found Items</h2>
+              {/* {email}<br></br>
+              {userName}<br></br>
+              {userPNumber} */}
             </div>
               <div>
                 <select value={selectedItemRole} onChange={handleRoleChange} className='selectitem'>
