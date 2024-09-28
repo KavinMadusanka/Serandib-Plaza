@@ -167,6 +167,20 @@ useEffect(() => {
     setSelectedItem(null);
 };
 
+//get all lost & found items
+const getAllNotification = async () => {
+  try {
+    const { data } = await axios.get("http://localhost:8088/api/v1/LostAndFound/getAllNotift");
+    setItems(data.notifies);
+    getAllNotification();
+  } catch (error) {
+    console.log(error);
+    toast.error("Failed to fetch Notifications");
+  }finally {
+    setLoading(false);
+}
+};
+
   return (
     <Layout title={"Lost & Found"}>
         <div className ="row flex-nowrap">
@@ -295,6 +309,12 @@ useEffect(() => {
               </div>
               </form>
             </div>
+            </div>
+            <div className={'card m-2'} style={{ width: "100%" }}>
+
+            </div>
+            <div className='notify'>
+              
             </div>
           </div>
 
