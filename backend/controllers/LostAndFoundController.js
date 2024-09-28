@@ -1,5 +1,6 @@
 import { error } from "console";
 import LostModel from "../models/LostAndFoundModel.js";
+import LostNotify from "../models/LostFoundNotifyModel.js"
 import fs from 'fs'
 
 //Add new lost Found item
@@ -151,27 +152,27 @@ export const getLostSingleItemController = async(req,res) => {
 
 //store notification details
 export const addNotifyControll = async(req,res) => {
+    const { Iid } = req.params;
     try {
-        const{name , pNumber, email, role} = req.body
+        const { userName, userPNumber } = req.body;
 
-        switch (true) {
-            case !name:
-                return res.status(500).send({error:'Name catch faild'})
-            case !pNumber:
-                return res.status(500).send({error:"Phone Number catch faild"})
-            case !email:
-                return res.status(500).send({error:"email catch faild"})
-            case !role:
-                return res.status(500).send({error:"role catch faild"})
+        if (!userName) {
+            return res.status(400).send({ error: 'Name is required' });
+        }
+        if (!userPNumber) {
+            return res.status(400).send({ error: 'Phone Number is required' });
+        }
+        if (!Iid) {
+            return res.status(400).send({ error: 'Item ID is required' });
         }
 
         //save to database
-        const notifyDetails = await new LostModel({name,pNumber,email,role}).save();
+        const notifyDetails = await new LostNotify({userName,userPNumber,ItemID:Iid}).save();
 
         res.status(201).send({
             success:true,
             message:'Notification Send Successfully',
-            deliaddress
+            notifyDetails,
         });
 
         
