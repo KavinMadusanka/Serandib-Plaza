@@ -473,6 +473,40 @@ export const deleteShopProfileController = async (req, res) => {
   };
   
 
+export const forgotPasswordController = async(req,res) =>{
+  try{
+    const{email,newPassword} = req.body
+    if(!email){
+      res.status(400).send({message:'Email is required'})
+    }
+    if(!newPassword){
+      res.status(400).send({message:'New password is required'})
+    }
+
+    //check
+    const user = await userModel.findOne({email})
+    //validation
+    if(!user){
+      return res.status(404).send({
+        success:false,
+        message:"Wrong email or password"
+      })
+    }
+    const hashed = await hashPassword(newPassword);
+    await userModel.findByIdAndUpdate(user._id,{password:hashed});
+    res.status(200).send({
+      success:true,
+      message:"Password reset successfully"
+    })
+  }catch(error){
+    console.log(error)
+    res.status(500).send({
+      success:false,
+      message:'Something went wrong',
+      error
+    })
+  }
+}
 
 
 
