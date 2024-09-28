@@ -169,7 +169,16 @@ export const addNotifyControll = async(req,res) => {
             return res.status(400).send({ error: 'Item ID is required' });
         }
 
-        
+        //check cart
+        const exisitingEmailNotify = await LostNotify.findOne({ItemID:Iid,email});
+
+        //exisit email
+        if(exisitingEmailNotify){
+            return res.status(200).send({
+                success:true,
+                message:'You Already send notification',
+            });
+        }
 
         //save to database
         const notifyDetails = await new LostNotify({userName,userPNumber,email,ItemID:Iid}).save();
