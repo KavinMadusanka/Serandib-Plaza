@@ -122,17 +122,21 @@ const Login = () => {
                         </form>
                         <br/>
                         <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
-                    <Typography>If you Don't have an Account, Please
-                        <Link component="button" variant="body2" onClick={handleLoginClick} sx={{ cursor: 'pointer', color: 'blue', marginLeft: 1 }}>
-                        Register
-                        </Link>
-                    </Typography>
-                </Box>
-                    </Paper>
-                </Box>
+                        <Typography variant="body2">If forgot password,Click Here
+                            <Link href="/forgot-password"> Forgot Password?</Link>
+                        </Typography>
+                        <br/>
+                        <Typography>If you Don't have an Account, Please
+                            <Link component="button" variant="body2" onClick={handleLoginClick} sx={{ cursor: 'pointer', color: 'blue', marginLeft: 1 }}>
+                            Register
+                            </Link>
+                        </Typography>
+                  </Box>
+                </Paper>
+            </Box>
             </Container>
-            <Toaster />
-        </Layout>
+        <Toaster />
+    </Layout>
     );
 };
 

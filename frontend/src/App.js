@@ -37,6 +37,24 @@ import Shops from "./pages/Shops";
 
 
 
+<<<<<<< Updated upstream
+=======
+
+
+
+
+
+
+import Products from "./pages/Shops/Products";
+import UpdateProduct from './pages/Shops/UpdateProduct';
+import LowLevelStock from './pages/Shops/LowLevelStock';
+import OutOfStock from './pages/Shops/OutOfStock';
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+
+
+
+
+>>>>>>> Stashed changes
 function App() {
   return (
     <>
@@ -67,6 +85,7 @@ function App() {
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
       <Route path="/shops" element={<Shops />}/>
+      <Route path="/forgot-password" element={<ForgotPassword /> }/>
 
 
     </Routes>
