@@ -153,18 +153,23 @@ const Products = () => {
                             <span style={{ color: 'black' }}>Low Level Stock</span>
                         </div>
                         </Link>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-                            <div 
-                                style={{ 
-                                    width: '20px', 
-                                    height: '20px', 
-                                    backgroundColor: 'darkred', 
-                                    borderRadius: '50%', // Makes the div circular
-                                    marginRight: '10px' 
-                                }} 
-                            />
-                            <span>Out of Stock</span>
-                        </div>
+
+
+                        {/* Link to Out of Stock section */}
+                        <Link to="/outOfStock" style={{ textDecoration: 'none' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+                                <div 
+                                    style={{ 
+                                        width: '20px', 
+                                        height: '20px', 
+                                        backgroundColor: 'darkred', 
+                                        borderRadius: '50%', // Makes the div circular
+                                        marginRight: '10px' 
+                                    }} 
+                                />
+                                <span style={{ color: 'black' }}>Out of Stock</span>
+                            </div>
+                        </Link>
                     </div>
                 </div>
 
@@ -189,7 +194,7 @@ const Products = () => {
                                     style={{ borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }} // Make the image corners match the card
                                 />
                                 <div className="card-body">
-                                    <h5 className="card-title">{p.name}</h5>
+                                <h5 className="card-title"><b>{p.name}</b></h5>
                                     <p className="card-text">{p.description}</p>
                                     {/* Price aligned to the right */}
                                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
