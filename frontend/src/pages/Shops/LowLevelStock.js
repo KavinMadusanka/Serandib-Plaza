@@ -109,7 +109,27 @@ const LowLevelStock = () => {
                         <InventoryMenu />
                         <Box sx={{ flexGrow: 1, p: 3 }}>
                             <div className='col md-9'>
-                                <h1 className='text-center'>Low Level Stock List</h1><br />
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <h1 className='text-center' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Low Level Stock List</h1>
+                            <div style={{
+                                width: '50px', // Increased circle width to make it larger
+                                height: '50px', // Increased circle height to make it larger
+                                borderRadius: '50%', // Make it a circle
+                                backgroundColor: '#ff6666', // Keep the color blue (change to 'lightgreen' if preferred)
+                                marginLeft: '10px', // Space between circle and title
+                                display: 'flex', // Center the text inside the circle
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                <span style={{ fontSize: '30px', color: 'white' }}> {/* Increased font size for better visibility */}
+                                    {filteredProducts.length} {/* Display the count of low stock products */}
+                                </span>
+                            </div>
+                            
+                        </div>
+                        <br />
+
+                                
 
                                 <div className="d-flex justify-content-center mb-4">
                                     {/* Search product */}
