@@ -109,7 +109,23 @@ const OutOfStock = () => {
                         <InventoryMenu />
                         <Box sx={{ flexGrow: 1, p: 3 }}>
                             <div className='col md-9'>
-                                <h1 className='text-center'>Out of Stock List</h1><br />
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <h1 className='text-center' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Out of Stock List</h1>
+                                <div style={{
+                                    width: '50px',
+                                    height: '50px',
+                                    borderRadius: '50%',
+                                    backgroundColor: 'darkred',
+                                    marginLeft: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}>
+                                    <span style={{ fontSize: '30px', color: 'white' }}>
+                                        {filteredProducts.length}
+                                    </span>
+                                </div>
+                            </div><br></br>
 
                                 <div className="d-flex justify-content-center mb-4">
                                     {/* Search product */}
