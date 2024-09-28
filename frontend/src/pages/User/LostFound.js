@@ -12,6 +12,7 @@ const { Title, Paragraph, Text } = Typography;
 const LostFound = () => {
   const [Items, setItems] = useState([]);
 	const [name,setName] = useState("");
+	const [itemName,setItemName] = useState("");
   const [filteredItem, setFilteredItem] = useState([]);
   const [selectedItemRole, setSelectedItemRole] = useState("");
   const [loading, setLoading] = useState(true);
@@ -211,7 +212,7 @@ useEffect(() => {
               <div className='KAboarder'>
                   <div>
                     <div className='KApayment'>
-                      <h2> Add Your Item </h2>
+                      <h3> Add Your Item </h3>
                       </div>
                   </div>
                   <div className='item2'>
@@ -255,7 +256,7 @@ useEffect(() => {
                         <tbody>
                         <tr><td className='texting'>Name :</td>
                             <td className='texting'>Phone Number :</td></tr>
-                            <tr></tr>
+                            {/* <tr></tr> */}
                           <tr>
                             <td className='texting'>
                               <input 
@@ -280,7 +281,26 @@ useEffect(() => {
                             required
                             />
                             </td></tr>
-                            <tr><br/></tr>
+                            {/* <tr><br/></tr> */}
+
+                            <tr>
+                              <td className='texting'>
+                                Item Name :
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className='texting' colSpan={2}>
+                              <input 
+                            className='textInput'
+                            type="text"
+                            value={itemName} 
+                            onChange={(e) => setItemName(e.target.value)}
+                            placeholder="Item Name"
+                            onKeyPress={handleKeyPress}
+                            required
+                            /> 
+                              </td>
+                            </tr>
 
                             <tr><td className='texting'>
                             <input
@@ -331,6 +351,9 @@ useEffect(() => {
             {allNotify?.ItemID?.email}
             {/* start of notification part */}
             <div className='notify'>
+              <div style={{ marginLeft: '40%'}}>
+                <h5 >Notifications</h5><br></br>
+              </div>
             {loading ? (
                   <div className="pnf">
                     <h6 className="pnf-heading">Loading Items...</h6>
@@ -368,7 +391,7 @@ useEffect(() => {
                                                   )}
                                             {f.ItemID.role === "found" &&(
                                                     <div>
-                                                      this item belongs to {f.userName}
+                                                      This item belongs to {f.userName}
                                                     </div>
                                                   )}
                                         </div>
