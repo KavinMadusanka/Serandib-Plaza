@@ -139,6 +139,7 @@ const Products = () => {
                 {/* Color Guide */}
                 <div className="color-guide" style={{ marginBottom: '20px' }}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Link to="/lowLevelStock" style={{ textDecoration: 'none' }}>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
                             <div 
                                 style={{ 
@@ -149,8 +150,9 @@ const Products = () => {
                                     marginRight: '10px' 
                                 }} 
                             />
-                            <span>Low Level Stock</span>
+                            <span style={{ color: 'black' }}>Low Level Stock</span>
                         </div>
+                        </Link>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
                             <div 
                                 style={{ 
