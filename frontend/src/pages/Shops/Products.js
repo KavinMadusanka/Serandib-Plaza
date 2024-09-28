@@ -141,10 +141,15 @@ const Products = () => {
                         <Link key={p._id} to={`/products/${p.slug}`} className='product-link'>
                             <div className="card product-card"
                                 style={{
-                                        backgroundColor: p.quantity <= p.reorderLevel ? 'lightpink' : 'white', // Change color if quantity is lower than or equal to reorder level
-                                        border: '1px solid #ccc', // Optional: add a border
-                                        margin: '10px', // Optional: margin for spacing
-                                        }}
+                                    backgroundColor: p.quantity === 0 
+                                        ? 'darkred' // Dark shade for out of stock
+                                        : p.quantity <= p.reorderLevel 
+                                        ? 'lightpink' // Light pink for low stock
+                                        : 'white', // Default white for sufficient stock
+                                    color: p.quantity === 0 ? 'white' : 'black', // Change text color for better contrast
+                                    border: '1px solid #ccc', // Optional: add a border
+                                    margin: '10px', // Optional: margin for spacing
+                                }}
                             >
                                 <img
                                     src={`/api/v1/product/product-photo/${p._id}`}
