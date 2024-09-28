@@ -154,7 +154,7 @@ export const getLostSingleItemController = async(req,res) => {
 export const addNotifyControll = async(req,res) => {
     const { Iid } = req.params;
     try {
-        const { userName, userPNumber } = req.body;
+        const { userName, userPNumber,email } = req.body;
 
         if (!userName) {
             return res.status(400).send({ error: 'Name is required' });
@@ -162,12 +162,17 @@ export const addNotifyControll = async(req,res) => {
         if (!userPNumber) {
             return res.status(400).send({ error: 'Phone Number is required' });
         }
+        if (!email) {
+            return res.status(400).send({ error: 'email is required' });
+        }
         if (!Iid) {
             return res.status(400).send({ error: 'Item ID is required' });
         }
 
+        
+
         //save to database
-        const notifyDetails = await new LostNotify({userName,userPNumber,ItemID:Iid}).save();
+        const notifyDetails = await new LostNotify({userName,userPNumber,email,ItemID:Iid}).save();
 
         res.status(201).send({
             success:true,
