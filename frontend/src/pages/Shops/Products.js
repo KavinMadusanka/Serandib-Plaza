@@ -136,31 +136,75 @@ const Products = () => {
                   </Select>
                 </div>
 
+                {/* Color Guide */}
+                <div className="color-guide" style={{ marginBottom: '20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+                            <div 
+                                style={{ 
+                                    width: '20px', 
+                                    height: '20px', 
+                                    backgroundColor: '#ff6666', 
+                                    borderRadius: '50%', // Makes the div circular
+                                    marginRight: '10px' 
+                                }} 
+                            />
+                            <span>Low Level Stock</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+                            <div 
+                                style={{ 
+                                    width: '20px', 
+                                    height: '20px', 
+                                    backgroundColor: 'darkred', 
+                                    borderRadius: '50%', // Makes the div circular
+                                    marginRight: '10px' 
+                                }} 
+                            />
+                            <span>Out of Stock</span>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div className='d-flex flex-wrap justify-content-center'>
+
                     {filteredProducts?.map((p) => (
                         <Link key={p._id} to={`/products/${p.slug}`} className='product-link'>
                             <div className="card product-card"
                                 style={{
-                                    backgroundColor: p.quantity === 0 
-                                        ? 'darkred' // Dark shade for out of stock
-                                        : p.quantity <= p.reorderLevel 
-                                        ? 'lightpink' // Light pink for low stock
-                                        : 'white', // Default white for sufficient stock
-                                    color: p.quantity === 0 ? 'white' : 'black', // Change text color for better contrast
-                                    border: '1px solid #ccc', // Optional: add a border
-                                    margin: '10px', // Optional: margin for spacing
+                                    border: '1px solid #ccc', 
+                                    margin: '10px',
+                                    width: '250px', // Optional: set a fixed width for uniformity
+                                    borderRadius: '8px', // Smooth rounded corners
+                                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)' // Add a soft shadow for elegance
                                 }}
                             >
                                 <img
                                     src={`/api/v1/product/product-photo/${p._id}`}
                                     className="card-img-top product-img"
                                     alt={p.name}
+                                    style={{ borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }} // Make the image corners match the card
                                 />
                                 <div className="card-body">
                                     <h5 className="card-title">{p.name}</h5>
                                     <p className="card-text">{p.description}</p>
-                                    <p className="card-text"><b>LKR {p.price}</b></p>
+                                    {/* Price aligned to the right */}
+                                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                                        <p className="card-text" style={{ fontWeight: 'bold' }}>LKR {p.price}</p>
+                                    </div>
                                 </div>
+
+                                {/* Thick red line at the bottom */}
+                                <div style={{ 
+                                    height: '8px', 
+                                    backgroundColor: p.quantity === 0 
+                                        ? 'darkred' 
+                                        : p.quantity <= p.reorderLevel 
+                                        ? '#ff6666' // Light red for low quantity
+                                        : 'transparent' // No color if above reorder level
+                                }}></div>
+
                             </div>
                         </Link>
                     ))}
