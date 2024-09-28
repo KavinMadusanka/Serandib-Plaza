@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const LostModel = new mongoose.Schema(
     {
@@ -20,6 +21,10 @@ const LostModel = new mongoose.Schema(
         email: {
             type: String,
             required:true
+        },
+        itemName: {
+            type:String,
+            required: true
         },
         image: {
             data: Buffer,
