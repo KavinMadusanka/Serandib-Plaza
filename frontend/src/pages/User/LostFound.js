@@ -27,6 +27,8 @@ const LostFound = () => {
   const [message, setMessage] = useState('');
   const [userName,setUserName] = useState('');
   const [userPNumber,setUserPNumber] = useState('');
+  const [itemEmail,setItemEmail] = useState('');
+  const [itemRole,setItemRole] = useState('');
 
 
     useEffect(() => {
@@ -41,6 +43,25 @@ const LostFound = () => {
       const value = e.target.value;
       setSelectedItemRole(value === "all" ? "" : value);
   };
+
+  //handel notification post part
+  const notificationData = async(Iid) => {
+    
+    // e.preventDefault();
+    try {
+      const nofitiData = await axios.post(`/api/v1/LostAndFound/addNotification/${Iid}`,{userName,userPNumber});
+
+      if (nofitiData.data.success) {
+        toast.success(nofitiData.data.message);
+      } else {
+        toast.error(nofitiData.data.message);
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error("Cann't send notification alert");
+    }
+  }
 
 
 
@@ -358,7 +379,7 @@ useEffect(() => {
                                                   {p.email !== email && p.role === "lost" &&(
                                                     <button className='btnsubb' 
                                                     onClick={() => {
-                                                      setMessage('Owner has been informed about the found item!');
+                                                      notificationData(p._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
                                                     }}>
                                                     items Found and inform owner
@@ -367,7 +388,7 @@ useEffect(() => {
                                                   {p.email !== email && p.role === "found" &&(
                                                     <button className='btnsubb'
                                                     onClick={() => {
-                                                      setMessage('Owner has been informed about the found item!');
+                                                      notificationData(p._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
                                                     }}>
                                                     This items belongs to me
@@ -433,7 +454,7 @@ useEffect(() => {
                                                   {selectedItem.email !== email && selectedItem.role === "lost" &&(
                                                     <button className='btnsubb'
                                                     onClick={() => {
-                                                      setMessage('Owner has been informed about the found item!');
+                                                      notificationData(selectedItem._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
                                                     }}>
                                                     items Found and inform owner
@@ -442,7 +463,7 @@ useEffect(() => {
                                                   {selectedItem.email !== email && selectedItem.role === "found" &&(
                                                     <button className='btnsubb'
                                                     onClick={() => {
-                                                      setMessage('Owner has been informed about the found item!');
+                                                      notificationData(selectedItem._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
                                                     }}>
                                                     This items belongs to me
