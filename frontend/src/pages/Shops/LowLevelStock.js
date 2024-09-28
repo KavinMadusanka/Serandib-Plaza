@@ -155,7 +155,7 @@ const LowLevelStock = () => {
                                                     style={{ borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }} // Make the image corners match the card
                                                 />
                                                 <div className="card-body">
-                                                    <h5 className="card-title">{p.name}</h5>
+                                                    <h5 className="card-title"><b>{p.name}</b></h5>
                                                     <p className="card-text">{p.description}</p>
                                                     {/* Price aligned to the right */}
                                                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
