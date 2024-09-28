@@ -203,7 +203,7 @@ export const addNotifyControll = async(req,res) => {
 // // Get all Items controller
 export const getAllLostNotify = async(req,res) =>{
     try {
-        const notifies = await LostNotify.find({}).limit(12).sort({createdAt: -1});
+        const notifies = await LostNotify.find({}).populate('ItemID').limit(12).sort({createdAt: -1});
         res.status(200).send({
             success:true,
             // counTotal: Items.length,
