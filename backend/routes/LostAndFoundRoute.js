@@ -4,7 +4,8 @@ import { AddItemController,
     ItemPhotoController, 
     deleteLostItemController,
     getLostSingleItemController,
-    addNotifyControll } from '../controllers/LostAndFoundController.js';
+    addNotifyControll,
+    getAllLostNotify } from '../controllers/LostAndFoundController.js';
 import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 const router = express.Router();
@@ -26,6 +27,9 @@ router.delete("/delete-item/:id",deleteLostItemController);
 
 //notify route
 router.post('/addNotification/:Iid',addNotifyControll);
+
+//get all notifications
+router.get('/getAllNotift', getAllLostNotify);
 
 
 export default router;
