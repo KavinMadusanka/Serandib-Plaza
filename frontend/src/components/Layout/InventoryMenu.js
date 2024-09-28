@@ -48,7 +48,7 @@ const InventoryMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary="Low Level Stock" sx={{ color: '#ffffff' }} />
                 </ListItem>
-                <ListItem button component={Link} to="/" aria-label="Products">
+                <ListItem button component={Link} to="/outOfStock" aria-label="Products">
                     <ListItemIcon>
                         <ListAltIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
