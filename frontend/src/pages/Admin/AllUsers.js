@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
 import AdminMenu from '../../components/Layout/AdminMenu';
+import dayjs from 'dayjs';  // Import dayjs for date formatting
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -28,28 +29,26 @@ const AllUsers = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
-      <AdminMenu/>
+        <AdminMenu />
         <Box sx={{ flexGrow: 1, p: 3 }}>
           <Container maxWidth="lg">
             <Typography
-              variant="h4"
+              variant="h5"
               component="h1"
               sx={{ textAlign: 'center', marginBottom: 3 }}
             >
-              All Users
+              All Registered Users
             </Typography>
             <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
               <Table>
                 <TableHead>
-                  <TableRow sx={{ backgroundColor: '#1976d2' }}> {/* Blue background color */}
+                  <TableRow sx={{ backgroundColor: '#1976d2' }}>
                     <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Full Name</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Email</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>DOB</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Contact No</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: 'white', border: '1px solid #ddd', padding: '8px 16px' }}>Address</TableCell>
-                    {/* Add more TableCells as needed */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -57,10 +56,11 @@ const AllUsers = () => {
                     <TableRow key={user._id}>
                       <TableCell sx={{ border: '1px solid #ddd', padding: '8px 16px' }}>{user.fullname}</TableCell>
                       <TableCell sx={{ border: '1px solid #ddd', padding: '8px 16px' }}>{user.email}</TableCell>
-                      <TableCell sx={{ border: '1px solid #ddd', padding: '8px 16px' }}>{user.dob}</TableCell>
+                      <TableCell sx={{ border: '1px solid #ddd', padding: '8px 16px' }}>
+                        {dayjs(user.dob).format('YYYY-MM-DD')} {/* Format DOB using dayjs */}
+                      </TableCell>
                       <TableCell sx={{ border: '1px solid #ddd', padding: '8px 16px' }}>{user.phone}</TableCell>
                       <TableCell sx={{ border: '1px solid #ddd', padding: '8px 16px' }}>{user.address}</TableCell>
-                      {/* Add more TableCells as needed */}
                     </TableRow>
                   ))}
                 </TableBody>

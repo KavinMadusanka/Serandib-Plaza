@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-import { type } from "os";
-const {Schema} = mongoose;
 
-const LostModel = new Schema(
+const LostModel = new mongoose.Schema(
     {
         name:{
             type: String,
@@ -12,19 +10,22 @@ const LostModel = new Schema(
             type: String,
             required: true
         },
-        image: {
-            type: String,
-            required: true
-        },
         Description: {
             type: String,
             required: true
         },
         role: {
-            type: Number,
-            default: 0
+            type: String
+        },
+        email: {
+            type: String,
+            required:true
+        },
+        image: {
+            data: Buffer,
+            contentType: String
         }
-    }
+    },{timestamps:true}
 )
 
-export default mongoose.model("LostAndFound",LostModel);
+export default mongoose.model("LostAndFounds",LostModel);

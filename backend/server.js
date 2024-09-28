@@ -8,6 +8,8 @@ import promotionRoutes from "./routes/promotionRoute.js"
 import categoryRoutes from './routes/categoryRoute.js'
 import productRoutes from  './routes/productRoute.js'
 import shoppingcartRoutes from './routes/shoppingcartRoute.js'
+import LostAndFoundRoutes from './routes/LostAndFoundRoute.js'
+//import fileUpload from 'express-fileupload';
 
 import cors from "cors";
 
@@ -20,6 +22,9 @@ connectDB();
 //rest object
 const app = express();
 
+// Middleware to handle file uploads
+//app.use(fileUpload());
+
 //middelwares
 app.use(cors())
 app.use(express.json())
@@ -31,6 +36,7 @@ app.use("/api/v1/promotions",promotionRoutes)
 app.use('/api/v1/category', categoryRoutes);
 app.use('/api/v1/product', productRoutes);
 app.use("/api/v1/cart", shoppingcartRoutes); 
+app.use("/api/v1/LostAndFound",LostAndFoundRoutes);
 
 
 // rest api

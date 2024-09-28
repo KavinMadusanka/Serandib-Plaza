@@ -1,12 +1,11 @@
 import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EventIcon from '@mui/icons-material/Event';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import PeopleIcon from '@mui/icons-material/People';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+//import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import StoreIcon from '@mui/icons-material/Store';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -94,19 +93,6 @@ const AdminMenu = () => {
           </ListItemIcon>
           <ListItemText primary="All Users" />
         </ListItem>
-
-        {/* Category */}
-        <ListItem 
-          button 
-          selected={location.pathname === '/c'} 
-          onClick={() => handleListItemClick('/c')}
-          sx={location.pathname === '/c' ? { backgroundColor: '#1976d2' } : {}}
-        >
-          <ListItemIcon>
-            <CategoryIcon style={{ color: '#fff' }} />
-          </ListItemIcon>
-          <ListItemText primary="Category" />
-        </ListItem>
         
         {/* Products */}
         <ListItem 
@@ -134,7 +120,7 @@ const AdminMenu = () => {
           <ListItemText primary="Events" />
         </ListItem>
 
-        {/* Promotions */}
+        {/* Promotions
         <ListItem 
           button 
           selected={location.pathname === '/p'} 
@@ -145,10 +131,10 @@ const AdminMenu = () => {
             <LocalOfferIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="Promotions" />
-        </ListItem>
+        </ListItem> */}
 
         {/* Logout */}
-        <ListItem 
+        {/* <ListItem 
           button 
           selected={location.pathname === '/logout'} 
           onClick={() => handleListItemClick('/logout')}
@@ -158,7 +144,7 @@ const AdminMenu = () => {
             <ExitToAppIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="Log out" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </Drawer>
   );

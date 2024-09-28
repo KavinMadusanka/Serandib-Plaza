@@ -6,7 +6,7 @@ import slugify from 'slugify';
 // create product
 export const createProductController = async (req,res) => {
     try {
-        const {name,slug,description,price,category,quantity,shipping} = req.fields
+        const {name,slug,description,price,category,quantity,email,reorderLevel} = req.fields
         const {photo} = req.files
         //validation
         switch(true){
@@ -20,6 +20,10 @@ export const createProductController = async (req,res) => {
                 return res.status(500).send({error:'Category is Required'})
             case !quantity:
                 return res.status(500).send({error:'Quantity is Required'})
+            case !email:
+                return res.status(500).send({error:'email is Required'})
+            case reorderLevel !== undefined && isNaN(reorderLevel):
+                return res.status(500).send({ error: 'Reorder Level should be a number' });
             case photo && photo.size > 1000000:
                 return res.status(500).send({error:'Photo is Required and less than 1MB'})
         }
@@ -48,8 +52,9 @@ export const createProductController = async (req,res) => {
 
 // get all products
 export const getProductController = async (req,res) => {
+    const {email} = req.params;
     try {
-        const products = await productModel.find({}).populate('category').select("-photo").limit(12).sort({createdAt:-1})
+        const products = await productModel.find({email}).populate('category').select("-photo").limit(12).sort({createdAt:-1});
         res.status(200).send({
             success:true,
             countTotal:products.length,
@@ -66,11 +71,32 @@ export const getProductController = async (req,res) => {
     }
 };
 
+// get all products
+export const getAllProductController = async (req,res) => {
+    // const {email} = req.params;
+    try {
+        const products = await productModel.find({}).populate('category').select("-photo").limit(12).sort({createdAt:-1});
+        res.status(200).send({
+            success:true,
+            countTotal:products.length,
+            message:"All Products",
+            products,
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error in getting Products',
+            error: error.message
+        })
+    }
+};
 
 // get single product
 export const getSingleProductController = async (req,res) => {
+    const {slug} = req.params
     try {
-        const product = await productModel.findOne({slug:req.params.slug}).select("-photo").populate("category");
+        const product = await productModel.find({slug}).select("-photo").populate("category");
         res.status(200).send({
             success:true,
             message:'Single Product Fetched',
@@ -128,7 +154,7 @@ export const deleteProductController = async (req,res) => {
 // update product
 export const updateProductController = async (req,res) => {
     try {
-        const {name,slug,description,price,category,quantity,shipping} = req.fields
+        const {name,slug,description,price,category,quantity,shipping,reorderLevel} = req.fields
         const {photo} = req.files
         //validation
         switch(true){
@@ -142,6 +168,8 @@ export const updateProductController = async (req,res) => {
                 return res.status(500).send({error:'Category is Required'})
             case !quantity:
                 return res.status(500).send({error:'Quantity is Required'})
+            case reorderLevel !== undefined && isNaN(reorderLevel):
+                return res.status(500).send({ error: 'Reorder Level should be a number' });
             case photo && photo.size > 1000000:
                 return res.status(500).send({error:'Photo is Required and less than 1MB'})
         }

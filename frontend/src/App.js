@@ -27,6 +27,25 @@ import AllPromo from "./pages/Shops/AllPromo";
 import UpdatePromotion from "./pages/Shops/UpdatePromotion";
 import CartPage from "./pages/CartPage";
 
+import { CreateCategory } from "./pages/Shops/CreateCategory";
+import CreateProduct from "./pages/Shops/CreateProduct";
+import LostFound from './pages/User/LostFound';
+
+import Shops from "./pages/Shops";
+
+
+
+
+
+
+
+
+
+
+
+import Products from "./pages/Shops/Products";
+import UpdateProduct from './pages/Shops/UpdateProduct';
+
 
 
 
@@ -44,18 +63,28 @@ function App() {
       <Route path="/userprofile" element={<ProfileUser />} />
       <Route path="/updateShopProfile" element={<UpdateShopProfile />} />
       <Route path="/updateprofile" element={<UpdateUserProfile />}/>
+      <Route path="/lostFound" element={<LostFound />}/>
+     
+    
       <Route path="/adminProfile" element={<AdminDashboard />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/promotions" element={<AllPromotions />} />
       <Route path="/allusers" element={<AllUsers />} />
       <Route path="/allshops" element={<AllShops />} />
       <Route path="/addpromotions" element={<AddPromotion />} />
-
       <Route path="/allpromo" element={<AllPromo />} />
       <Route path="/updatePromotion" element={<UpdatePromotion />} />
-
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
       <Route path="/cart" element={<CartPage/>} />
+      <Route path="/createCategory" element={<CreateCategory/>}/>
+      <Route path="/createProduct" element={<CreateProduct/>}/>
+
+      <Route path="/products/:slug" element={<UpdateProduct/>}/>
+      <Route path="/products" element={<Products/>}/>
+
+      <Route path="/shops" element={<Shops />}/>
+
+
 
     </Routes>
     

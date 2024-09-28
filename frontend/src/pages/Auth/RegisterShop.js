@@ -62,6 +62,29 @@ const RegisterShop = () => {
     }
   };
 
+  const [error, setError] = useState('');
+    const [isValid, setIsValid] = useState(false);
+
+    // Password validation function
+    const validatePassword = (value) => {
+        const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;
+        if (regex.test(value)) {
+            setError('');
+            setIsValid(true);
+        } else {
+            setError('Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.');
+            setIsValid(false);
+        }
+    };
+
+    // Handle password input change
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+        validatePassword(value);
+    };
+
+
   return (
     <Layout title="Shop Registration">
       <Container maxWidth="md">
@@ -178,13 +201,15 @@ const RegisterShop = () => {
 
                 {/* Password */}
                 <TextField
-                  label="Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  fullWidth
-                />
+                                    label="Password"
+                                    type="password"
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                    required
+                                    fullWidth
+                                    error={!!error}
+                                    helperText={error}
+                                />
 
                 {/* Shop Owner Details */}
                 <Typography sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>***Please provide your shop owner details below to continue your registration***</Typography>
@@ -268,10 +293,11 @@ const RegisterShop = () => {
                   type="submit"
                   variant="contained"
                   color="primary"
+                  disabled={!isValid}  // Disable submit button until the password is valid
                   sx={{ marginTop: 2 }}
-                >
+              >
                 Submit
-                </Button>
+              </Button>
                 </Box>
                 </form>
                 <br/> 
