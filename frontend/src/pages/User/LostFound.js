@@ -78,6 +78,7 @@ const LostFound = () => {
       LostItemData.append("Description", Description);
       LostItemData.append("role", role);
       LostItemData.append("email", email);
+      LostItemData.append("itemName", itemName);
       LostItemData.append("image", image);
       const {data} = await axios.post('/api/v1/LostAndFound/addLostItem',LostItemData);
       if(data?.success){
@@ -86,6 +87,7 @@ const LostFound = () => {
         setName('');
         setDescription('');
         setRole('');
+        setItemName('');
         setEmail('');
         setImage(null);
       }else{
@@ -407,7 +409,7 @@ useEffect(() => {
           <div className="col p-0 m-0">
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
             <div style={{ marginLeft: '20%'}}>
-              <h2>Lost & Found Items</h2>
+              <h3>Lost & Found Items</h3>
               {/* {email}<br></br>
               {userName}<br></br>
               {userPNumber} */}
