@@ -29,6 +29,8 @@ const LostFound = () => {
   const [userPNumber,setUserPNumber] = useState('');
   const [itemEmail,setItemEmail] = useState('');
   const [itemRole,setItemRole] = useState('');
+  const [allNotify,setAllNotify] = useState('');
+  const [filteredNotify,setFilteredNotify] = useState('');
 
 
     useEffect(() => {
@@ -171,7 +173,7 @@ useEffect(() => {
 const getAllNotification = async () => {
   try {
     const { data } = await axios.get("http://localhost:8088/api/v1/LostAndFound/getAllNotift");
-    setItems(data.notifies);
+    setAllNotify(data.notifies);
     getAllNotification();
   } catch (error) {
     console.log(error);
@@ -180,6 +182,20 @@ const getAllNotification = async () => {
     setLoading(false);
 }
 };
+
+// filter
+useEffect(() => {
+  if (allNotify.length > 0) {
+    const filterNotify = allNotify.filter((notify) => notify.ItemID.email === email);
+    
+    // Set the filtered notifications to state
+    setFilteredNotify(filterNotify);
+  }
+}, [allNotify,email]);
+
+useEffect(() => {
+  getAllNotification();
+}, []);
 
   return (
     <Layout title={"Lost & Found"}>
@@ -310,11 +326,58 @@ const getAllNotification = async () => {
               </form>
             </div>
             </div>
-            <div className={'card m-2'} style={{ width: "100%" }}>
-
-            </div>
+            {/* end of lost item upload part */}
+            <div className={'card m-2'} style={{ width: "100%" }}></div>
+            {allNotify?.ItemID?.email}
+            {/* start of notification part */}
             <div className='notify'>
-              
+            {loading ? (
+                  <div className="pnf">
+                    <h6 className="pnf-heading">Loading Items...</h6>
+                  </div>
+                ) : (
+                  <List
+                        grid={{ gutter: 1, column: 1 }} // Display 3 Items in one row
+                        dataSource={filteredNotify}
+                        // dataSource={allNotify}
+                        renderItem={f => {
+                            return (
+                              <List.Item>
+                                    <Card
+                                        hoverable
+                                        style={{
+                                            borderRadius: '8px',
+                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                            marginBottom: '8px',
+                                            width: '100%',
+                                            marginLeft: '8px',
+                                            // paddingLeft:'50px',
+                                            height: '75px' ,
+                                            // margin: '0 auto'
+                                        }}
+                                        // onClick={() => handleItemClick(f)} // Handle click
+                                    >
+                                      <div style={{marginTop:"-20px"}}>
+                                            {/* {f.userName}<br></br>
+                                            {f.userPNumber}<br></br>
+                                            {f.email} */}
+                                            {f.ItemID.role === "lost" &&(
+                                                    <div>
+                                                      Your Items Found
+                                                    </div>
+                                                  )}
+                                            {f.ItemID.role === "found" &&(
+                                                    <div>
+                                                      this item belongs to {f.userName}
+                                                    </div>
+                                                  )}
+                                        </div>
+                                      </Card>
+                                    </List.Item>
+                                  );
+                                }}
+                            />
+                )}
             </div>
           </div>
 
