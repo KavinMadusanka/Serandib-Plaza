@@ -49,7 +49,7 @@ const LostFound = () => {
     
     // e.preventDefault();
     try {
-      const nofitiData = await axios.post(`/api/v1/LostAndFound/addNotification/${Iid}`,{userName,userPNumber});
+      const nofitiData = await axios.post(`/api/v1/LostAndFound/addNotification/${Iid}`,{userName,userPNumber,email});
 
       if (nofitiData.data.success) {
         toast.success(nofitiData.data.message);
