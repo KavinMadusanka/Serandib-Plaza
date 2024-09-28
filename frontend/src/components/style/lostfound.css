@@ -48,6 +48,14 @@
     padding-bottom: 3px;
     border-radius: 5px;
 }
+.btnsubb{
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 38px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+}
 
 .item9 :hover{
     background-color:rgb(191, 191, 255) ;
@@ -68,4 +76,23 @@
 .left{
     justify-content: right;
     align-items: right;
+}
+
+.OneItem{
+    /* width: 300px; */
+}
+.Imagebox{
+    height: 190px;
+}
+
+.selectitem{
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    margin-right: 350px;
+    /* background-color: aqua; */
+}
+
+.notify{
+    padding-top: 10px;
 }

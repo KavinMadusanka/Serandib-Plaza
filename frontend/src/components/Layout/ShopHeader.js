@@ -34,7 +34,7 @@ const ShopHeader = () => {
     };
 
     const goToInventory = () => {
-        navigate('/inventory'); // Adjust the route as needed
+        navigate('/products'); // Adjust the route as needed
     };
 
     const goToAccount = () => {

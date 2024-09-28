@@ -5,7 +5,7 @@ import Layout from '../components/Layout/Layout';
 
 const { Title, Paragraph, Text } = Typography;
 
-const AllPromotions = ({ shopId }) => {
+const Promotions = ({ shopId }) => {
     const [promotions, setPromotions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedPromotion, setSelectedPromotion] = useState(null);
@@ -43,42 +43,71 @@ const AllPromotions = ({ shopId }) => {
         setSelectedPromotion(null);
     };
 
+    // Format the start date for the box calendar (e.g., month and day)
+    const formatCalendarDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { month: 'short', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options).split(' ');
+    };
+
     return (
         <Layout>
             <div className="all-promotions-container" style={{ padding: '20px' }}>
                 <Title level={1} style={{ textAlign: 'center', marginBottom: '30px' }}>Promotions</Title>
-                <Title level={4} style={{ textAlign: 'center', marginBottom: '30px' }}>We love promotions and it
-                     appears you do too! Which is why we have a lot planned for the coming months.<br/>
-Discounts,free gifts – just to name a few.</Title>
-                
+                <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>We love promotions and it appears you do too! Which is why we have a lot planned for the coming months.<br />
+                    Discounts, free gifts – just to name a few.</Title>
+
                 {loading ? (
                     <p>Loading promotions...</p>
                 ) : (
                     <List
                         grid={{ gutter: 16, column: 3 }} // Display 3 promotions in one row
                         dataSource={promotions}
-                        renderItem={promotion => (
-                            <List.Item>
-                                <Card
-                                    hoverable
-                                    style={{
-                                        borderRadius: '8px',
-                                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                                        marginBottom: '20px',
-                                        width: '80%',
-                                        margin:'0 auto'
-                                    }}
-                                    cover={
-                                        <div style={{ position: 'relative' }}>
+                        renderItem={promotion => {
+                            const [month, day] = formatCalendarDate(promotion.startDate);
+                            return (
+                                <List.Item>
+                                    <Card
+                                        hoverable
+                                        style={{
+                                            borderRadius: '8px',
+                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                            marginBottom: '20px',
+                                            width: '80%',
+                                            margin: '0 auto'
+                                        }}
+                                        onClick={() => handlePromotionClick(promotion)} // Handle click event
+                                    >
+                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+                                            {/* Calendar-like box for date */}
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    width: '80px',
+                                                    height: '100px',
+                                                    border: '1px solid #ddd',
+                                                    borderRadius: '8px',
+                                                    marginRight: '15px',
+                                                    backgroundColor: '#f5f5f5'
+                                                }}
+                                            >
+                                                <Text style={{ fontSize: '20px', fontWeight: 'bold' }}>{day}</Text>
+                                                <Text style={{ fontSize: '14px' }}>{month}</Text>
+                                            </div>
+
+                                            {/* Promotion image */}
                                             <img
                                                 src={`/api/v1/promotions/promotion-image/${promotion._id}`}
                                                 alt={promotion.promotionTitle}
                                                 style={{
-                                                    width: '100%',
-                                                    height: '30rem',
+                                                    width: '150px',
+                                                    height: '150px',
                                                     objectFit: 'cover',
-                                                    borderTopLeftRadius: '8px',
-                                                    borderTopRightRadius: '8px',
+                                                    borderRadius: '8px',
+                                                    border: '1px solid #ddd'
                                                 }}
                                             />
                                             <Tag
@@ -94,22 +123,22 @@ Discounts,free gifts – just to name a few.</Title>
                                                 {promotion.isActive ? 'Active' : 'Inactive'}
                                             </Tag>
                                         </div>
-                                    }
-                                    onClick={() => handlePromotionClick(promotion)} // Handle click event
-                                >
-                                    <div style={{ padding: '10px' }}>
-                                        {/* Display promotion title and description */}
-                                        <Title level={4} style={{ marginBottom: '10px' }}>{promotion.promotionTitle}</Title>
-                                        <Paragraph
-                                            ellipsis={{ rows: 2 }}
-                                            style={{ color: 'rgba(0, 0, 0, 0.65)' }}
-                                        >
-                                            {promotion.promotionDescription}
-                                        </Paragraph>
-                                    </div>
-                                </Card>
-                            </List.Item>
-                        )}
+
+                                        <div style={{ padding: '10px', textAlign: 'center' }}>
+                                            <Title level={4} style={{ marginBottom: '10px' }}>{promotion.promotionTitle}</Title>
+                                            {/* Display the shop name */}
+                                            <Paragraph><strong>{promotion.shop?.shopname || 'Unknown Shop'}</strong></Paragraph>
+                                            <Paragraph
+                                                ellipsis={{ rows: 2 }}
+                                                style={{ color: 'rgba(0, 0, 0, 0.65)' }}
+                                            >
+                                                {promotion.promotionDescription}
+                                            </Paragraph>
+                                        </div>
+                                    </Card>
+                                </List.Item>
+                            );
+                        }}
                     />
                 )}
 
@@ -130,6 +159,8 @@ Discounts,free gifts – just to name a few.</Title>
                         />
 
                         <Paragraph>{selectedPromotion.promotionDescription}</Paragraph>
+                        {/* Display the shop name */}
+                        <Paragraph><strong>Shop:</strong> {selectedPromotion.shop?.shopname || 'Unknown Shop'}</Paragraph>
                         <Paragraph>
                             <strong>Discount:</strong> {selectedPromotion.discountValue} {selectedPromotion.discountType === 'percentage' ? '%' : '$'}
                         </Paragraph>
@@ -157,4 +188,4 @@ Discounts,free gifts – just to name a few.</Title>
     );
 };
 
-export default AllPromotions;
+export default Promotions;
