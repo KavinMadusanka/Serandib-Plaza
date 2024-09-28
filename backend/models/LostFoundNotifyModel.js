@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import LostAndFounds from './LostAndFoundModel.js';
+import { type } from "os";
 
 const Notify = new mongoose.Schema(
     {
@@ -8,6 +9,10 @@ const Notify = new mongoose.Schema(
             required: true
         },
         userPNumber:{
+            type:String,
+            required:true
+        },
+        email:{
             type:String,
             required:true
         },
