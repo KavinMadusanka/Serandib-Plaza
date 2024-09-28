@@ -1,12 +1,17 @@
 import React,{useEffect,useState} from 'react';
 import InventoryMenu from '../../components/Layout/InventoryMenu'
 import ShopHeader from '../../components/Layout/ShopHeader';
-import { Paper, Typography, Box, Stack } from '@mui/material';
+import { Paper, Typography, Box, Modal, Button, Divider, Stack } from '@mui/material';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Layout, Select, Input, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
+import { PictureAsPdf, ImageOutlined } from '@mui/icons-material'; // Icons for the buttons
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; // Used to capture images from the DOM
+import 'jspdf-autotable';
+
 
 const {Option} = Select
 
@@ -19,6 +24,7 @@ const Products = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to handle the modal
 
     // get all products
     const getAllProducts = async () => {
@@ -99,6 +105,108 @@ const Products = () => {
     },[auth]);
 
 
+    // Open and close the modal
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Generate report without images in table format
+const generateReportWithoutImages = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Inventory Report', 14, 22);
+
+    const columns = ["No.", "Name", "Description", "Price (LKR)", "Quantity"];
+    const data = filteredProducts.map((product, index) => [
+        index + 1,
+        product.name,
+        product.description,
+        product.price,
+        product.quantity
+    ]);
+
+    doc.autoTable({
+        head: [columns],
+        body: data,
+        startY: 30,
+        styles: {
+            cellPadding: 5,
+            fontSize: 12,
+            overflow: 'linebreak',
+        },
+        headStyles: {
+            fillColor: [22, 160, 133], // Example color
+            textColor: [255, 255, 255],
+        },
+        margin: { top: 20 },
+        didDrawCell: (data) => {
+            if (data.section === 'body') {
+                doc.setDrawColor(200);
+                doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+            }
+        }
+    });
+
+    doc.save('inventory_report_without_images.pdf');
+};
+
+// Generate report with images (without actually printing images)
+const generateReportWithImages = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Inventory Report (No Images Included)', 14, 22);
+
+    const columns = ["No.", "Name", "Description", "Price (LKR)", "Quantity"];
+    const data = filteredProducts.map((product, index) => [
+        index + 1,
+        product.name,
+        product.description,
+        product.price,
+        product.quantity
+    ]);
+
+    doc.autoTable({
+        head: [columns],
+        body: data,
+        startY: 30,
+        styles: {
+            cellPadding: 5,
+            fontSize: 12,
+            overflow: 'linebreak',
+        },
+        headStyles: {
+            fillColor: [22, 160, 133], // Example color
+            textColor: [255, 255, 255],
+        },
+        margin: { top: 20 },
+        didDrawCell: (data) => {
+            if (data.section === 'body') {
+                doc.setDrawColor(200);
+                doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+            }
+        }
+    });
+
+    doc.save('inventory_report_with_images.pdf');
+};
+
+
+  const handleGenerateReport = (withImages) => {
+    if (withImages) {
+      generateReportWithImages();
+    } else {
+      generateReportWithoutImages();
+    }
+    closeModal(); // Close the modal after the user makes a choice
+  };
+
+
     return (
         <Layout>
         <div>
@@ -127,6 +235,11 @@ const Products = () => {
                     </h1>
                     <br/>
 
+                    
+                    
+
+
+
                   <div className="d-flex justify-content-center mb-4">
 
                     {/* search product */}
@@ -134,14 +247,14 @@ const Products = () => {
                         placeholder="Search Products"
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        style={{ width: 300 }} // Adjust width as needed
+                        style={{ width: 300, height: 40, marginRight: '10px' }} // Adjust width as needed
                     />
 
                   <Select
                     // placeholder="Select a Category"
                     value={selectedCategory}
                     onChange={handleCategoryChange}
-                    style={{ width: 300 }}
+                    style={{ width: 300, height: 40, marginRight: '10px' }}
                     allowClear
                   >
                     <Option value={null}>All Categories</Option>
@@ -151,6 +264,72 @@ const Products = () => {
                         </Option>
                     ))}
                   </Select>
+
+
+                  {/* Generate Report Button */}
+                  <div>
+                    <Button
+                        variant="contained"
+                        onClick={showModal}
+                        style={{ marginBottom: '20px', height: 40, backgroundColor: 'black', color: 'white' }}
+                    >
+                        Generate Report
+                    </Button>
+
+                    <Modal
+                        open={isModalOpen}
+                        onClose={closeModal}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box
+                        sx={{
+                            width: 400,
+                            backgroundColor: 'white',
+                            p: 4,
+                            boxShadow: 24,
+                            borderRadius: '12px',
+                            mx: 'auto',
+                            my: '15vh',
+                            textAlign: 'center',
+                        }}
+                        >
+                        <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
+                            Generate Report
+                        </Typography>
+
+                        <Divider sx={{ mb: 2 }} />
+
+                        <Typography variant="body1" sx={{ mb: 3 }}>
+                            Select how you want to generate the report:
+                        </Typography>
+
+                        <Stack direction="row" spacing={2} justifyContent="center">
+                            <Button
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<PictureAsPdf />}
+                            onClick={() => handleGenerateReport(false)}
+                            sx={{ minWidth: '150px' }}
+                            >
+                            Without Images
+                            </Button>
+
+                            <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ImageOutlined />}
+                            onClick={() => handleGenerateReport(true)}
+                            sx={{ minWidth: '150px' }}
+                            >
+                            With Images
+                            </Button>
+                        </Stack>
+                        </Box>
+                    </Modal>
+                    </div>
+
+
                 </div>
 
                 {/* Color Guide */}
