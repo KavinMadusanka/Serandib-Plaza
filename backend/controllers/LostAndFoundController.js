@@ -148,3 +148,17 @@ export const getLostSingleItemController = async(req,res) => {
         })
     }
 }
+
+//store notification details
+export const addNotifyControll = async(req,res) => {
+    try {
+        
+    } catch (error) {
+        res.status(500).send({
+            success:false,
+            error,
+            message:"Error in catch details",
+        });
+        
+    }
+}
