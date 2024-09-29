@@ -473,40 +473,53 @@ export const deleteShopProfileController = async (req, res) => {
   };
   
 
-export const forgotPasswordController = async(req,res) =>{
-  try{
-    const{email,newPassword} = req.body
-    if(!email){
-      res.status(400).send({message:'Email is required'})
+  export const forgotPasswordController = async (req, res) => {
+    try {
+      const { email, newPassword, re_Password } = req.body;
+  
+      // Validate input fields
+      if (!email) {
+        return res.status(400).send({ message: 'Email is required' });
+      }
+      if (!newPassword) {
+        return res.status(400).send({ message: 'New password is required' });
+      }
+      if (!re_Password) {
+        return res.status(400).send({ message: 'Please confirm your new password' });
+      }
+      if (newPassword !== re_Password) {
+        return res.status(400).send({ message: 'Passwords do not match' });
+      }
+  
+      // Check if the user exists
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: "User with this email does not exist",
+        });
+      }
+  
+      // Hash the new password
+      const hashedPassword = await hashPassword(newPassword);
+  
+      // Update the user's password
+      await userModel.findByIdAndUpdate(user._id, { password: hashedPassword });
+  
+      return res.status(200).send({
+        success: true,
+        message: "Password reset successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        success: false,
+        message: 'Something went wrong',
+        error: error.message,  // More descriptive error message
+      });
     }
-    if(!newPassword){
-      res.status(400).send({message:'New password is required'})
-    }
-
-    //check
-    const user = await userModel.findOne({email})
-    //validation
-    if(!user){
-      return res.status(404).send({
-        success:false,
-        message:"Wrong email or password"
-      })
-    }
-    const hashed = await hashPassword(newPassword);
-    await userModel.findByIdAndUpdate(user._id,{password:hashed});
-    res.status(200).send({
-      success:true,
-      message:"Password reset successfully"
-    })
-  }catch(error){
-    console.log(error)
-    res.status(500).send({
-      success:false,
-      message:'Something went wrong',
-      error
-    })
-  }
-}
+  };
+  
 
 
 
