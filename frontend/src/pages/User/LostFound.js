@@ -12,6 +12,7 @@ const { Title, Paragraph, Text } = Typography;
 const LostFound = () => {
   const [Items, setItems] = useState([]);
 	const [name,setName] = useState("");
+	const [itemName,setItemName] = useState("");
   const [filteredItem, setFilteredItem] = useState([]);
   const [selectedItemRole, setSelectedItemRole] = useState("");
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,8 @@ const LostFound = () => {
   const [userPNumber,setUserPNumber] = useState('');
   const [itemEmail,setItemEmail] = useState('');
   const [itemRole,setItemRole] = useState('');
+  const [allNotify,setAllNotify] = useState('');
+  const [filteredNotify,setFilteredNotify] = useState('');
 
 
     useEffect(() => {
@@ -75,6 +78,7 @@ const LostFound = () => {
       LostItemData.append("Description", Description);
       LostItemData.append("role", role);
       LostItemData.append("email", email);
+      LostItemData.append("itemName", itemName);
       LostItemData.append("image", image);
       const {data} = await axios.post('/api/v1/LostAndFound/addLostItem',LostItemData);
       if(data?.success){
@@ -83,6 +87,7 @@ const LostFound = () => {
         setName('');
         setDescription('');
         setRole('');
+        setItemName('');
         setEmail('');
         setImage(null);
       }else{
@@ -171,7 +176,7 @@ useEffect(() => {
 const getAllNotification = async () => {
   try {
     const { data } = await axios.get("http://localhost:8088/api/v1/LostAndFound/getAllNotift");
-    setItems(data.notifies);
+    setAllNotify(data.notifies);
     getAllNotification();
   } catch (error) {
     console.log(error);
@@ -180,6 +185,20 @@ const getAllNotification = async () => {
     setLoading(false);
 }
 };
+
+// filter
+useEffect(() => {
+  if (allNotify.length > 0) {
+    const filterNotify = allNotify.filter((notify) => notify.ItemID.email === email);
+    
+    // Set the filtered notifications to state
+    setFilteredNotify(filterNotify);
+  }
+}, [allNotify,email]);
+
+useEffect(() => {
+  getAllNotification();
+}, []);
 
   return (
     <Layout title={"Lost & Found"}>
@@ -195,7 +214,7 @@ const getAllNotification = async () => {
               <div className='KAboarder'>
                   <div>
                     <div className='KApayment'>
-                      <h2> Add Your Item </h2>
+                      <h3> Add Your Item </h3>
                       </div>
                   </div>
                   <div className='item2'>
@@ -239,7 +258,7 @@ const getAllNotification = async () => {
                         <tbody>
                         <tr><td className='texting'>Name :</td>
                             <td className='texting'>Phone Number :</td></tr>
-                            <tr></tr>
+                            {/* <tr></tr> */}
                           <tr>
                             <td className='texting'>
                               <input 
@@ -264,7 +283,26 @@ const getAllNotification = async () => {
                             required
                             />
                             </td></tr>
-                            <tr><br/></tr>
+                            {/* <tr><br/></tr> */}
+
+                            <tr>
+                              <td className='texting'>
+                                Item Name :
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className='texting' colSpan={2}>
+                              <input 
+                            className='textInput'
+                            type="text"
+                            value={itemName} 
+                            onChange={(e) => setItemName(e.target.value)}
+                            placeholder="Item Name"
+                            onKeyPress={handleKeyPress}
+                            required
+                            /> 
+                              </td>
+                            </tr>
 
                             <tr><td className='texting'>
                             <input
@@ -310,18 +348,69 @@ const getAllNotification = async () => {
               </form>
             </div>
             </div>
-            <div className={'card m-2'} style={{ width: "100%" }}>
-
-            </div>
+            {/* end of lost item upload part */}
+            <div className={'card m-2'} style={{ width: "100%" }}></div>
+            {allNotify?.ItemID?.email}
+            {/* start of notification part */}
             <div className='notify'>
-              
+              <div style={{ marginLeft: '40%'}}>
+                <h5 >Notifications</h5><br></br>
+              </div>
+            {loading ? (
+                  <div className="pnf">
+                    <h6 className="pnf-heading">Loading Items...</h6>
+                  </div>
+                ) : (
+                  <List
+                        grid={{ gutter: 1, column: 1 }} // Display 3 Items in one row
+                        dataSource={filteredNotify}
+                        // dataSource={allNotify}
+                        renderItem={f => {
+                            return (
+                              <List.Item>
+                                    <Card
+                                        hoverable
+                                        style={{
+                                            borderRadius: '8px',
+                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                            marginBottom: '8px',
+                                            width: '100%',
+                                            marginLeft: '8px',
+                                            backgroundColor: '#e3e3e3',
+                                            // paddingLeft:'50px',
+                                            height: '75px' ,
+                                            // margin: '0 auto'
+                                        }}
+                                        // onClick={() => handleItemClick(f)} // Handle click
+                                    >
+                                      <div style={{marginTop:"-20px"}}>
+                                            {/* {f.userName}<br></br>
+                                            {f.userPNumber}<br></br>
+                                            {f.email} */}
+                                            {f.ItemID.role === "lost" &&(
+                                                    <div>
+                                                      Your {f.ItemID.itemName} has been found. Please contact {f.userName} at {f.userPNumber} to collect it.
+                                                    </div>
+                                                  )}
+                                            {f.ItemID.role === "found" &&(
+                                                    <div>
+                                                      The {f.ItemID.itemName} you found belongs to me ({f.userName}). Please contact me at {f.userPNumber} to arrange collection.
+                                                    </div>
+                                                  )}
+                                        </div>
+                                      </Card>
+                                    </List.Item>
+                                  );
+                                }}
+                            />
+                )}
             </div>
           </div>
 
           <div className="col p-0 m-0">
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
             <div style={{ marginLeft: '20%'}}>
-              <h2>Lost & Found Items</h2>
+              <h3>Lost & Found Items</h3>
               {/* {email}<br></br>
               {userName}<br></br>
               {userPNumber} */}
@@ -377,7 +466,8 @@ const getAllNotification = async () => {
                                               
                                               <div className="card-body">
                                                 <p className="card-title">Name : {p.name}</p>
-                                                <p className="card-text">Contact Number : {p.pNumber}</p>
+                                                <p className="card-title">Items name : {p.itemName}</p>
+                                                <p className="card-title">Contact Number : {p.pNumber}</p>
                                                 <p className="card-text">Description : {p.Description}</p><br/>
                                                 <div className={`card ${p.email === email ? 'Delete' : ''}`} style={{ width: "100%" }}>
                                                   {p.email === email && p.role === "lost" &&(
@@ -393,7 +483,7 @@ const getAllNotification = async () => {
                                                     onClick={() => {
                                                       handleDeleteItem(p._id);
                                                       }}>
-                                                    Remove Item
+                                                    Found Owner
                                                     </button>
                                                   )}
                                                   {p.email !== email && p.role === "lost" &&(
@@ -446,6 +536,9 @@ const getAllNotification = async () => {
                             <strong>Name:</strong> {selectedItem.name}
                         </Paragraph>
                         <Paragraph>
+                            <strong>Items name :</strong> {selectedItem.itemName}
+                        </Paragraph>
+                        <Paragraph>
                             <strong>Contact No:</strong> {selectedItem.pNumber}
                         </Paragraph>
                         <Paragraph>
@@ -468,7 +561,7 @@ const getAllNotification = async () => {
                                                     onClick={() => {
                                                       handleDeleteItem(selectedItem._id);
                                                       }}>
-                                                    Remove Item
+                                                    Found Owner
                                                     </button>
                                                   )}
                                                   {selectedItem.email !== email && selectedItem.role === "lost" &&(

@@ -137,13 +137,13 @@ const LowLevelStock = () => {
                                         placeholder="Search Products"
                                         value={searchQuery}
                                         onChange={handleSearchChange}
-                                        style={{ width: 300 }} // Adjust width as needed
+                                        style={{ width: 300, height: 40, marginRight: '10px' }} // Adjust width as needed
                                     />
 
                                     <Select
                                         value={selectedCategory}
                                         onChange={handleCategoryChange}
-                                        style={{ width: 300 }}
+                                        style={{ width: 300, height: 40, marginRight: '10px' }}
                                         allowClear
                                     >
                                         <Option value={null}>All Categories</Option>

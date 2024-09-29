@@ -199,3 +199,27 @@ export const getPromotionByShopController = async (req, res) => {
         });
     }
 };
+
+// Controller to get total user and shop count
+export const getTotalPromoCountController = async (req, res) => {
+    try {
+        // Get the total count of shops
+        const promoCount = await promotionModel.countDocuments();
+  
+        res.status(200).send({
+            success: true,
+            message: "Total promotion count fetched successfully",
+            data: {
+                totalPromotions: promoCount,
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error fetching total counts",
+            error: error.message,
+        });
+    }
+  };
+  

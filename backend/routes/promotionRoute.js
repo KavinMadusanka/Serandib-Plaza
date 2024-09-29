@@ -6,6 +6,7 @@ import { createPromotionController,
          getAllPromotionsController, 
          getPromotionByShopController, 
          getSinglePromotionsController, 
+         getTotalPromoCountController, 
          promotionImageController, 
          updatePromotionController 
         } from './../controllers/promotionController.js';
@@ -33,5 +34,8 @@ router.put('/update-promotion/:pid',requireSignIn,formidable(),updatePromotionCo
 router.delete('/delete-promotion/:pid',deletePromotionController )
 
 router.get('/get-promotions-by-shop/:shopId',getPromotionByShopController )
+
+//promotion count
+router.get('/get-promoCount', getTotalPromoCountController )
 
 export default router
