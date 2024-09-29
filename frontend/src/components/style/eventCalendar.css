@@ -1,0 +1,72 @@
+.calendar-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.UPevents {
+    text-align: center;
+    font-size: 28px;
+    color: #000;
+    /* color: #6a0dad; */
+    margin-bottom: 20px;
+}
+
+.rbc-calendar {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-header {
+    background-color: #0d70ad;
+    /* background-color: #6a0dad; */
+    color: white;
+    /* color:primary; */
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    border-right: 1px solid #ddd;
+}
+
+.rbc-header + .rbc-header {
+    border-left: none;
+}
+
+.rbc-month-view {
+    border-top: 1px solid #0d70ad;
+}
+
+.rbc-month-row {
+    border-bottom: 1px solid #ddd;
+}
+
+.rbc-day-bg {
+    border-right: 1px solid #ddd;
+}
+
+.rbc-date-cell {
+    font-size: 14px;
+    color: #0d70ad;
+    padding: 10px;
+    text-align: center;
+}
+
+.rbc-off-range-bg {
+    background-color: #f4f4f4;
+}
+
+.rbc-today {
+    background-color: #f0f0f0;
+    border: 1px solid #0d70ad;
+}
+
+.rbc-event {
+    background-color: #0d70ad;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.rbc-event-content {
+    text-align: center;
+}
