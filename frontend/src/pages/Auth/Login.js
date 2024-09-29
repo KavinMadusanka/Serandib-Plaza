@@ -16,7 +16,6 @@ const Login = () => {
     const handleLoginClick = () => {
       navigate('/register'); // Redirect to the login page
     };
-    
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -29,27 +28,22 @@ const Login = () => {
                 setAuth({
                     ...auth,
                     token,
-                    user: role === 0 || role === 1 ? user : null,    // User or Admin
-                    shopOwner: role === 2 ? shop : null,             // Shop owner
+                    user,
+                    shopOwner: role === 2 ? shop : null,  // Only store shop if the user is a shop owner
                 });
     
                 // Store the token and user/shop/admin details in localStorage
                 localStorage.setItem("auth", JSON.stringify({
                     token,
-                    user: role === 0 || role === 1 ? user : null,
+                    user,
                     shopOwner: role === 2 ? shop : null,
                 }));
     
-                // Log the role to check its value
-                console.log("User Role:", role);
-    
-                // Redirect based on user role
-                if (role === 0) {
-                    navigate('/userProfile');   // Redirect to User Profile
-                } else if (role === 1) {
-                    navigate('/adminProfile');  // Redirect to Admin Profile
-                } else if (role === 2) {
-                    navigate('/shopProfile');   // Redirect to Shop Profile
+                // Redirect based on role
+                if (role === 2) {
+                    navigate('/shopProfile');  // Redirect shop owners to shop profile
+                } else {
+                    navigate('/');  // Redirect others to homepage
                 }
     
                 toast.success("Login successful");
