@@ -38,6 +38,7 @@ import LowLevelStock from './pages/Shops/LowLevelStock';
 import OutOfStock from './pages/Shops/OutOfStock';
 
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import EventCalendar from "./pages/User/EventCalendar";
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
 
       <Route path="/shops" element={<Shops />}/>
       <Route path="/forgot-password" element={<ForgotPassword /> }/>
+      <Route path="/eventcalender" element={<EventCalendar /> }/>
 
 
 
