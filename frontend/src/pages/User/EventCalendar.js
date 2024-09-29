@@ -62,7 +62,36 @@ const EventCalendar = () => {
                 />
             </div>
             {/* Modal for displaying event details */}
-            
+            <Modal
+                // isOpen={isModalOpen}
+                // onRequestClose={closeModal}
+                visible={isModalOpen}
+                onCancel={closeModal}
+                contentLabel="Event Details"
+                className="event-modal"
+            >
+                {selectedEvent && (
+                    <div className="event-details">
+                        <h2>{selectedEvent.title}</h2>
+                        <p>
+                            <strong>Start:</strong> {new Date(selectedEvent.start).toLocaleString()} <br />
+                            <strong>End:</strong> {new Date(selectedEvent.end).toLocaleString()}
+                        </p>
+                        {selectedEvent.description && (
+                            <p><strong>Description:</strong> {selectedEvent.description}</p>
+                        )}
+                        {selectedEvent.imageUrl && (
+                            <img
+                                src={selectedEvent.imageUrl}
+                                alt={selectedEvent.title}
+                                className="event-image"
+                                style={{ maxWidth: '100%', height: 'auto' }}
+                            />
+                        )}
+                        <button onClick={closeModal}>Close</button>
+                    </div>
+                )}
+            </Modal>
         </Layout>
     );
 };
