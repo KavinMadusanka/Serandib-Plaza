@@ -11,16 +11,39 @@ const AdminDashboard = () => {
     const [userCount, setUserCount] = useState(0);
     const [shopCount, setShopCount] = useState(0);
     const [productCount, setProductCount] = useState(0);
-    const [PromotionCount, setPromotionCount] = useState(0);
+    const [promotionCount, setPromotionCount] = useState(0);
 
     // Fetch counts from the backend
     useEffect(() => {
-<<<<<<< Updated upstream
-        // Example of how to fetch the counts, replace these with your real API calls
-        setUserCount(11); // Example data
-        setShopCount(7); // Example data
-        setProductCount(10); // Example data
-        setCategoryCount(7); // Example data
+        const fetchCounts = async () => {
+            try {
+                // Fetch user count
+                const userResponse = await axios.get('/api/v1/userauth/get-userCount');
+                if (userResponse.data.success) {
+                    setUserCount(userResponse.data.data.totalUsers);
+                }
+
+                // Fetch shop count
+                const shopResponse = await axios.get('/api/v1/userauth/get-shopCount');
+                if (shopResponse.data.success) {
+                    setShopCount(shopResponse.data.data.totalShops);
+                }
+                const productResponse = await axios.get('/api/v1/product/get-productCount');
+                if (productResponse.data.success) {
+                    setProductCount(productResponse.data.data.totalProducts);
+                }
+                const promotionResponse = await axios.get('/api/v1/promotions/get-promoCount');
+                if (promotionResponse.data.success) {
+                    setPromotionCount(promotionResponse.data.data.totalPromotions);
+                }
+
+                // Add logic for productCount and categoryCount if you have endpoints for them
+            } catch (error) {
+                console.error('Error fetching total counts:', error);
+            }
+        };
+
+        fetchCounts();
     }, []);
 
     const StatCard = ({ title, count, IconComponent }) => (
@@ -42,14 +65,14 @@ const AdminDashboard = () => {
                     Dashboard
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
-                    Welcome back! Here's an overview of your shopping mall’s performance.
+                    Hi, Welcome back! Here's an overview of your shopping mall’s performance.
                 </Typography>
                 <br/>
                 <Grid container spacing={3}>
                     <StatCard title="Total Users" count={userCount} IconComponent={PeopleIcon} />
                     <StatCard title="Total Shops" count={shopCount} IconComponent={StoreIcon} />
                     <StatCard title="Total Products" count={productCount} IconComponent={ProductIcon} />
-                    <StatCard title="Total Promotions" count={PromotionCount} IconComponent={CategoryIcon} />
+                    <StatCard title="Total Promotions" count={promotionCount} IconComponent={CategoryIcon} />
                 </Grid>
             </Box>
         </Box>
