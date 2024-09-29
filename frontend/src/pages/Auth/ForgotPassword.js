@@ -9,32 +9,41 @@ const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [re_Password, setRePassword] = useState("");
 
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    if (!email || !newPassword || !re_Password) {
-      toast.error("All fields are required");
-      return;
+  e.preventDefault();
+
+  if (!email || !newPassword || !re_Password) {
+    toast.error("All fields are required");
+    return;
+  }
+
+  if (newPassword !== re_Password) {
+    toast.error("Passwords do not match");
+    return;
+  }
+
+  if (!passwordRegex.test(newPassword)) {
+    toast.error("Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.");
+    return;
+  }
+
+  try {
+    const res = await axios.post("/api/v1/userauth/forgot-password", { email, newPassword, re_Password });
+    
+    console.log("API Response:", res.data); // Add logging here
+    
+    if (res.data.success) {
+      toast.success("Password reset successfully");
+    } else {
+      toast.error(res.data.message);
     }
-  
-    if (newPassword !== re_Password) {
-      toast.error("Passwords do not match");
-      return;
-    }
-  
-    try {
-      const res = await axios.post("/api/v1/userauth/forgot-password", { email, newPassword, re_Password });
-      
-      if (res.data.success) {
-        toast.success("Password reset successfully");
-      } else {
-        toast.error(res.data.message);
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
-  };
-  
+  } catch (error) {
+    console.error("Error:", error); // Add logging for error handling
+    toast.error("Something went wrong");
+  }
+};
 
   return (
     <Layout>
@@ -78,10 +87,11 @@ const ForgotPassword = () => {
               Reset Password
             </Button>
             <br/><br/>
-            <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
-            <Typography variant="body2">If your password successfully reset 
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+              <Typography variant="body2">
+                If your password successfully reset 
                 <Link href="/login"> Login From Here</Link>
-            </Typography>
+              </Typography>
             </Box>
         </form>
         </Paper>
