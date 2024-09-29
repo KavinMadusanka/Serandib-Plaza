@@ -7,17 +7,23 @@ import Layout from '../../components/Layout/Layout';
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [re_Password, setRePassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!email  || !newPassword) {
+  
+    if (!email || !newPassword || !re_Password) {
       toast.error("All fields are required");
       return;
     }
-
+  
+    if (newPassword !== re_Password) {
+      toast.error("Passwords do not match");
+      return;
+    }
+  
     try {
-      const res = await axios.post("/api/v1/userauth/forgot-password", { email, newPassword });
+      const res = await axios.post("/api/v1/userauth/forgot-password", { email, newPassword, re_Password });
       
       if (res.data.success) {
         toast.success("Password reset successfully");
@@ -28,6 +34,7 @@ const ForgotPassword = () => {
       toast.error("Something went wrong");
     }
   };
+  
 
   return (
     <Layout>
@@ -53,6 +60,16 @@ const ForgotPassword = () => {
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
+                fullWidth
+                required
+              />
+            </Box>
+            <Box mb={2}>
+              <TextField
+                label="Re-Enter Password"
+                type="password"
+                value={re_Password}
+                onChange={(e) => setRePassword(e.target.value)}
                 fullWidth
                 required
               />
