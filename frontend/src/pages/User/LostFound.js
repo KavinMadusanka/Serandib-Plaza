@@ -388,12 +388,12 @@ useEffect(() => {
                                             {f.email} */}
                                             {f.ItemID.role === "lost" &&(
                                                     <div>
-                                                      Your Items Found
+                                                      Your {f.ItemID.itemName} has been found. Please contact {f.userName} at {f.userPNumber} to collect it.
                                                     </div>
                                                   )}
                                             {f.ItemID.role === "found" &&(
                                                     <div>
-                                                      This item belongs to {f.userName}
+                                                      The {f.ItemID.itemName} you found belongs to me ({f.userName}). Please contact me at {f.userPNumber} to arrange collection.
                                                     </div>
                                                   )}
                                         </div>
@@ -465,7 +465,8 @@ useEffect(() => {
                                               
                                               <div className="card-body">
                                                 <p className="card-title">Name : {p.name}</p>
-                                                <p className="card-text">Contact Number : {p.pNumber}</p>
+                                                <p className="card-title">Items name : {p.itemName}</p>
+                                                <p className="card-title">Contact Number : {p.pNumber}</p>
                                                 <p className="card-text">Description : {p.Description}</p><br/>
                                                 <div className={`card ${p.email === email ? 'Delete' : ''}`} style={{ width: "100%" }}>
                                                   {p.email === email && p.role === "lost" &&(
@@ -481,7 +482,7 @@ useEffect(() => {
                                                     onClick={() => {
                                                       handleDeleteItem(p._id);
                                                       }}>
-                                                    Remove Item
+                                                    Found Owner
                                                     </button>
                                                   )}
                                                   {p.email !== email && p.role === "lost" &&(
@@ -534,6 +535,9 @@ useEffect(() => {
                             <strong>Name:</strong> {selectedItem.name}
                         </Paragraph>
                         <Paragraph>
+                            <strong>Items name :</strong> {selectedItem.itemName}
+                        </Paragraph>
+                        <Paragraph>
                             <strong>Contact No:</strong> {selectedItem.pNumber}
                         </Paragraph>
                         <Paragraph>
@@ -556,7 +560,7 @@ useEffect(() => {
                                                     onClick={() => {
                                                       handleDeleteItem(selectedItem._id);
                                                       }}>
-                                                    Remove Item
+                                                    Found Owner
                                                     </button>
                                                   )}
                                                   {selectedItem.email !== email && selectedItem.role === "lost" &&(
