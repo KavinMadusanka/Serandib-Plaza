@@ -521,13 +521,48 @@ export const deleteShopProfileController = async (req, res) => {
   };
   
 
+  // Controller to get total user and shop count
+export const getTotalUserCountController = async (req, res) => {
+  try {
+      // Get the total count of users
+      const userCount = await userModel.countDocuments();
 
+      res.status(200).send({
+          success: true,
+          message: "Total user counts fetched successfully",
+          data: {
+              totalUsers: userCount,
+          }
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error fetching total counts",
+          error: error.message,
+      });
+  }
+};
 
+// Controller to get total user and shop count
+export const getTotalShopCountController = async (req, res) => {
+  try {
+      // Get the total count of shops
+      const shopCount = await shopModel.countDocuments();
 
-
-
-
-
-
-
-
+      res.status(200).send({
+          success: true,
+          message: "Total shop count fetched successfully",
+          data: {
+              totalShops: shopCount,
+          }
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error fetching total counts",
+          error: error.message,
+      });
+  }
+};
