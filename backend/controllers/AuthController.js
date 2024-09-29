@@ -622,3 +622,86 @@ export const getUserGrowthController = async (req, res) => {
         });
     }
 };
+
+
+// Controller to get shop growth over time
+export const getShopGrowthController = async (req, res) => {
+    try {
+        // MongoDB aggregation pipeline to get shop count per month
+        const shopGrowthData = await shopModel.aggregate([
+            {
+                // Match shops that have a createdAt timestamp
+                $match: {
+                    createdAt: { $exists: true }
+                }
+            },
+            {
+                // Group shops by month and year
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    shopCount: { $sum: 1 } // Count shops for each group
+                }
+            },
+            {
+                // Sort by year and month
+                $sort: { "_id.year": 1, "_id.month": 1 }
+            },
+            {
+                // Format the month and year for frontend
+                $project: {
+                    _id: 0,
+                    month: {
+                        $concat: [
+                            { $arrayElemAt: [["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "$_id.month"] },
+                            " ",
+                            { $toString: "$_id.year" }
+                        ]
+                    },
+                    shopCount: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: shopGrowthData
+        });
+    } catch (error) {
+        console.error("Error fetching shop growth data:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching shop growth data",
+            error: error.message
+        });
+    }
+};
+
+
+// Controller to get shop count by category
+export const getShopCountByCategoryController = async (req, res) => {
+    try {
+        const categoryCounts = await shopModel.aggregate([
+            {
+                $group: {
+                    _id: "$category", // Group by the category field
+                    count: { $sum: 1 } // Count the number of shops in each category
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: categoryCounts
+        });
+    } catch (error) {
+        console.error("Error fetching shop count by category:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching shop count by category",
+            error: error.message
+        });
+    }
+};
