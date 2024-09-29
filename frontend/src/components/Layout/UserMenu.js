@@ -13,7 +13,7 @@ const UserMenu = () => {
         { text: 'Dashboard', icon: <DashboardIcon />, path: '/userprofile' },
         { text: 'Update Profile', icon: <AccountCircleIcon />, path: '/updateprofile' },
         { text: 'Wishlist', icon: <FavoriteIcon />, path: '/wishlist' },
-        { text: 'Shopping List', icon: <ShoppingBasketIcon />, path: '/shopping-list' },
+        { text: 'Shopping List', icon: <ShoppingBasketIcon />, path: '/cart' },
     ];
 
     return (
