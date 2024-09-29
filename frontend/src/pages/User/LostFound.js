@@ -376,6 +376,7 @@ useEffect(() => {
                                             marginBottom: '8px',
                                             width: '100%',
                                             marginLeft: '8px',
+                                            backgroundColor: '#e3e3e3',
                                             // paddingLeft:'50px',
                                             height: '75px' ,
                                             // margin: '0 auto'
