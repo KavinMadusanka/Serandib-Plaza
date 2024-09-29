@@ -6,7 +6,7 @@ import fs from 'fs'
 //Add new lost Found item
 export const AddItemController = async(req,res) => {
     try {
-        const {name,pNumber,Description,role,email} = req.body
+        const {name,pNumber,Description,role,email,itemName} = req.body
         // const {image} = req.files.file;
         const {image} = req.files
 
@@ -18,6 +18,8 @@ export const AddItemController = async(req,res) => {
                 return res.status(500).send({error:"Phone Number is Required"})
             case !role:
                 return res.status(500).send({error:"role is Required"})
+            case !itemName:
+                return res.status(500).send({error:"item is Required"})
             case image && image.size > 1000000:
                 return res.status(500).send({error:"Photo is Required and should be less than 1mb"})
         }
@@ -39,7 +41,7 @@ export const AddItemController = async(req,res) => {
             // });
 
             // Create new LostItem document
-        const LostItems = new LostModel({ name, pNumber, Description, role, email });
+        const LostItems = new LostModel({ name, pNumber, Description, role, email, itemName });
         // const LostItems = new LostModel({ ...req.fields });
 
         // Handle image upload
@@ -203,7 +205,7 @@ export const addNotifyControll = async(req,res) => {
 // // Get all Items controller
 export const getAllLostNotify = async(req,res) =>{
     try {
-        const notifies = await LostNotify.find({}).limit(12).sort({createdAt: -1});
+        const notifies = await LostNotify.find({}).populate('ItemID').limit(12).sort({createdAt: -1});
         res.status(200).send({
             success:true,
             // counTotal: Items.length,
@@ -217,6 +219,33 @@ export const getAllLostNotify = async(req,res) =>{
             success:false,
             message:"Error in getting Notification",
             error: error.message,
+        });
+    }
+};
+
+//delete Notification
+export const deleteLostNotifyController = async (req, res) =>{
+    try {
+        const { ItemID } = req.params;
+
+        // const exisitingNotifyID = await LostNotify.findOne(ItemID);
+
+        // if(exisitingNotifyID){
+        //     await LostNotify.findOneAndDelete(exisitingNotifyID),
+        //     deleteLostNotifyController();
+        // }
+
+        // await LostNotify.deleteMany(ItemID);
+        res.status(200).send({
+            success: true,
+            // message: "Items Removed Successfully",
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            // message: "error while deleting Address",
+            error,
         });
     }
 };
