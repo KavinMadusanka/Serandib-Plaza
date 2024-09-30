@@ -27,6 +27,7 @@ import AllPromo from "./pages/Shops/AllPromo";
 import UpdatePromotion from "./pages/Shops/UpdatePromotion";
 import CartPage from "./pages/CartPage";
 
+
 import { CreateCategory } from "./pages/Shops/CreateCategory";
 import CreateProduct from "./pages/Shops/CreateProduct";
 import LostFound from './pages/User/LostFound';
@@ -45,6 +46,9 @@ import Shops from "./pages/Shops";
 
 import Products from "./pages/Shops/Products";
 import UpdateProduct from './pages/Shops/UpdateProduct';
+import LowLevelStock from './pages/Shops/LowLevelStock';
+import OutOfStock from './pages/Shops/OutOfStock';
+import WishlistPage from "./pages/WishlistPage";
 
 
 
@@ -76,6 +80,7 @@ function App() {
       <Route path="/updatePromotion" element={<UpdatePromotion />} />
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
       <Route path="/cart" element={<CartPage/>} />
+      <Route path="/wishList" element={<WishlistPage/>} />
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
 
