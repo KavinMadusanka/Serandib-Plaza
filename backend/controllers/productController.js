@@ -278,3 +278,56 @@ export const productListController = async (req,res) => {
         });
     }
 };
+
+
+// Controller to get total products count-sandamini
+export const getTotalProductCountController = async (req, res) => {
+    try {
+        // Get the total count of shops
+        const productCount = await productModel.countDocuments();
+  
+        res.status(200).send({
+            success: true,
+            message: "Total product count fetched successfully",
+            data: {
+                totalProducts: productCount,
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error fetching total counts",
+            error: error.message,
+        });
+    }
+  };
+// piyusha mongodb update product quantity part
+// Update product quantity
+export const updateProductQuantityController = async (req, res) => {
+    try {
+        const { pid } = req.params;
+        const { quantity } = req.body; // Quantity is the change, not the new total (e.g., +1 or -1)
+
+        const product = await productModel.findById(pid);
+
+        if (!product) {
+            return res.status(404).send({ message: "Product not found" });
+        }
+
+        // Update the stock quantity (ensure it doesn't go below 0)
+        const newQuantity = product.quantity - quantity;
+
+        if (newQuantity < 0) {
+            return res.status(400).send({ message: "Not enough stock available" });
+        }
+
+        product.quantity = newQuantity;
+        await product.save();
+
+        res.status(200).send({ success: true, message: "Product quantity updated", product });
+    } catch (error) {
+        console.error("Error updating product quantity:", error);
+        res.status(500).send({ success: false, message: "Internal server error", error });
+    }
+};
