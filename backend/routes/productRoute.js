@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProductController, deleteProductController, getProductController, getSingleProductController, productCountController, productFiltersController, productListController, productPhotoController, updateProductController, getAllProductController } from '../controllers/productController.js'
+import { createProductController, deleteProductController, getProductController, getSingleProductController, productCountController, productFiltersController, productListController, productPhotoController, updateProductController, getAllProductController,getTotalProductCountController } from '../controllers/productController.js'
 import formidable from 'express-formidable';
 
 const router = express.Router()
