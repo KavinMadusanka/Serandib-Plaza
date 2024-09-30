@@ -14,9 +14,19 @@ const CartPage = () => {
     const [auth, setAuth] = useAuth();
     const [cart, setCart] = useCart();
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
+    
 
     // State to hold quantities locally
     const [quantities, setQuantities] = useState({});
+
+    useEffect(() => {
+        if (auth && auth.user) {
+          setEmail(auth.user.email);
+          setUserName(auth.user.fullname);
+        }
+      }, [auth]);
 
     // Initialize quantities to 1 for new items or retrieve from localStorage
     useEffect(() => {
@@ -125,7 +135,7 @@ const CartPage = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <h1 className="text-center bg-light p-2 mb-1">
-                            {`Hello ${auth?.token && auth?.user?.name}`}
+                            Hello {userName}
                         </h1>
                         <h4 className="text-center">
                             {cart?.length
