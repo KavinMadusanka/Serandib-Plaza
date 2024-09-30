@@ -6,6 +6,8 @@ import { useCart } from "../context/cart";
 import { useWishlist } from "../context/wishlist"; // Import wishlist context
 import toast from "react-hot-toast";
 import { Prices } from "../components/Prices";
+import { useAuth } from '../context/auth';
+
 
 // Utility function to format price in LKR
 const formatPrice = (price) => {
@@ -23,6 +25,18 @@ const DisplayProductpage = () => {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const [email, setEmail] = useState("");
+    const [userName,setUserName] = useState('');
+    const [auth,setAuth] = useAuth();
+
+
+
+    useEffect(() => {
+        if (auth && auth.user) {
+          setEmail(auth.user.email);
+          setUserName(auth.user.fullname);
+        }
+      }, [auth]);
 
     // Get all categories
     const getAllCategory = async () => {
@@ -128,6 +142,65 @@ const DisplayProductpage = () => {
         }
     };
 
+    const addToCart = async (_Id,quantity) => {
+        try {
+    
+          if (quantity <= 0) {
+            toast.error("Product is out of stock");
+            return; // Exit the function if quantity is out of stock
+          }
+          const response = await axios.post('http://localhost:8088/api/v1/Cart/add-to-cart', {
+            product: _Id,
+            quantity: 1, 
+            email: email 
+          });
+         
+          if(response && response.data.success){
+            toast.success(response.data.message);
+            const res = await axios.put(`http://localhost:8088/api/v1/product/update-product-quantity/${_Id}`, {
+            quantity: quantity -1,
+          })
+          if(res && res.data.success){
+               // toast.success(res.data.message);
+                
+              }else{
+                toast.error(res.data.message);
+              }
+            
+          }else{   
+    
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.error('Error adding item to cart:', error);
+        }
+    
+    //decrease quantity by one when adding to cart
+        // try {
+         
+        //   const response = await axios.put(`http://localhost:8000/api/v1/product/update-product-quantity/${productId}`, {
+            
+        //     quantity: quantity -1,
+            
+        //   });
+        //   if(response && response.data.success){
+        //     toast.success(response.data.message);
+            
+        //   }else{
+        //     toast.error(response.data.message);
+        //   }
+          
+        // } catch (error) {
+          
+        //   console.error('Error updating  product quantity to cart:', error);
+        // }
+    
+       
+    
+    
+    
+      };
+
     return (
         <Layout title={"All Products - Best offers"}>
             <div className="row mt-3">
@@ -192,9 +265,10 @@ const DisplayProductpage = () => {
                                     <button
                                         className="btn btn-secondary ms-1"
                                         onClick={() => {
-                                            setCart([...cart, p]);
-                                            localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                                            toast.success("Item Added to cart");
+                                            // setCart([...cart, p]);
+                                            // localStorage.setItem("cart", JSON.stringify([...cart, p]));
+                                            // toast.success("Item Added to cart");
+                                            addToCart(p._id,p.quantity)
                                         }}
                                     >
                                         ADD TO CART
