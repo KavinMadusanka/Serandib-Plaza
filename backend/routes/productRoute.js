@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProductController, deleteProductController, getProductController, getSingleProductController, productCountController, productFiltersController, productListController, productPhotoController, updateProductController, getAllProductController } from '../controllers/productController.js'
+import { createProductController, deleteProductController, getProductController, getSingleProductController, productCountController, productFiltersController, productListController, productPhotoController, updateProductController, getAllProductController,getTotalProductCountController,updateProductQuantityController } from '../controllers/productController.js'
 import formidable from 'express-formidable';
 
 const router = express.Router()
@@ -34,5 +34,7 @@ router.post('/product-filters', productFiltersController)
 router.get('/product-count',productCountController)
 //piyusha product per page
 router.get('/product-list/:page',productListController)
+//piyusha mongodb quantity update
+router.patch('/update-product-quantity/:pid', updateProductQuantityController); // New route for updating quantity
 
 export default router
