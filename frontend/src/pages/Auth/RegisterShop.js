@@ -219,6 +219,7 @@ const RegisterShop = () => {
                       <MenuItem value="Food & Beverage">Food & Beverage</MenuItem>
                       <MenuItem value="Health & Beauty">Health & Beauty</MenuItem>
                       <MenuItem value="Entertainment">Entertainment</MenuItem>
+                      <MenuItem value="Other">Sports</MenuItem>
                       <MenuItem value="Other">Other</MenuItem>
                     </Select>
                   </FormControl>
