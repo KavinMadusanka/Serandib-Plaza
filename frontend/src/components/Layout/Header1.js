@@ -45,6 +45,9 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/shops">
                     Shops
                 </Button>
+                <Button color="inherit" component={Link} to="/DisplayProductpage">
+                    Products
+                </Button>
                 <Button color="inherit" component={Link} to="/promotions">
                     Promotions
                 </Button>
