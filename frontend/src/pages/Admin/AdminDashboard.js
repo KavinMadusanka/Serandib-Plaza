@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Grid, Paper } from '@mui/material';
+import { Box, Typography, Grid, Paper,Button } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import StoreIcon from '@mui/icons-material/Store';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -18,6 +18,8 @@ import {
 } from 'chart.js';
 import axios from 'axios'; // Import axios
 import AdminMenu from '../../components/Layout/AdminMenu';
+import { jsPDF } from 'jspdf';
+import LOGO from "./../../assets/LOGO.png";
 
 // Register necessary components for chart.js
 ChartJS.register(
@@ -129,10 +131,10 @@ const AdminDashboard = () => {
             legend: {
                 position: 'top',
             },
-            title: {
-                display: true,
-                text: 'User Growth Over Time',
-            },
+            // title: {
+            //     display: true,
+            //     text: 'User Growth Over Time',
+            // },
         },
     };
 
@@ -168,10 +170,10 @@ const AdminDashboard = () => {
             legend: {
                 position: 'top',
             },
-            title: {
-                display: true,
-                text: 'Shop Growth Over Time',
-            },
+            // title: {
+            //     display: true,
+            //     text: 'Shop Growth Over Time',
+            // },
         },
     };
 
@@ -212,6 +214,92 @@ const AdminDashboard = () => {
         </Grid>
     );
 
+    const generateReport = () => {
+        const date = new Date().toLocaleDateString();
+        const doc = new jsPDF();
+    
+        // Add logo
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const borderMargin = 7;
+    
+        // Draw a border
+        doc.setLineWidth(0.2);
+        doc.rect(borderMargin, borderMargin, pageWidth - 2 * borderMargin, pageHeight - 2 * borderMargin);
+    
+        // Add logo
+        doc.addImage(LOGO, 'JPEG', 15, 10, 35, 24); // Adjust the position and size of the logo
+    
+        // Set title
+        doc.setFontSize(16);
+        doc.setFont('roboto', 'bold');
+        doc.text('SERENDIB PLAZA', pageWidth / 2, 15, { align: 'center' });
+    
+        // Contact info
+        doc.setFont('open sans', 'normal');
+        doc.setFontSize(12);
+        doc.text('Address: No.324-10, Galle Road, Colombo 06', pageWidth / 2, 22, { align: 'center' });
+        doc.text('Contact: +94 112 590 575 | Email: mall@serendibplaza.com', pageWidth / 2, 29, { align: 'center' });
+    
+        // Add a horizontal line
+        doc.setLineWidth(0.2);
+        doc.line(10, 35, pageWidth - 10, 35);
+    
+        // Report title
+        doc.setFontSize(14);
+        doc.setFont('open sans', 'bold');
+        doc.text('Overall Mall Analysis', pageWidth / 2, 45, { align: 'center' });
+    
+        // Report date
+        doc.setFontSize(12);
+        doc.setFont('open sans', 'normal');
+        doc.text(`Report generated on: ${date}`, 15, 50);
+
+        // Add total counts (Users, Shops, Products, Promotions)
+        doc.setFontSize(14);
+        doc.text('Overview', 15, 60);
+        doc.autoTable({
+            startY: 65,
+            head: [['Total Users', 'Total Shops', 'Total Products', 'Total Promotions']],
+            body: [[userCount, shopCount, productCount, promotionCount]],
+        });
+    
+        // Add a section for User Growth over time
+        doc.setFontSize(14);
+        doc.text('User Growth Over Time', 14, doc.autoTable.previous.finalY + 10);
+        const userGrowthTableRows = userGrowthData.map(data => [data.month, data.userCount]);
+        doc.autoTable({
+            startY: doc.autoTable.previous.finalY + 15,
+            head: [['Month', 'User Count']],
+            body: userGrowthTableRows,
+        });
+        
+        // Add a section for Shop Growth over time
+        doc.setFontSize(14);
+        doc.text('Shop Growth Over Time', 14, doc.autoTable.previous.finalY + 10);
+        const shopGrowthTableRows = shopGrowthData.map(data => [data.month, data.shopCount]);
+        doc.autoTable({
+            startY: doc.autoTable.previous.finalY + 15,
+            head: [['Month', 'Shop Count']],
+            body: shopGrowthTableRows,
+        });
+ 
+        // Add a section for Shop Count by Category
+        doc.setFontSize(14);
+        doc.text('Shop Count by Category', 14, doc.autoTable.previous.finalY + 10);
+        const shopCategoryTableRows = shopCountByCategory.map(item => [item._id, item.count]);
+        doc.autoTable({
+            startY: doc.autoTable.previous.finalY + 15,
+            head: [['Category', 'Shop Count']],
+            body: shopCategoryTableRows,
+        });
+    
+        // Final save with a timestamp
+        doc.save(`mall_analysis_report_${date}.pdf`);
+    };
+    
+
+    
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
          <Box sx={{ display: 'flex', flexGrow: 1 }}>
@@ -243,7 +331,7 @@ const AdminDashboard = () => {
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Typography variant="h6" gutterBottom>
-                            Shop Growth Over Time
+                            Shop Increment Over Time
                         </Typography>
                         <Line data={shopGrowthChartData} options={shopGrowthOptions} /> {/* Line chart for shop growth */}
                     </Grid>
@@ -259,6 +347,11 @@ const AdminDashboard = () => {
                     </Box>
                 </Grid>
                 </Grid>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+    <               Button variant="contained" color="primary" onClick={generateReport}>
+                        Download Analysis Report
+                    </Button>
+                </Box>
             </Box>
         </Box>
       </Box>
