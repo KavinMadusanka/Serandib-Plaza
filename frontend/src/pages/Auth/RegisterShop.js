@@ -142,7 +142,7 @@ const RegisterShop = () => {
   return (
     <Layout title="Shop Registration">
       <Container maxWidth="md">
-        <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
+        <br/>
           <Typography variant="h4" component="h1" sx={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 3 }}>
             Shop Registration
           </Typography>
@@ -181,7 +181,7 @@ const RegisterShop = () => {
                     helperText={emailError}
                   />
 
-<TextField
+                  <TextField
                     label="Password"
                     type="password"
                     value={password}
@@ -373,7 +373,7 @@ const RegisterShop = () => {
               </Button>
               </Box>
            <br/>
-            <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
+                <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
                     <Typography>If you Already have an Account, Please
                         <Link component="button" variant="body2" onClick={handleLoginClick} sx={{ cursor: 'pointer', color: 'blue', marginLeft: 1 }}>
                         Login
@@ -381,7 +381,7 @@ const RegisterShop = () => {
                     </Typography>
                 </Box>
           </form>
-        </Paper>
+        
         <br/><br/>
       </Container>
       <Toaster />

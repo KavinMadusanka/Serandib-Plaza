@@ -97,17 +97,17 @@ const UpdateUserProfile = () => {
       <Header1 />
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <UserMenu />
-        <Box sx={{ flexGrow: 1, p: 2 }}>
+        <Box sx={{ flexGrow: 1, p: 3 }}>
           <Container maxWidth="sm">
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                marginTop: 8,
+                marginTop: 3,
               }}
             >
-              <Paper elevation={6} sx={{ padding: 4, width: '100%', borderRadius: '15px' }}>
+              <Paper elevation={6} sx={{ padding: 4, width: '750px', borderRadius: '5px' }}>
                 <Typography
                   variant="h4"
                   component="h1"
@@ -175,12 +175,20 @@ const UpdateUserProfile = () => {
                       fullWidth
                       variant="outlined"
                     />
+                    <Box
+                      sx={{
+                      display: 'flex',
+                      justifyContent: 'center', // Centers the button horizontally
+                      alignItems: 'center', // Optional: Centers vertically within its parent
+                      width: '100%', // Full width for the container
+                    }}>
                     <Button
                       type="submit"
                       variant="contained"
                       color="primary"
                       fullWidth
                       sx={{
+                        width:"400px",
                         marginTop: 2,
                         padding: 1,
                         fontWeight: 'bold',
@@ -193,6 +201,7 @@ const UpdateUserProfile = () => {
                     >
                       Update Profile
                     </Button>
+                    </Box>
                   </Box>
                 </form>
               </Paper>
