@@ -35,4 +35,8 @@ router.get('/product-count',productCountController)
 //piyusha product per page
 router.get('/product-list/:page',productListController)
 
+
+//sandamini
+router.get('/get-productCount',getTotalProductCountController)
+
 export default router
