@@ -109,13 +109,13 @@ const generateReportWithoutImages = () => {
     doc.setFontSize(18);
     doc.text('Inventory Report', 14, 22);
 
-    const columns = ["No.", "Name", "Description", "Price (LKR)", "Quantity"];
+    const columns = ["No.", "Product Name", "Price (Rs.)", "Quantity", "Reorder Level"];
     const data = filteredProducts.map((product, index) => [
         index + 1,
         product.name,
-        product.description,
         product.price,
-        product.quantity
+        product.quantity,
+        product.reorderLevel
     ]);
 
     doc.autoTable({
@@ -140,7 +140,7 @@ const generateReportWithoutImages = () => {
         }
     });
 
-    doc.save('inventory_report_without_images.pdf');
+    doc.save('all_products.pdf');
 };
 
 
