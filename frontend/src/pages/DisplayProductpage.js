@@ -3,6 +3,7 @@ import Layout from "../components/Layout/Layout";
 import { Checkbox, Radio } from "antd";
 import axios from "axios";
 import { useCart } from "../context/cart";
+import { useWishlist } from "../context/wishlist"; // Import wishlist context
 import toast from "react-hot-toast";
 import { Prices } from "../components/Prices";
 
@@ -12,17 +13,16 @@ const formatPrice = (price) => {
 };
 
 const DisplayProductpage = () => {
-    
     const [cart, setCart] = useCart();
+    const { wishlist, setWishlist } = useWishlist(); // Get wishlist context
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [checked, setChecked] = useState([]);
     const [radio, setRadio] = useState([]);
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(1);
-
-
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
     // Get all categories
     const getAllCategory = async () => {
@@ -46,35 +46,34 @@ const DisplayProductpage = () => {
         try {
             setLoading(true);
             const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
-            setLoading(false)
+            setLoading(false);
             setProducts(data.products);
         } catch (error) {
-            setLoading(false)
+            setLoading(false);
             console.log(error);
         }
     };
 
-
-    //get Total count
+    // Get Total count
     const getTotal = async () => {
         try {
-            const {data} = await axios.get('/api/v1/product/product-count')
-            setTotal(data?.total)
+            const { data } = await axios.get("/api/v1/product/product-count");
+            setTotal(data?.total);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
     useEffect(() => {
         if (page === 1) return;
         loadMore();
-    },[page]);
+    }, [page]);
 
-    //loadmore
-    const loadMore = async () =>{
+    // Load more products
+    const loadMore = async () => {
         try {
             setLoading(true);
-            const {data} = await axios.get(`/api/v1/product/product-list/${page}`);
+            const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
             setLoading(false);
             setProducts([...products, ...data?.products]);
         } catch (error) {
@@ -83,13 +82,12 @@ const DisplayProductpage = () => {
         }
     };
 
-
-    //filter by category
+    // Filter by category
     const handleFilter = (value, id) => {
         let all = [...checked];
         if (value) {
             all.push(id);
-        }else {
+        } else {
             all = all.filter((c) => c !== id);
         }
         setChecked(all);
@@ -103,8 +101,7 @@ const DisplayProductpage = () => {
         if (checked.length || radio.length) filterProduct();
     }, [checked, radio]);
 
-
-    //get filtered product
+    // Get filtered product
     const filterProduct = async () => {
         try {
             const { data } = await axios.post("/api/v1/product/product-filters", {
@@ -115,8 +112,21 @@ const DisplayProductpage = () => {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
+    // Filter products based on search term
+    const filteredProducts = products.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const addToWishlist = (product) => {
+        if (!wishlist.some(item => item._id === product._id)) {
+            setWishlist([...wishlist, product]);
+            toast.success("Item added to wishlist!");
+        } else {
+            toast.error("Item already in wishlist!");
+        }
+    };
 
     return (
         <Layout title={"All Products - Best offers"}>
@@ -125,39 +135,49 @@ const DisplayProductpage = () => {
                     <h4 className="text-center">Filter By Category</h4>
                     <div className="d-flex flex-column">
                         {categories?.map((c) => (
-                            <Checkbox key={c._id} 
-                            onChange={(e) => handleFilter(e.target.checked,c._id)}
+                            <Checkbox
+                                key={c._id}
+                                onChange={(e) => handleFilter(e.target.checked, c._id)}
                             >
                                 {c.name}
                             </Checkbox>
                         ))}
+
+                        {/* Price filter */}
+                        <h4 className="text-center mt-4">Filter By Price</h4>
+                        <div className="d-flex flex-column">
+                            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+                                {Prices?.map((p) => (
+                                    <div key={p._id}>
+                                        <Radio value={p.array}>{p.name}</Radio>
+                                    </div>
+                                ))}
+                            </Radio.Group>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <button className="btn btn-danger" onClick={() => window.location.reload()}>
+                                RESET FILTERS
+                            </button>
+                        </div>
                     </div>
-               
-                 {/* price filter  */}
-                <h4 className="text-center mt-4">Filter By Price</h4>
-                <div className="d-flex flex-column">
-                    <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-                        {Prices?.map((p) => (
-                            <div key={p._id}>
-                                <Radio value={p.array}>{p.name}</Radio>
-                            </div>
-                        ))}
-                        </Radio.Group>
                 </div>
-                <div className="d-flex flex-column">
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => window.location.reload()}>
-                        RESET FILTERS
-                      </button>
-                </div>
-            </div>
 
                 <div className="col-md-9">
-                   
                     <h1 className="text-center">All Products</h1>
+
+                    {/* Search Bar */}
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search for products"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+
                     <div className="d-flex flex-wrap">
-                        {products.map((p) => (
+                        {filteredProducts.map((p) => (
                             <div className="card m-2" style={{ width: "18rem" }} key={p._id}>
                                 <img
                                     src={`/api/v1/product/product-photo/${p._id}`}
@@ -173,35 +193,31 @@ const DisplayProductpage = () => {
                                         className="btn btn-secondary ms-1"
                                         onClick={() => {
                                             setCart([...cart, p]);
-                                            localStorage.setItem(
-                                                "cart",
-                                                JSON.stringify([...cart, p])
-                                            );
+                                            localStorage.setItem("cart", JSON.stringify([...cart, p]));
                                             toast.success("Item Added to cart");
                                         }}
                                     >
                                         ADD TO CART
                                     </button>
-                                    <button className="btn btn-thirshary ms-1">
-                                        ADD TO Wishlist
+                                    <button
+                                        className="btn btn-thirshary ms-1"
+                                        onClick={() => addToWishlist(p)} // Add to wishlist button
+                                    >
+                                        ADD TO WISHLIST
                                     </button>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className="m-2 p-3">
-                        {products && products.length < total && (
-                            <button className="btn btn-warning" 
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setPage(page + 1);
-                            }}
-                            >
-                                {loading ? "Loading ..." : "Loadmore"}
-                            </button>
-                        )}
-                        
-                    </div>
+
+                    {/* Load More Button */}
+                    {loading ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <button onClick={() => setPage(page + 1)} className="btn btn-warning">
+                            Load More
+                        </button>
+                    )}
                 </div>
             </div>
         </Layout>
