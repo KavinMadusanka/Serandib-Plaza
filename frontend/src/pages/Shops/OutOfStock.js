@@ -1,12 +1,16 @@
 import React,{useEffect,useState} from 'react';
 import InventoryMenu from '../../components/Layout/InventoryMenu'
 import ShopHeader from '../../components/Layout/ShopHeader';
-import { Paper, Typography, Box, Stack } from '@mui/material';
+import { Paper, Typography, Box, Modal, Button, Divider, Stack } from '@mui/material';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Layout, Select, Input, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import DownloadIcon from '@mui/icons-material/Download';
+import * as XLSX from 'xlsx';
 
 const {Option} = Select
 
@@ -100,6 +104,134 @@ const OutOfStock = () => {
     },[auth]);
 
 
+    const generateReportWithoutImages = () => {
+        const doc = new jsPDF();
+    
+        // Set the date
+        const currentDate = new Date().toLocaleDateString();
+    
+        // Set filtered category name
+        const categoryLabel = selectedCategory ? `Category: ${selectedCategory}` : 'All Categories';
+    
+        // Set total filtered products count
+        const totalFilteredProducts = filteredProducts.length;
+    
+        // Shop details
+        const shopName = auth?.shopOwner?.shopname;
+        const shopAddress = auth?.shopOwner?.description;
+        const shopContact = "Phone: "+ auth?.shopOwner?.shopcontact + " | Email: " + auth?.shopOwner?.email;
+    
+        // Set font and shop details
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text(shopName, 14, 20); // Shop name at the top
+    
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        doc.text(shopAddress, 14, 26); // Shop address
+        doc.text(shopContact, 14, 32); // Shop contact details
+    
+        // Set the title below the shop details
+        doc.setFontSize(17);
+        doc.setFont("helvetica", "bold");
+        // Calculate the width of the text
+        const text = 'Inventory Report (Out of Stock)';
+        const textWidth = doc.getTextWidth(text);
+        const pageWidth = doc.internal.pageSize.width;
+
+        // Center the text
+        doc.text(text, (pageWidth - textWidth) / 2, 50); 
+        
+        
+        // Add the date, category, and total product count below the title
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        const textYPosition = 60; // Set Y position for date and other details
+        doc.text(`Date: ${currentDate}`, 14, textYPosition); // Left-aligned, below the title
+        doc.text(categoryLabel, doc.internal.pageSize.width / 2, textYPosition, { align: 'center' }); // Center-aligned, below the title
+        doc.text(`Total Products: ${totalFilteredProducts}`, doc.internal.pageSize.width - 14, textYPosition, { align: 'right' }); // Right-aligned, below the title
+
+        // Draw a line above the title
+        doc.setDrawColor(0); // Set line color
+        const lineYPosition = 40; // Y position for the line
+        doc.line(14, lineYPosition, doc.internal.pageSize.width - 14, lineYPosition); // Draw the line
+
+        // Add a new column for category after 'Product Name'
+        const columns = ["No.", "Product Name", "Category", "Price (Rs.)", "Qty", "Reorder Level"];
+        const data = filteredProducts.map((product, index) => [
+            index + 1,
+            product.name,
+            product.category.name, // Add the product category here
+            product.price.toFixed(2),
+            product.quantity,
+            product.reorderLevel
+        ]);
+    
+        // Generate the table with the new column
+        doc.autoTable({
+            head: [columns],
+            body: data,
+            startY: 70, // Adjust to ensure the header doesn't overlap with the table
+            styles: {
+                cellPadding: 1,
+                fontSize: 12,
+                overflow: 'linebreak',
+            },
+            headStyles: {
+                fillColor: [22, 160, 133], // Example color
+                textColor: [255, 255, 255],
+            },
+            columnStyles: {
+                3: { halign: 'right' } // Right-align the price column (index 3)
+            },
+            margin: { top: 20 },
+            didDrawCell: (data) => {
+                if (data.section === 'body') {
+                    doc.setDrawColor(200);
+                    doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+                }
+            }
+        });
+
+        // Add page number at the bottom
+        const pageCount = doc.internal.getNumberOfPages();
+        doc.setFontSize(12);
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            const text = `Page ${i} of ${pageCount}`;
+            const textWidth = doc.getTextWidth(text);
+            const pageWidth = doc.internal.pageSize.width;
+            doc.text(text, pageWidth - textWidth - 14, doc.internal.pageSize.height - 10); // Positioning at the bottom right
+        }
+    
+        doc.save('Inventory_Report(Out_of_Stock).pdf');
+    };     
+    
+    
+    // Excel report Generate
+
+    // Function to generate Excel report
+    const generateExcelReport = () => {
+        // Prepare data for the Excel sheet
+        const data = filteredProducts.map((product, index) => ({
+            No: index + 1,
+            'Product Name': product.name,
+            Category: product.category.name,
+            'Price (Rs.)': product.price.toFixed(2),
+            Qty: product.quantity,
+            'Reorder Level': product.reorderLevel
+        }));
+
+        // Create a new workbook and add the data
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
+
+        // Generate and save the Excel file
+        XLSX.writeFile(workbook, 'Inventory_Report(Out_of_Stock).xlsx');
+    };
+
+
     return (
         <Layout>
         <div>
@@ -149,6 +281,27 @@ const OutOfStock = () => {
                                             </Option>
                                         ))}
                                     </Select>
+
+                                    {/* Generate Report Buttons */}
+                                    <div>
+                                        <Button
+                                            variant="contained"
+                                            onClick={generateReportWithoutImages}
+                                            style={{ marginBottom: '20px', height: 40, backgroundColor: '#282828', color: 'white', marginRight: '10px' }}
+                                        >
+                                            <DownloadIcon style={{ marginRight: '5px' }} />
+                                            PDF Report
+                                        </Button>
+
+                                        <Button
+                                            variant="contained"
+                                            onClick={generateExcelReport}
+                                            style={{ marginBottom: '20px', height: 40, backgroundColor: '#282828', color: 'white' }}
+                                        >
+                                            <DownloadIcon style={{ marginRight: '5px' }} />
+                                            Excel Report
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 {/* Product Display */}
