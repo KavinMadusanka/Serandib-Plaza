@@ -52,7 +52,6 @@ export const addToCart = async (req,res) => {
 
 export const getCart = async(req, res) =>{
     const { email } = req.params;
-    console.log("Email received in request:", email);
     try {
 
         const cart = await Cart.find({ email }).populate("product", "name price quantity");

@@ -23,19 +23,17 @@ const CartPage = () => {
 
     //get all cart details
     useEffect(() => {
-    
         const fetchCartDetails = async () => {
-          try {
-            const response = await axios.get(`http://localhost:8088/api/v1/cart/get-cart/${email}`);
-            setCart(response.data.cart);
-            // setLoading(false);
-            fetchCartDetails();
-          } catch (error) {
-            console.error('Error fetching cart details:', error);
-          }
+            try {
+                const response = await axios.get(`http://localhost:8088/api/v1/cart/get-cart/${email}`);
+                setCart(response.data.cart);
+                fetchCartDetails();
+            } catch (error) {
+                console.error('Error fetching cart details:', error);
+            }
         };
-        // fetchCartDetails();
-      }, [email]);
+        fetchCartDetails();
+    }, [email]); 
     
       // delete cart items 
   const handleDeleteCartItem = async (id,quantity,productID,cartQuantity) => {
@@ -240,7 +238,7 @@ const CartPage = () => {
                                 </div>
                                 <div className="col-md-8">
                                     <p>{p.product.name}</p>
-                                    <p>{p.description.substring(0, 30)}</p>
+                                    {/* <p>{p.description.substring(0, 30)}</p> */}
                                     
                                     <p>Price: {formatPrice(p.product.price)}</p>
                                     <p ><strong> Available: {p.product.quantity<= 0 ? "Out of Stock" :p.product.quantity}</strong></p>
