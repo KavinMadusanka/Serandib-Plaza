@@ -3,6 +3,7 @@ import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'; // Import axios for API requests
 
 // Utility function to format price in LKR
 const formatPrice = (price) => {
@@ -49,14 +50,30 @@ const CartPage = () => {
         }
     };
 
+    // Function to update product quantity in MongoDB
+    const updateProductQuantityInDB = async (pid, change) => {
+        try {
+            await axios.patch(`/api/v1/product/update-product-quantity/${pid}`, {
+                change
+            });
+        } catch (error) {
+            console.log("Error updating product quantity in MongoDB:", error);
+        }
+    };
+
     // Update item quantity and ensure it's stored in both the cart state and localStorage
     const updateQuantity = (pid, action) => {
         setQuantities(prevQuantities => {
             const newQuantities = { ...prevQuantities };
+            let currentQuantity = newQuantities[pid] || 1;
+            let change = 0;
+
             if (action === "increase") {
-                newQuantities[pid] = (newQuantities[pid] || 1) + 1; // Increase quantity
-            } else if (action === "decrease" && newQuantities[pid] > 1) {
-                newQuantities[pid] -= 1; // Decrease quantity but not below 1
+                newQuantities[pid] = currentQuantity + 1;
+                change = -1; // Decrease stock in MongoDB
+            } else if (action === "decrease" && currentQuantity > 1) {
+                newQuantities[pid] = currentQuantity - 1;
+                change = 1; // Increase stock in MongoDB
             }
 
             // Update the cart state with new quantities
@@ -72,6 +89,11 @@ const CartPage = () => {
             localStorage.setItem("quantities", JSON.stringify(newQuantities));
             setCart(updatedCart);
 
+            // Update MongoDB with the change in quantity
+            if (change !== 0) {
+                updateProductQuantityInDB(pid, change);
+            }
+
             return newQuantities;
         });
     };
@@ -79,6 +101,12 @@ const CartPage = () => {
     // Delete item from the cart
     const removeCartItem = (pid) => {
         try {
+            const removedItem = cart.find(item => item._id === pid);
+            const currentQuantity = quantities[pid] || 1;
+
+            // Restore stock in MongoDB when item is removed
+            updateProductQuantityInDB(pid, currentQuantity); // Increase stock by the quantity removed
+
             const updatedCart = cart.filter(item => item._id !== pid);
             const updatedQuantities = { ...quantities };
             delete updatedQuantities[pid]; // Remove quantity of deleted item
