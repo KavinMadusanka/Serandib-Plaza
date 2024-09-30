@@ -278,3 +278,27 @@ export const productListController = async (req,res) => {
         });
     }
 };
+
+
+// Controller to get total products count-sandamini
+export const getTotalProductCountController = async (req, res) => {
+    try {
+        // Get the total count of shops
+        const productCount = await productModel.countDocuments();
+  
+        res.status(200).send({
+            success: true,
+            message: "Total product count fetched successfully",
+            data: {
+                totalProducts: productCount,
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error fetching total counts",
+            error: error.message,
+        });
+    }
+  };
