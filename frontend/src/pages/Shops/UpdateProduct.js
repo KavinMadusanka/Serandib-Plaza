@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import ShopHeader from '../../components/Layout/ShopHeader';
 import InventoryMenu from '../../components/Layout/InventoryMenu';
-import { Paper, Typography, Box, Stack } from '@mui/material';
+import { Paper, Typography, Box, Stack, Grid, Button } from '@mui/material'; // Added Grid and Button
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Select, message } from 'antd';
@@ -228,12 +228,19 @@ const getSingleProduct = async () => {
                             onChange={(e) => setReorderLevel(e.target.value)}
                             />
                         </div>
-                        <div className='mb-3'>
-                            <button className='btn btn-primary' onClick={handleUpdate}>UPDATE PRODUCT</button>
-                        </div>
-                        <div className='mb-3'>
-                            <button className='btn btn-danger' onClick={handleDelete}>DELETE PRODUCT</button>
-                        </div>
+                        {/* Update and Delete Buttons */}
+                        <Grid container spacing={2}>
+                                <Grid item>
+                                    <Button variant="contained" color="primary" onClick={handleUpdate}>
+                                        UPDATE PRODUCT
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button variant="contained" color="error" onClick={handleDelete}>
+                                        DELETE PRODUCT
+                                    </Button>
+                                </Grid>
+                            </Grid>
                     </div>
                   </div>
                   </Box>
