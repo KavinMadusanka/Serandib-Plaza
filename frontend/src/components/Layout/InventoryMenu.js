@@ -6,6 +6,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import InventoryIcon from '@mui/icons-material/Inventory'; // New icon for Products
+import WarningIcon from '@mui/icons-material/Warning'; // Icon for Low Level Stock
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 const InventoryMenu = () => {
     return (
@@ -38,9 +41,21 @@ const InventoryMenu = () => {
             <List>
                 <ListItem button component={Link} to="/products" aria-label="Products">
                     <ListItemIcon>
-                        <ListAltIcon sx={{ color: '#ffffff' }} />
+                        <InventoryIcon sx={{ color: '#ffffff' }} />
                     </ListItemIcon>
                     <ListItemText primary="Products" sx={{ color: '#ffffff' }} />
+                </ListItem>
+                <ListItem button component={Link} to="/lowLevelStock" aria-label="Products">
+                    <ListItemIcon>
+                        <WarningIcon sx={{ color: '#ffffff' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Low Level Stock" sx={{ color: '#ffffff' }} />
+                </ListItem>
+                <ListItem button component={Link} to="/outOfStock" aria-label="Products">
+                    <ListItemIcon>
+                        <RemoveShoppingCartIcon sx={{ color: '#ffffff' }} />
+                    </ListItemIcon>
+                    <ListItemText primary="Out of Stock" sx={{ color: '#ffffff' }} />
                 </ListItem>
                 <ListItem button component={Link} to="/createProduct" aria-label="Create Product">
                     <ListItemIcon>

@@ -302,6 +302,7 @@ export const getTotalProductCountController = async (req, res) => {
         });
     }
   };
+
 // piyusha mongodb update product quantity part
 // Update product quantity
 export const updateProductQuantityController = async (req, res) => {

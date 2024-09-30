@@ -37,4 +37,8 @@ router.get('/product-list/:page',productListController)
 //piyusha mongodb quantity update
 router.patch('/update-product-quantity/:pid', updateProductQuantityController); // New route for updating quantity
 
+
+//sandamini
+router.get('/get-productCount',getTotalProductCountController)
+
 export default router

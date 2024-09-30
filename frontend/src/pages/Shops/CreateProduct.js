@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react';
 import ShopHeader from '../../components/Layout/ShopHeader';
 import InventoryMenu from '../../components/Layout/InventoryMenu';
 import { Paper, Typography, Box, Stack } from '@mui/material';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { Select, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -183,6 +183,7 @@ const CreateProduct = () => {
                   </Box>
               </Box>
           </Box>
+          <Toaster/>
         </div>
       );
 };

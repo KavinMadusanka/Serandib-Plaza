@@ -473,14 +473,235 @@ export const deleteShopProfileController = async (req, res) => {
   };
   
 
+  export const forgotPasswordController = async (req, res) => {
+    try {
+      const { email, newPassword, re_Password } = req.body;
+  
+      // Validate input fields
+      if (!email) {
+        return res.status(400).send({ message: 'Email is required' });
+      }
+      if (!newPassword) {
+        return res.status(400).send({ message: 'New password is required' });
+      }
+      if (!re_Password) {
+        return res.status(400).send({ message: 'Please confirm your new password' });
+      }
+      if (newPassword !== re_Password) {
+        return res.status(400).send({ message: 'Passwords do not match' });
+      }
+  
+      // Check if the user exists
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: "User with this email does not exist",
+        });
+      }
+  
+      // Hash the new password
+      const hashedPassword = await hashPassword(newPassword);
+  
+      // Update the user's password
+      await userModel.findByIdAndUpdate(user._id, { password: hashedPassword });
+  
+      return res.status(200).send({
+        success: true,
+        message: "Password reset successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        success: false,
+        message: 'Something went wrong',
+        error: error.message,  // More descriptive error message
+      });
+    }
+  };
+  
+
+  // Controller to get total user and shop count
+export const getTotalUserCountController = async (req, res) => {
+  try {
+      // Get the total count of users
+      const userCount = await userModel.countDocuments();
+
+      res.status(200).send({
+          success: true,
+          message: "Total user counts fetched successfully",
+          data: {
+              totalUsers: userCount,
+          }
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error fetching total counts",
+          error: error.message,
+      });
+  }
+};
+
+// Controller to get total user and shop count
+export const getTotalShopCountController = async (req, res) => {
+  try {
+      // Get the total count of shops
+      const shopCount = await shopModel.countDocuments();
+
+      res.status(200).send({
+          success: true,
+          message: "Total shop count fetched successfully",
+          data: {
+              totalShops: shopCount,
+          }
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error fetching total counts",
+          error: error.message,
+      });
+  }
+};
 
 
+// Controller to get user growth over time
+export const getUserGrowthController = async (req, res) => {
+    try {
+        // MongoDB aggregation pipeline to get user count per month
+        const userGrowthData = await userModel.aggregate([
+            {
+                // Match users that have a createdAt timestamp
+                $match: {
+                    createdAt: { $exists: true }
+                }
+            },
+            {
+                // Group users by month and year
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    userCount: { $sum: 1 } // Count users for each group
+                }
+            },
+            {
+                // Sort by year and month
+                $sort: { "_id.year": 1, "_id.month": 1 }
+            },
+            {
+                // Format the month and year for frontend
+                $project: {
+                    _id: 0,
+                    month: {
+                        $concat: [
+                            { $arrayElemAt: [["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "$_id.month"] },
+                            " ",
+                            { $toString: "$_id.year" }
+                        ]
+                    },
+                    userCount: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: userGrowthData
+        });
+    } catch (error) {
+        console.error("Error fetching user growth data:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching user growth data",
+            error: error.message
+        });
+    }
+};
 
 
+// Controller to get shop growth over time
+export const getShopGrowthController = async (req, res) => {
+    try {
+        // MongoDB aggregation pipeline to get shop count per month
+        const shopGrowthData = await shopModel.aggregate([
+            {
+                // Match shops that have a createdAt timestamp
+                $match: {
+                    createdAt: { $exists: true }
+                }
+            },
+            {
+                // Group shops by month and year
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    shopCount: { $sum: 1 } // Count shops for each group
+                }
+            },
+            {
+                // Sort by year and month
+                $sort: { "_id.year": 1, "_id.month": 1 }
+            },
+            {
+                // Format the month and year for frontend
+                $project: {
+                    _id: 0,
+                    month: {
+                        $concat: [
+                            { $arrayElemAt: [["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "$_id.month"] },
+                            " ",
+                            { $toString: "$_id.year" }
+                        ]
+                    },
+                    shopCount: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: shopGrowthData
+        });
+    } catch (error) {
+        console.error("Error fetching shop growth data:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching shop growth data",
+            error: error.message
+        });
+    }
+};
 
 
+// Controller to get shop count by category
+export const getShopCountByCategoryController = async (req, res) => {
+    try {
+        const categoryCounts = await shopModel.aggregate([
+            {
+                $group: {
+                    _id: "$category", // Group by the category field
+                    count: { $sum: 1 } // Count the number of shops in each category
+                }
+            }
+        ]);
 
-
-
-
-
+        res.status(200).json({
+            success: true,
+            data: categoryCounts
+        });
+    } catch (error) {
+        console.error("Error fetching shop count by category:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching shop count by category",
+            error: error.message
+        });
+    }
+};

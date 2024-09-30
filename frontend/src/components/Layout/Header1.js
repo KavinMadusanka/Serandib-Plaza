@@ -51,7 +51,7 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/promotions">
                     Promotions
                 </Button>
-                <Button color="inherit" component={Link} to="/events">
+                <Button color="inherit" component={Link} to="/eventcalender">
                     Events
                 </Button>
                 <Button color="inherit" component={Link} to="/lostFound">

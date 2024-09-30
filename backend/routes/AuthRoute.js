@@ -1,5 +1,5 @@
 import express from 'express'
-import { deleteShopProfileController, deleteUserProfileController, getAllShopsController, getAllUsersController, shopRegisterController, testcontroller, updateShopProfileController, updateUserProfileController, userLoginController, userRegisterController } from '../controllers/AuthController.js'
+import { deleteShopProfileController, deleteUserProfileController, forgotPasswordController, getAllShopsController, getAllUsersController, getShopCountByCategoryController, getShopGrowthController, getTotalShopCountController, getTotalUserCountController, getUserGrowthController, shopRegisterController, testcontroller, updateShopProfileController, updateUserProfileController, userLoginController, userRegisterController } from '../controllers/AuthController.js'
 import { isAdmin, requireSignIn } from '../middlewares/AuthMiddleware.js'
 
 //router object
@@ -35,5 +35,22 @@ router.delete('/deleteShopProfile',requireSignIn,deleteShopProfileController )
 
 // Route to get all shops
 router.get('/users', getAllUsersController );
+
+//forgot password
+router.post('/forgot-password',forgotPasswordController )
+
+//get shop count
+router.get('/get-shopCount',getTotalShopCountController )
+
+//get user count
+router.get("/get-userCount",getTotalUserCountController )
+
+router.get('/get-userGrowthData', getUserGrowthController );
+
+//get shop increament by time
+router.get('/get-shopGrowthData', getShopGrowthController );
+
+//get shop count by category
+router.get('/get-shopCountByCategory', getShopCountByCategoryController );
 
 export default router

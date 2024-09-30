@@ -33,24 +33,14 @@ import CreateProduct from "./pages/Shops/CreateProduct";
 import LostFound from './pages/User/LostFound';
 
 import Shops from "./pages/Shops";
-
-
-
-
-
-
-
-
-
-
-
 import Products from "./pages/Shops/Products";
 import UpdateProduct from './pages/Shops/UpdateProduct';
 import LowLevelStock from './pages/Shops/LowLevelStock';
 import OutOfStock from './pages/Shops/OutOfStock';
 import WishlistPage from "./pages/WishlistPage";
 
-
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import EventCalendar from "./pages/User/EventCalendar";
 
 
 function App() {
@@ -83,11 +73,15 @@ function App() {
       <Route path="/wishList" element={<WishlistPage/>} />
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
+      <Route path="/lowLevelStock" element={<LowLevelStock/>}/>
+      <Route path="/outOfStock" element={<OutOfStock/>}/>
 
       <Route path="/products/:slug" element={<UpdateProduct/>}/>
       <Route path="/products" element={<Products/>}/>
 
       <Route path="/shops" element={<Shops />}/>
+      <Route path="/forgot-password" element={<ForgotPassword /> }/>
+      <Route path="/eventcalender" element={<EventCalendar /> }/>
 
 
 

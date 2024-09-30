@@ -3,7 +3,10 @@ import { AddItemController,
     getLostItemController, 
     ItemPhotoController, 
     deleteLostItemController,
-    getLostSingleItemController, } from '../controllers/LostAndFoundController.js';
+    getLostSingleItemController,
+    addNotifyControll,
+    getAllLostNotify,
+    deleteLostNotifyController } from '../controllers/LostAndFoundController.js';
 import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 const router = express.Router();
@@ -22,6 +25,15 @@ router.get("/getLostItem-photo/:pid",ItemPhotoController);
 
 //delete item
 router.delete("/delete-item/:id",deleteLostItemController);
+
+//notify route
+router.post('/addNotification/:Iid',addNotifyControll);
+
+//get all notifications
+router.get('/getAllNotift', getAllLostNotify);
+
+//delete item
+router.delete("/delete-Notification/:id",deleteLostNotifyController);
 
 
 export default router;
