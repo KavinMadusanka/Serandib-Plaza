@@ -3,7 +3,10 @@ import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import axios from 'axios'; // Import axios for API requests
+
 
 // Utility function to format price in LKR
 const formatPrice = (price) => {
@@ -17,6 +20,82 @@ const CartPage = () => {
     const [email, setEmail] = useState("");
     const [userName, setUserName] = useState("");
     
+
+    //get all cart details
+    useEffect(() => {
+    
+        const fetchCartDetails = async () => {
+          try {
+            const response = await axios.get(`http://localhost:8088/api/v1/cart/get-cart/${email}`);
+            setCart(response.data.cart);
+            // setLoading(false);
+            fetchCartDetails();
+          } catch (error) {
+            console.error('Error fetching cart details:', error);
+          }
+        };
+        // fetchCartDetails();
+      }, [email]);
+    
+      // delete cart items 
+  const handleDeleteCartItem = async (id,quantity,productID,cartQuantity) => {
+    try {
+
+      console.log(cartQuantity)
+      await axios.delete(`http://localhost:8000/api/v1/Cart/delete-cart-item/${id}`);
+      // Update the cart state to reflect the deleted item
+
+     // console.log("Cart:", cart);
+      setCart(cart.filter(item =>  item && item._id !== id));
+      toast.success("Item deletion successfully");
+
+        try {
+     
+      const response = await axios.put(`http://localhost:8000/api/v1/product/update-product-quantity/${productID}`, {
+        
+        quantity: quantity +cartQuantity,
+        
+      });
+      if(response && response.data.success){
+        toast.success(response.data.message);
+        // navigate('/payment');
+      }else{
+        toast.error(response.data.message);
+      }
+      
+    } catch (error) {
+      
+      console.error('Error updating  product quantity to cart:', error);
+    }
+
+
+
+    } catch (error) {
+      console.error('Error deleting cart item:', error);
+    }
+
+
+    // try {
+     
+    //   const response = await axios.put(`http://localhost:8000/api/v1/product/update-product-quantity/${id}`, {
+        
+    //     quantity: quantity +1,
+        
+    //   });
+    //   if(response && response.data.success){
+    //     toast.success(response.data.message);
+    //     // navigate('/payment');
+    //   }else{
+    //     toast.error(response.data.message);
+    //   }
+      
+    // } catch (error) {
+      
+    //   console.error('Error updating  product quantity to cart:', error);
+    // }
+
+  };
+
 
     // State to hold quantities locally
     const [quantities, setQuantities] = useState({});
@@ -152,17 +231,20 @@ const CartPage = () => {
                             <div className="row mb-2 p-3 card flex-row" key={p._id}>
                                 <div className="col-md-4">
                                     <img 
-                                        src={`/api/v1/product/product-photo/${p._id}`}
+                                        src={`http://localhost:8088/api/v1/product/product-photo/${p.product._id}`}
                                         className="card-img-top"
-                                        alt={p.name}
+                                        alt={p.product.name}
                                         width="100px"
                                         height={"100px"}
                                     />
                                 </div>
                                 <div className="col-md-8">
-                                    <p>{p.name}</p>
+                                    <p>{p.product.name}</p>
                                     <p>{p.description.substring(0, 30)}</p>
-                                    <p>Price: {formatPrice(p.price)}</p>
+                                    
+                                    <p>Price: {formatPrice(p.product.price)}</p>
+                                    <p ><strong> Available: {p.product.quantity<= 0 ? "Out of Stock" :p.product.quantity}</strong></p>
+
 
                                     <div className="quantity-controls">
                                         <button 
