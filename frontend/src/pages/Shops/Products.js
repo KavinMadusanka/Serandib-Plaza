@@ -229,7 +229,7 @@ const generateReportWithImages = () => {
                             justifyContent: 'center'
                         }}>
                             <span style={{ fontSize: '30px', color: 'white' }}>
-                                {products.length}
+                                {filteredProducts.length}
                             </span>
                         </div>
                     </h1>
