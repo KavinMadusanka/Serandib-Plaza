@@ -93,7 +93,7 @@ export const getLostItemController = async(req,res) =>{
     }
 };
 
-// Get product photo controller
+// Get Item photo controller
 export const ItemPhotoController = async(req,res) => {
     try {
         const item = await LostModel.findById(req.params.pid).select("image");
@@ -113,7 +113,7 @@ export const ItemPhotoController = async(req,res) => {
     }
 };
 
-//delete Address
+//delete item
 export const deleteLostItemController = async (req, res) =>{
     try {
         const { id } = req.params;
@@ -132,7 +132,7 @@ export const deleteLostItemController = async (req, res) =>{
     }
 };
 
-//get single promotion
+//get single lost Item
 export const getLostSingleItemController = async(req,res) => {
     try{
         const SingleItem = await LostModel.findById(req.params.Iid).select("-image")
