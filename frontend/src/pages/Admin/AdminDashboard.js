@@ -192,6 +192,7 @@ const AdminDashboard = () => {
                     'rgba(255, 206, 86, 0.5)',
                     'rgba(0, 128, 0, 0.5)',
                     'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 99, 71, 0.2)',
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -199,6 +200,7 @@ const AdminDashboard = () => {
                     'rgba(255, 206, 86, 1)',
                     'rgba(0, 128, 0, 1)',
                     'rgba(153, 102, 255, 1)',
+                    'rgba(255, 99, 71, 0.2)',
                 ],
                 borderWidth: 1,
             },
