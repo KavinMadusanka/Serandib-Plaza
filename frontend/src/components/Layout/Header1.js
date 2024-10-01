@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../../context/auth'; 
 import { useCart } from '../../context/cart';
-
+import mallLogo from '../../assets/logo1.png'; // Adjust the path to your logo image
 
 const Header1 = () => {
     const [auth, setAuth] = useAuth();
@@ -28,7 +28,7 @@ const Header1 = () => {
         '/login'; // Default to login if no user
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'black' }}> {/* Set background color to black */}
+        <AppBar position="static" sx={{ backgroundColor: 'black'}}> {/* Set background color to black */}
             <Toolbar>
                 <IconButton edge="start" color="inherit" aria-label="menu">
                     <MenuIcon />
@@ -36,6 +36,9 @@ const Header1 = () => {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Serendib Plaza
                 </Typography>
+                {
+                    
+                }
                 <Button color="inherit" component={Link} to="/">
                     Home
                 </Button>
