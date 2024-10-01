@@ -1,7 +1,9 @@
 import express from 'express';
 import { AddNewEvent,
         getALLEventController,
-        EventPhotoController } from '../controllers/eventController.js';
+        EventPhotoController, 
+        updateEventController,
+        deleteEventController } from '../controllers/eventController.js';
 import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 
@@ -19,8 +21,11 @@ router.get('/getAllEvents', getALLEventController);
 //get photo
 router.get("/getAllEvents-photo/:pid",EventPhotoController);
 
+// update product
+router.put('/update-event/:_id', updateEventController);
+
 // //delete item
-// router.delete("/delete-item/:id",deleteLostItemController);
+router.delete("/delete-event/:id",deleteEventController);
 
 
 export default router;
