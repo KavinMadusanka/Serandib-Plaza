@@ -12,6 +12,28 @@
     /* color: #6a0dad; */
     margin-bottom: 20px;
 }
+
+.eventbut {
+    display: flex;            /* Enable Flexbox */
+    justify-content: flex-end; /* Align items to the right */
+    padding: 10px;          Optional: add some padding
+}
+
+.eventbut button {
+    /* Optional: Add some button styles */
+    padding: 10px 15px;
+    background-color: #0d70ad; /* Bootstrap primary color */
+    color: white;
+    height: fit-content;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.eventbut button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
 .ttttt{
     text-align: center;
     color: #000;
