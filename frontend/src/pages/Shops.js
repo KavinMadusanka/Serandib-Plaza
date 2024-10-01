@@ -12,6 +12,11 @@ import {
   Chip,
   Grid,
   InputAdornment,
+  Pagination,
+  Stack,
+  Button,
+  IconButton,
+  Avatar,
 } from '@mui/material';
 import {
   LocationOn,
@@ -26,7 +31,8 @@ import {
   Diamond,
   Storefront,
   Category,
-  Search, // Import Search icon
+  Search,
+  FilterList, // New filter icon for more advanced filtering
 } from '@mui/icons-material';
 import axios from 'axios';
 import Layout from './../components/Layout/Layout';
@@ -65,11 +71,12 @@ const categories = [
 const Shops = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
-  const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [currentPage, setCurrentPage] = useState(1); // Pagination
+  const [shopsPerPage] = useState(6); // Define how many shops to display per page
 
   useEffect(() => {
-    // Fetch all shops from the backend
     const fetchShops = async () => {
       try {
         const response = await axios.get(`/api/v1/userauth/shops`);
@@ -83,12 +90,20 @@ const Shops = () => {
     fetchShops();
   }, []);
 
-  // Filter shops based on the search query and selected category
   const filteredShops = shops.filter(
     (shop) =>
       shop.shopname.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (selectedCategory === '' || shop.category.toLowerCase() === selectedCategory)
   );
+
+  // Pagination logic
+  const indexOfLastShop = currentPage * shopsPerPage;
+  const indexOfFirstShop = indexOfLastShop - shopsPerPage;
+  const currentShops = filteredShops.slice(indexOfFirstShop, indexOfLastShop);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   return (
     <Layout>
@@ -102,6 +117,9 @@ const Shops = () => {
           <Grid item xs={12} md={2} sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {/* Category Filter */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                Filter by Category
+              </Typography>
               {categories.map((category) => (
                 <Chip
                   key={category.value}
@@ -112,131 +130,151 @@ const Shops = () => {
                 />
               ))}
             </Box>
+
+          
           </Grid>
 
           {/* Right Side: Shops and Search */}
           <Grid item xs={12} md={10}>
-            {/* Search Bar with Search Icon */}
-            <TextField
-              fullWidth
-              label="Search your preferred Shops..."
-              variant="outlined"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ marginBottom: '20px' }}
-            />
-
+            {/* Search Bar */}
+<TextField
+    fullWidth
+    label="Search for Shops..."
+    variant="outlined"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    InputProps={{
+        startAdornment: (
+            <InputAdornment position="start">
+                <Search />
+            </InputAdornment>
+        ),
+        style: {
+            padding: '10px', // Padding for touch-friendly use
+            borderRadius: '8px', // Rounded corners for smooth look
+            height:'40px'
+        },
+    }}
+    sx={{
+        maxWidth: '600px', // Set a maximum width for the search input
+        margin: '0 auto', // Center the search input
+        display: 'block', // Ensure it takes the full width
+        fontFamily: 'Poppins, sans-serif', // Consistent font with the app
+    }}
+/>
+<br/>
             {loading ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
                 <CircularProgress />
               </Box>
             ) : (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: 'space-around',
-                  gap: '20px',
-                }}
-              >
-                {filteredShops.length > 0 ? (
-                  filteredShops.map((shop) => (
-                    <Card
-                      key={shop._id}
-                      sx={{
-                        width: '350px',
-                        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
-                        borderRadius: '15px',
-                        transition: 'transform 0.3s ease-in-out',
-                        '&:hover': {
-                          transform: 'scale(1.05)',
-                          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
-                        },
-                      }}
-                    >
-                      <CardContent sx={{ padding: '20px' }}>
-                        <Accordion>
-                          <AccordionSummary
-                            expandIcon={<ExpandMore />}
-                            aria-controls={`panel-content-${shop._id}`}
-                            id={`panel-header-${shop._id}`}
-                            sx={{ display: 'flex', alignItems: 'center', padding: '10px 0' }}
-                          >
-                            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                              {/* Promotion image */}
-                              <img
-                                src={`/api/v1/userauth/logo/${shop._id}`}
-                                alt={shop.shopname}
-                                style={{
-                                  width: '100px',
-                                  height: '100px',
-                                  objectFit: 'cover',
-                                  borderRadius: '50%',
-                                  marginRight: '20px',
-                                  border: '2px solid #ddd',
-                                }}
-                              />
-                              <Box>
-                                <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
-                                  {shop.shopname}
-                                </Typography>
-                                <Typography color="textSecondary">
-                                  {shop.category}
-                                </Typography>
+              <>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-around',
+                    gap: '20px',
+                  }}
+                >
+                  {currentShops.length > 0 ? (
+                    currentShops.map((shop) => (
+                      <Card
+                        key={shop._id}
+                        sx={{
+                          width: '350px',
+                          boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
+                          borderRadius: '15px',
+                          transition: 'transform 0.3s ease-in-out',
+                          '&:hover': {
+                            transform: 'scale(1.05)',
+                            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+                          },
+                        }}
+                      >
+                        <CardContent sx={{ padding: '20px' }}>
+                          <Accordion>
+                            <AccordionSummary
+                              expandIcon={<ExpandMore />}
+                              aria-controls={`panel-content-${shop._id}`}
+                              id={`panel-header-${shop._id}`}
+                              sx={{ display: 'flex', alignItems: 'center', padding: '10px 0' }}
+                            >
+                              <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                                <Avatar
+                                  alt={shop.shopname}
+                                  src={`/api/v1/userauth/logo/${shop._id}`}
+                                  sx={{
+                                    width: 100,
+                                    height: 100,
+                                    marginRight: '20px',
+                                    border: '2px solid #ddd',
+                                  }}
+                                />
+                                <Box>
+                                  <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
+                                    {shop.shopname}
+                                  </Typography>
+                                  <Typography color="textSecondary">
+                                    {shop.category}
+                                  </Typography>
+                                </Box>
                               </Box>
-                            </Box>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <Typography
-                              variant="body2"
-                              color="textSecondary"
-                              sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
-                            >
-                              <LocationOn sx={{ marginRight: '5px' }} />
-                              Location: {shop.shoplocation}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              color="textSecondary"
-                              sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
-                            >
-                              <Phone sx={{ marginRight: '5px' }} />
-                              Contact: {shop.shopcontact}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              color="textSecondary"
-                              sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
-                            >
-                              <AccessTime sx={{ marginRight: '5px' }} />
-                              Operating Hours: {shop.operating_hrs_from} - {shop.operating_hrs_to}
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              {shop.description}
-                            </Typography>
-                          </AccordionDetails>
-                        </Accordion>
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  <Typography variant="body1" color="textSecondary">
-                    No shops found.
-                  </Typography>
-                )}
-              </Box>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+                              >
+                                <LocationOn sx={{ marginRight: '5px' }} />
+                                Location: {shop.shoplocation}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+                              >
+                                <Phone sx={{ marginRight: '5px' }} />
+                                Contact: {shop.shopcontact}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
+                              >
+                                <AccessTime sx={{ marginRight: '5px' }} />
+                                Operating Hours: {shop.operating_hrs_from} - {shop.operating_hrs_to}
+                              </Typography>
+                              <Typography variant="body2" color="textSecondary">
+                                {shop.description}
+                              </Typography>
+                            </AccordionDetails>
+                          </Accordion>
+                        </CardContent>
+                      </Card>
+                    ))
+                  ) : (
+                    <Typography variant="body1" color="textSecondary">
+                      No shops found.
+                    </Typography>
+                  )}
+                </Box>
+
+                {/* Pagination */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                  <Pagination
+                    count={Math.ceil(filteredShops.length / shopsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                  />
+                </Box>
+              </>
             )}
           </Grid>
         </Grid>
       </Box>
-      <br />
     </Layout>
   );
 };
