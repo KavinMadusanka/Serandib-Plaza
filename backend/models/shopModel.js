@@ -69,6 +69,10 @@ const shopSchema = new mongoose.Schema(
         type: String,
         required: true,
     },
+    logo: {
+      data: Buffer, // Store image as binary data
+      contentType: String, // Store content type of the image (e.g., 'image/png')
+    },
     role: {
       type: Number,
       default: 2,
