@@ -8,6 +8,7 @@ import PeopleIcon from '@mui/icons-material/People';
 //import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import StoreIcon from '@mui/icons-material/Store';
 import { useLocation, useNavigate } from 'react-router-dom';
+import mallLogo from '../../assets/logo_white.png'; // Adjust the path to your logo image
 
 const drawerWidth = 280;
 
@@ -35,27 +36,28 @@ const AdminMenu = () => {
       variant="permanent"
       anchor="left"
     >
-      <Box sx={{ padding: 2 }}>
-        <Typography variant="h6" noWrap component="div" sx={{ textAlign: 'center', color: '#fff' }}>
-          Shopping Mall Dashboard
-        </Typography>
-      </Box>
-      
-      <List>
-        {/* Home */}
-        <ListItem 
-          button 
-          selected={location.pathname === '/'} 
-          onClick={() => handleListItemClick('/')}
-          sx={location.pathname === '/' ? { backgroundColor: '#1976d2' } : {}}
+      <Box sx={{ padding: 2, display: 'flex', alignItems: 'center' }}>
+        <img 
+          src={mallLogo} // Path to your logo image
+          alt="Mall Logo"
+          style={{
+            width: '50px', 
+            height: '50px',
+            marginRight: '16px',
+          }}
+        />
+        <span 
+          style={{
+            fontSize: '24px',  // Increase the font size as needed
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 'bold',
+          }}
         >
-          <ListItemIcon>
-            <HomeIcon style={{ color: '#fff' }} />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItem>
+        Serendib Plaza
+      </span>
+      </Box>
 
-
+      <List>
         <ListItem 
           button 
           selected={location.pathname === '/adminProfile'} 
