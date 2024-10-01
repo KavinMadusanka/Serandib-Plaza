@@ -4,12 +4,16 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {} from '../../components/style/eventCalendar.css';
 import axios from 'axios';
-import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
+import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
 import AdminMenu from '../../components/Layout/AdminMenu';
 import dayjs from 'dayjs';  // Import dayjs for date formatting
 import Header1 from '../../components/Layout/Header1';
-import { Modal } from 'antd';
+import { Modal,Typography } from 'antd';
 import { useAuth } from '../../context/auth';
+import EventForm from '../../components/Form/eventForm';
+
+
+const { Title, Paragraph, Text } = Typography;
 
 const localizer = momentLocalizer(moment);
 
@@ -20,6 +24,10 @@ const Events = () => {
   const [auth,setAuth] = useAuth();
   const [email, setEmail] = useState("");
   const [eventImage, setEventImage] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+
+
 
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
@@ -28,6 +36,12 @@ const Events = () => {
         month: 'long',
         day: 'numeric',
     });
+  };
+
+  // Function to handle modal visibility and content
+  const handleModal = (content) => {
+    setVisible(true);
+    setModalContent(content);
   };
 
 // Fetch event image
@@ -105,10 +119,20 @@ const closeModal = () => {
             >
               Upcoming Events
             </Typography> */}
-            <div className="calendar-container">
-                <div className='UPevents'>
-                <h2>Upcoming Events</h2>
-                </div>
+                <div className="calendar-container">
+                  <div className="p-2 m-2 d-flex justify-content-between" >
+                    <div className='UPevents' style={{ flex: 1, textAlign: 'center' }}>
+                      <h2>Upcoming Events</h2>
+                      <div className='ttttt'>
+                        <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>Exciting events are coming your way with exclusive offers and fun activities!<br />
+                        Stay tuned for giveaways and special surprises!</Title>
+                      </div>
+                    </div>
+                    <div className='eventbut'>
+                      <button onClick={() => { handleModal(<EventForm />);}}>Add Event</button>
+                    </div>
+                  </div>
+                  
                 <Calendar
                     localizer={localizer}
                     events={events}
@@ -160,6 +184,12 @@ const closeModal = () => {
             </Modal>
             </div>
             )}
+              <Modal
+                onCancel={() => setVisible(false)}
+                footer={null}
+                visible={visible}>
+                {modalContent}
+              </Modal> 
           </Container>
         </Box>
       </Box>
