@@ -119,13 +119,13 @@ export const deleteEventController = async (req, res) =>{
 };
 
 //get single lostItem
-export const getLostSingleItemController = async(req,res) => {
+export const getEventController = async(req,res) => {
     try{
-        const SingleItem = await LostModel.findById(req.params.Iid).select("-image")
+        const SingleEvent = await eventModel.findById(req.params.Iid).select("-image")
         res.status(200).send({
             success:true,
             message:"Single Item fetched",
-            SingleItem
+            SingleEvent
         })
     }
     catch(error){
