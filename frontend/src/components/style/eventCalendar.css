@@ -123,3 +123,13 @@
     max-width: 100%;
     height: auto;
 }
+
+.btnsubb{
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 38px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
