@@ -122,18 +122,18 @@ const LowLevelStock = () => {
         const shopContact = "Phone: "+ auth?.shopOwner?.shopcontact + " | Email: " + auth?.shopOwner?.email;
     
         // Set font and shop details
-        doc.setFont("helvetica", "bold");
+        doc.setFont("roboto", "bold");
         doc.setFontSize(18);
         doc.text(shopName, 14, 20); // Shop name at the top
     
-        doc.setFont("helvetica", "normal");
+        doc.setFont("roboto", "normal");
         doc.setFontSize(12);
         doc.text(shopAddress, 14, 26); // Shop address
         doc.text(shopContact, 14, 32); // Shop contact details
     
         // Set the title below the shop details
         doc.setFontSize(17);
-        doc.setFont("helvetica", "bold");
+        doc.setFont("roboto", "bold");
         // Calculate the width of the text
         const text = 'Inventory Report (Low Level Stock)';
         const textWidth = doc.getTextWidth(text);
@@ -144,12 +144,20 @@ const LowLevelStock = () => {
         
         
         // Add the date, category, and total product count below the title
-        doc.setFont("helvetica", "normal");
+        doc.setFont("roboto", "normal");
         doc.setFontSize(12);
         const textYPosition = 60; // Set Y position for date and other details
         doc.text(`Date: ${currentDate}`, 14, textYPosition); // Left-aligned, below the title
         doc.text(categoryLabel, doc.internal.pageSize.width / 2, textYPosition, { align: 'center' }); // Center-aligned, below the title
         doc.text(`Total Products: ${totalFilteredProducts}`, doc.internal.pageSize.width - 14, textYPosition, { align: 'right' }); // Right-aligned, below the title
+
+        const pageW = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const borderMargin = 7;
+
+        // Draw a border
+        doc.setLineWidth(0.2);
+        doc.rect(borderMargin, borderMargin, pageW - 2 * borderMargin, pageHeight - 2 * borderMargin);
 
         // Draw a line above the title
         doc.setDrawColor(0); // Set line color
