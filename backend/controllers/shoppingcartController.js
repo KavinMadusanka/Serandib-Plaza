@@ -50,31 +50,33 @@ export const addToCart = async (req,res) => {
 
 
 
-//get all cart details 
 export const getCart = async(req, res) =>{
-    const{ email } =req.params;
+    const { email } = req.params;
     try {
-        const cart = await Cart.find({email}).populate("product","name price quantity");
+
+        const cart = await Cart.find({ email }).populate("product", "name price quantity");
+        
+        
         if (!cart || cart.length === 0) {
             return res.status(404).send({
                 success: false,
                 message: "No Cart details found for this email",
             });
         }
+
         res.status(200).send({
             success: true,
-            message: "cart details retrieved successfully",
+            message: "Cart details retrieved successfully",
             cart,
         });
-        
+
     } catch (error) {
-        console.log(error);
+        console.error("Error details:", error); // Enhanced logging
         res.status(500).send({
             success: false,
-            error,
+            error: error.message || error, // Return detailed error message
             message: "Error while retrieving cart details",
         });
-        
     }
 };
 
@@ -151,5 +153,3 @@ export const deleteAllCartItem = async (req, res) =>{
         });
     }
 };
-
-
