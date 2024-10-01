@@ -66,5 +66,15 @@
   .button-primary:hover {
     background-color: #355f13;
   } */
+
+  .btnsubb{
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 38px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
   
   

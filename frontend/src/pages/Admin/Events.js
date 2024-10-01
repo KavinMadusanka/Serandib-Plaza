@@ -206,6 +206,9 @@ const handleDeleteItem = async (_id) => {
                           <button className='btn btn-danger' onClick={() => { handleDeleteItem(selectedEvent._id);}}>
                             Remove event
                           </button>
+                          <button className='btnsubb' onClick={() => { handleDeleteItem(selectedEvent._id);}}>
+                            Update event
+                          </button>
                         </div>
                     </div>
                 )}

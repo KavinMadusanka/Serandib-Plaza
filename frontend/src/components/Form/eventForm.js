@@ -188,8 +188,8 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                     </table>
                                 </div>
                                 <br></br>
-                                <div className="form-buttons">
-                                    <button type="submit">Add Event</button>
+                                <div>
+                                    <button className="btnsubb" type="submit">Add Event</button>
                                 </div>
                             </div>
                         </div>
