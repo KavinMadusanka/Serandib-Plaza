@@ -333,7 +333,7 @@ const DisplayProductpage = () => {
                     <Button
                         type="link"
                         icon={<InfoCircleOutlined />}
-                        onClick={() => {/* Handle More Details */}} // Replace with actual function or route
+                        onClick={() => navigate(`/product/${p.slug}`)} // Replace with actual function or route
                         style={{ width: '100%', marginTop: '10px', color: 'gray' }} // Full width and margin-top for spacing
                     >
                         More Details

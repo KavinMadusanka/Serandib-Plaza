@@ -41,6 +41,9 @@ import WishlistPage from "./pages/WishlistPage";
 
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import EventCalendar from "./pages/User/EventCalendar";
+import Events from "./pages/Admin/Events";
+import EventsForm from "./components/Form/eventForm";
+import ProductDetails from "./pages/ProductDetails";
 
 
 function App() {
@@ -71,6 +74,7 @@ function App() {
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
       <Route path="/cart" element={<CartPage/>} />
       <Route path="/wishList" element={<WishlistPage/>} />
+      <Route path="/product/:slug" element={<ProductDetails/>} />
       <Route path="/createCategory" element={<CreateCategory/>}/>
       <Route path="/createProduct" element={<CreateProduct/>}/>
       <Route path="/lowLevelStock" element={<LowLevelStock/>}/>
@@ -82,6 +86,8 @@ function App() {
       <Route path="/shops" element={<Shops />}/>
       <Route path="/forgot-password" element={<ForgotPassword /> }/>
       <Route path="/eventcalender" element={<EventCalendar /> }/>
+
+
 
 
 
