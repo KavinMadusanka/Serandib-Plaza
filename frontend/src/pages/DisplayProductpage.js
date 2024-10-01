@@ -7,6 +7,9 @@ import { useWishlist } from "../context/wishlist"; // Import wishlist context
 import toast from "react-hot-toast";
 import { Prices } from "../components/Prices";
 import { useAuth } from '../context/auth';
+import { Button } from "antd";
+import { ShoppingCartOutlined, HeartOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 
 // Utility function to format price in LKR
@@ -28,6 +31,7 @@ const DisplayProductpage = () => {
     const [email, setEmail] = useState("");
     const [userName,setUserName] = useState('');
     const [auth,setAuth] = useAuth();
+    const navigate = useNavigate();
 
 
 
@@ -203,9 +207,19 @@ const DisplayProductpage = () => {
 
     return (
         <Layout title={"All Products - Best offers"}>
+            
+            <Button
+                            type="default"
+                            icon={<HeartOutlined />}
+                            onClick={() =>  navigate('/wishlist')} // Add to wishlist button
+                            style={{ flex: 1 }} // No margin needed on the left button
+                        >
+                            My Wishlist
+                        </Button>
+
             <div className="row mt-3">
                 <div className="col-md-3">
-                    <h4 className="text-center">Filter By Category</h4>
+                    <h4 className="text-center" color="black">Filter By Category</h4>
                     <div className="d-flex flex-column">
                         {categories?.map((c) => (
                             <Checkbox
@@ -228,26 +242,57 @@ const DisplayProductpage = () => {
                             </Radio.Group>
                         </div>
                         <div className="d-flex flex-column">
-                            <button className="btn btn-danger" onClick={() => window.location.reload()}>
+                            <button className="btn btn-danger" onClick={() => window.location.reload()}
+                                style={{ flex: 1, marginRight: '5px' , backgroundColor: 'gray', 
+                                    borderColor: 'gray', // Add border to match the background
+                                    color: 'white'}}>
                                 RESET FILTERS
                             </button>
                         </div>
                     </div>
                 </div>
 
+                
+
                 <div className="col-md-9">
                     <h1 className="text-center">All Products</h1>
 
                     {/* Search Bar */}
-                    <div className="mb-4">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search for products"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+               <div className="mb-4" style={{ display: 'flex', justifyContent: 'center' }}>
+               <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
+               <input
+      type="text"
+      className="form-control"
+      placeholder="Search for products"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      style={{
+        padding: '10px 45px 10px 15px', // Extra padding on right for the icon
+        width: '100%',
+        borderRadius: '30px',
+        border: '2px solid #ccc',
+        outline: 'none',
+        fontSize: '16px',
+        transition: 'border-color 0.3s ease',
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Light shadow for depth
+        marginBottom: '20px',
+      }}
+      onFocus={(e) => (e.target.style.borderColor = '#333')} // Darken the border on focus
+      onBlur={(e) => (e.target.style.borderColor = '#ccc')} // Return to original color when not focused
+    />
+    <i
+      className="fa fa-search"
+      style={{
+        position: 'absolute',
+        top: '50%',
+        right: '15px', // Adjust this to match the padding of the input field
+        transform: 'translateY(-50%)',
+        color: '#ccc',
+        fontSize: '20px',
+      }}
+    />
+  </div>
+</div>
 
                     <div className="d-flex flex-wrap">
                         {filteredProducts.map((p) => (
@@ -256,29 +301,44 @@ const DisplayProductpage = () => {
                                     src={`/api/v1/product/product-photo/${p._id}`}
                                     className="card-img-top"
                                     alt={p.name}
+                                    style={{ width: "100%", height: "200px", objectFit: "cover" }}
                                 />
                                 <div className="card-body">
                                     <h5 className="card-title">{p.name}</h5>
                                     <p className="card-text">{p.description.substring(0, 30)}...</p>
                                     <p className="card-text">{formatPrice(p.price)}</p>
-                                    <button className="btn btn-primary ms-1">More Details</button>
-                                    <button
-                                        className="btn btn-secondary ms-1"
-                                        onClick={() => {
-                                            // setCart([...cart, p]);
-                                            // localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                                            // toast.success("Item Added to cart");
-                                            addToCart(p._id,p.quantity)
-                                        }}
-                                    >
-                                        ADD TO CART
-                                    </button>
-                                    <button
-                                        className="btn btn-thirshary ms-1"
-                                        onClick={() => addToWishlist(p)} // Add to wishlist button
-                                    >
-                                        ADD TO WISHLIST
-                                    </button>
+                                    <div className="d-flex flex-column">
+                    <div className="d-flex justify-content-between mb-2"> {/* Added margin-bottom for space */}
+                        <Button
+                            type="primary"
+                            icon={<ShoppingCartOutlined />}
+                            onClick={() => addToCart(p._id, p.quantity)}
+                            style={{ flex: 1, marginRight: '5px' , backgroundColor: 'gray', 
+                                borderColor: 'gray', // Add border to match the background
+                                color: 'white'}} // Set text color to white for readability}} // Adjust spacing between buttons
+                        >
+                            Add to Cart
+                        </Button>
+                        
+                        <Button
+                            type="default"
+                            icon={<HeartOutlined />}
+                            onClick={() => addToWishlist(p)} // Add to wishlist button
+                            style={{ flex: 1 }} // No margin needed on the left button
+                        >
+                            Wishlist
+                        </Button>
+                    </div>
+
+                    <Button
+                        type="link"
+                        icon={<InfoCircleOutlined />}
+                        onClick={() => {/* Handle More Details */}} // Replace with actual function or route
+                        style={{ width: '100%', marginTop: '10px', color: 'gray' }} // Full width and margin-top for spacing
+                    >
+                        More Details
+                    </Button>
+                </div>
                                 </div>
                             </div>
                         ))}
@@ -288,7 +348,11 @@ const DisplayProductpage = () => {
                     {loading ? (
                         <p>Loading...</p>
                     ) : (
-                        <button onClick={() => setPage(page + 1)} className="btn btn-warning">
+                        <button onClick={() => setPage(page + 1)} className="btn btn-warning"
+                        style={{ flex: 1, marginRight: '5px' , backgroundColor: 'white', 
+                            borderColor: 'gray', // Add border to match the background
+                            color: 'gray'}}
+                        >
                             Load More
                         </button>
                     )}

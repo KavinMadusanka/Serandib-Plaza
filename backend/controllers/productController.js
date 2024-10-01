@@ -304,31 +304,40 @@ export const getTotalProductCountController = async (req, res) => {
   };
 
 // piyusha mongodb update product quantity part
-// Update product quantity
-export const updateProductQuantityController = async (req, res) => {
-    try {
-        const { pid } = req.params;
-        const { quantity } = req.body; // Quantity is the change, not the new total (e.g., +1 or -1)
 
-        const product = await productModel.findById(pid);
+
+//update product quantity this part belongs to piyusha
+export const updateProductQuantity = async (req, res) => {
+    try {
+        const { quantity } = req.body; // Expecting the new quantity in the request body
+        const { pid } = req.params; // Getting product ID from the URL parameter
+
+        const product = await productModel.findByIdAndUpdate(
+            pid,
+            { quantity }, // Update quantity field
+            { new: true } // Return the updated document
+        );
 
         if (!product) {
-            return res.status(404).send({ message: "Product not found" });
+            return res.status(404).send({
+                success: false,
+                message: "Product not found",
+            });
         }
 
-        // Update the stock quantity (ensure it doesn't go below 0)
-        const newQuantity = product.quantity - quantity;
-
-        if (newQuantity < 0) {
-            return res.status(400).send({ message: "Not enough stock available" });
-        }
-
-        product.quantity = newQuantity;
-        await product.save();
-
-        res.status(200).send({ success: true, message: "Product quantity updated", product });
+        res.status(200).send({
+            success: true,
+            message: "Quantity Updated Successfully",
+            product,
+        });
     } catch (error) {
-        console.error("Error updating product quantity:", error);
-        res.status(500).send({ success: false, message: "Internal server error", error });
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            error,
+            message: "Error while updating quantity",
+        });
     }
 };
+
+
