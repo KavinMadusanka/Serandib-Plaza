@@ -186,7 +186,7 @@ const OutOfStock = () => {
                 overflow: 'linebreak',
             },
             headStyles: {
-                fillColor: [22, 160, 133], // Example color
+                fillColor: [139, 0, 0], // Example color
                 textColor: [255, 255, 255],
             },
             columnStyles: {
