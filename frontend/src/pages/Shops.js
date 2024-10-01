@@ -152,26 +152,39 @@ const Shops = () => {
                       key={shop._id}
                       sx={{
                         width: '350px',
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.2)',
+                        borderRadius: '15px',
                         transition: 'transform 0.3s ease-in-out',
                         '&:hover': {
                           transform: 'scale(1.05)',
+                          boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
                         },
                       }}
                     >
-                      <CardContent>
+                      <CardContent sx={{ padding: '20px' }}>
                         <Accordion>
                           <AccordionSummary
                             expandIcon={<ExpandMore />}
                             aria-controls={`panel-content-${shop._id}`}
                             id={`panel-header-${shop._id}`}
-                            sx={{ display: 'flex', alignItems: 'center' }}
+                            sx={{ display: 'flex', alignItems: 'center', padding: '10px 0' }}
                           >
                             <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                              {/* Category Icon */}
-                              {getCategoryIcon(shop.category)}
+                              {/* Promotion image */}
+                              <img
+                                src={`/api/v1/userauth/logo/${shop._id}`}
+                                alt={shop.shopname}
+                                style={{
+                                  width: '100px',
+                                  height: '100px',
+                                  objectFit: 'cover',
+                                  borderRadius: '50%',
+                                  marginRight: '20px',
+                                  border: '2px solid #ddd',
+                                }}
+                              />
                               <Box>
-                                <Typography variant="h6" component="h3">
+                                <Typography variant="h6" component="h3" sx={{ fontWeight: 'bold' }}>
                                   {shop.shopname}
                                 </Typography>
                                 <Typography color="textSecondary">
