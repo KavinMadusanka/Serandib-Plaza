@@ -3,7 +3,8 @@ import { AddNewEvent,
         getALLEventController,
         EventPhotoController, 
         updateEventController,
-        deleteEventController } from '../controllers/eventController.js';
+        deleteEventController,
+        getEventController } from '../controllers/eventController.js';
 import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 
@@ -13,7 +14,7 @@ const router = express.Router();
 router.post('/addNewEvent',uploadMiddleware, AddNewEvent);
 
 //get single item
-// router.get('/getLostItem/:Iid', getLostSingleItemController);
+router.get('/getEvent/:Iid', getEventController);
 
 //get all items
 router.get('/getAllEvents', getALLEventController);
