@@ -6,6 +6,8 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import mallLogo from '../../assets/logo_white.png'; // Adjust the path to your logo image
+
 
 const ShopMenu = () => {
     const location = useLocation(); // Track the current route
@@ -42,6 +44,15 @@ const ShopMenu = () => {
                     marginBottom: '1rem',
                 }}
             >
+                <img 
+                    src={mallLogo} // Path to your logo image
+                    alt="Mall Logo"
+                    style={{
+                        width: '50px', // Set desired width
+                        height: '50px', // Set desired height
+                        marginRight: '16px', // Space between logo and title
+                    }}
+                />
                 <Typography variant="h6" sx={{ color: '#ffffff' }}>Serendib Plaza</Typography>
             </Box>
             <List>
