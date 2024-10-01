@@ -52,16 +52,16 @@ const EventForm = () => { // Updated the component name to start with an upperca
             NewEvent.append("endTime", endTime);
             NewEvent.append("image", image);
             const res = await axios.post("/api/v1/Event/addNewEvent", NewEvent);
-            // if(res?.success){
-            //     toast.success(res.message);
-            //     setTitle('');
-            //     setEmail('');
-            //     setStartDate('');
-            //     setEndDate('');
-            //     setStartTime('');
-            //     setEndTime('');
-            //     setImage(null);
-            //   }
+            if(res?.success){
+                toast.success(res.message);
+                setTitle('');
+                setEmail('');
+                setStartDate('');
+                setEndDate('');
+                setStartTime('');
+                setEndTime('');
+                setImage(null);
+              }
             if (res && res.data.success) {
                 toast.success(res.data.message);
                 navigate('/EventAdmin');
