@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import LOGO from "./../../assets/LOGO.png";
 import Header1 from '../../components/Layout/Header1';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const AllShops = () => {
   const [shops, setShops] = useState([]);
@@ -149,7 +150,7 @@ const AllShops = () => {
               </FormControl>
 
               {/* Button to generate PDF */}
-              <Button variant="contained" color="primary" onClick={generatePDF}>
+              <Button variant="contained" color="primary" onClick={generatePDF} startIcon={<DownloadIcon />}>
                 PDF Report
               </Button>
             </Box>
