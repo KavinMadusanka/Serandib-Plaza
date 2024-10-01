@@ -86,6 +86,8 @@ function App() {
       <Route path="/shops" element={<Shops />}/>
       <Route path="/forgot-password" element={<ForgotPassword /> }/>
       <Route path="/eventcalender" element={<EventCalendar /> }/>
+      <Route path="/EventAdmin" element={<Events /> }/>
+      <Route path="/EventsForm" element={<EventsForm /> }/>
 
 
 

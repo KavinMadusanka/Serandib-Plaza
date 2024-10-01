@@ -7,10 +7,10 @@ import axios from 'axios';
 import { Layout, Select, Input, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
-import { PictureAsPdf, ImageOutlined } from '@mui/icons-material'; // Icons for the buttons
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas'; // Used to capture images from the DOM
 import 'jspdf-autotable';
+import DownloadIcon from '@mui/icons-material/Download';
+import * as XLSX from 'xlsx';
 
 
 const {Option} = Select
@@ -24,7 +24,6 @@ const Products = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to handle the modal
 
     // get all products
     const getAllProducts = async () => {
@@ -105,106 +104,141 @@ const Products = () => {
     },[auth]);
 
 
-    // Open and close the modal
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // Generate report without images in table format
-const generateReportWithoutImages = () => {
-    const doc = new jsPDF();
+    const generateReportWithoutImages = () => {
+        const doc = new jsPDF();
     
-    doc.setFontSize(18);
-    doc.text('Inventory Report', 14, 22);
-
-    const columns = ["No.", "Name", "Description", "Price (LKR)", "Quantity"];
-    const data = filteredProducts.map((product, index) => [
-        index + 1,
-        product.name,
-        product.description,
-        product.price,
-        product.quantity
-    ]);
-
-    doc.autoTable({
-        head: [columns],
-        body: data,
-        startY: 30,
-        styles: {
-            cellPadding: 5,
-            fontSize: 12,
-            overflow: 'linebreak',
-        },
-        headStyles: {
-            fillColor: [22, 160, 133], // Example color
-            textColor: [255, 255, 255],
-        },
-        margin: { top: 20 },
-        didDrawCell: (data) => {
-            if (data.section === 'body') {
-                doc.setDrawColor(200);
-                doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
-            }
-        }
-    });
-
-    doc.save('inventory_report_without_images.pdf');
-};
-
-// Generate report with images (without actually printing images)
-const generateReportWithImages = () => {
-    const doc = new jsPDF();
+        // Set the date
+        const currentDate = new Date().toLocaleDateString();
     
-    doc.setFontSize(18);
-    doc.text('Inventory Report (No Images Included)', 14, 22);
+        // Set filtered category name
+        const categoryLabel = selectedCategory ? `Category: ${selectedCategory}` : 'All Categories';
+    
+        // Set total filtered products count
+        const totalFilteredProducts = filteredProducts.length;
+    
+        // Shop details
+        const shopName = auth?.shopOwner?.shopname;
+        const shopAddress = auth?.shopOwner?.description;
+        const shopContact = "Phone: "+ auth?.shopOwner?.shopcontact + " | Email: " + auth?.shopOwner?.email;
+    
+        // Set font and shop details
+        doc.setFont("roboto", "bold");
+        doc.setFontSize(18);
+        doc.text(shopName, 14, 20); // Shop name at the top
+    
+        doc.setFont("roboto", "normal");
+        doc.setFontSize(12);
+        doc.text(shopAddress, 14, 26); // Shop address
+        doc.text(shopContact, 14, 32); // Shop contact details
+    
+        // Set the title below the shop details
+        doc.setFontSize(17);
+        doc.setFont("roboto", "bold");
+        // Calculate the width of the text
+        const text = 'Inventory Report (All Products)';
+        const textWidth = doc.getTextWidth(text);
+        const pageWidth = doc.internal.pageSize.width;
 
-    const columns = ["No.", "Name", "Description", "Price (LKR)", "Quantity"];
-    const data = filteredProducts.map((product, index) => [
-        index + 1,
-        product.name,
-        product.description,
-        product.price,
-        product.quantity
-    ]);
+        // Center the text
+        doc.text(text, (pageWidth - textWidth) / 2, 50); 
+        
+        
+        // Add the date, category, and total product count below the title
+        doc.setFont("roboto", "normal");
+        doc.setFontSize(12);
+        const textYPosition = 60; // Set Y position for date and other details
+        doc.text(`Date: ${currentDate}`, 14, textYPosition); // Left-aligned, below the title
+        doc.text(categoryLabel, doc.internal.pageSize.width / 2, textYPosition, { align: 'center' }); // Center-aligned, below the title
+        doc.text(`Total Products: ${totalFilteredProducts}`, doc.internal.pageSize.width - 14, textYPosition, { align: 'right' }); // Right-aligned, below the title
 
-    doc.autoTable({
-        head: [columns],
-        body: data,
-        startY: 30,
-        styles: {
-            cellPadding: 5,
-            fontSize: 12,
-            overflow: 'linebreak',
-        },
-        headStyles: {
-            fillColor: [22, 160, 133], // Example color
-            textColor: [255, 255, 255],
-        },
-        margin: { top: 20 },
-        didDrawCell: (data) => {
-            if (data.section === 'body') {
-                doc.setDrawColor(200);
-                doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+        const pageW = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const borderMargin = 7;
+
+        // Draw a border
+        doc.setLineWidth(0.2);
+        doc.rect(borderMargin, borderMargin, pageW - 2 * borderMargin, pageHeight - 2 * borderMargin);
+
+        // Draw a line above the title
+        doc.setDrawColor(0); // Set line color
+        const lineYPosition = 40; // Y position for the line
+        doc.line(14, lineYPosition, doc.internal.pageSize.width - 14, lineYPosition); // Draw the line
+
+        // Add a new column for category after 'Product Name'
+        const columns = ["No.", "Product Name", "Category", "Price (Rs.)", "Qty", "Reorder Level"];
+        const data = filteredProducts.map((product, index) => [
+            index + 1,
+            product.name,
+            product.category.name, // Add the product category here
+            product.price.toFixed(2),
+            product.quantity,
+            product.reorderLevel
+        ]);
+    
+        // Generate the table with the new column
+        doc.autoTable({
+            head: [columns],
+            body: data,
+            startY: 70, // Adjust to ensure the header doesn't overlap with the table
+            styles: {
+                cellPadding: 1,
+                fontSize: 12,
+                overflow: 'linebreak',
+            },
+            headStyles: {
+                fillColor: [76, 175, 80], // Example color
+                textColor: [255, 255, 255],
+            },
+            columnStyles: {
+                3: { halign: 'right' } // Right-align the price column (index 3)
+            },
+            margin: { top: 20 },
+            didDrawCell: (data) => {
+                if (data.section === 'body') {
+                    doc.setDrawColor(200);
+                    doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+                }
             }
+        });
+
+        // Add page number at the bottom
+        const pageCount = doc.internal.getNumberOfPages();
+        doc.setFontSize(12);
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            const text = `Page ${i} of ${pageCount}`;
+            const textWidth = doc.getTextWidth(text);
+            const pageWidth = doc.internal.pageSize.width;
+            doc.text(text, pageWidth - textWidth - 14, doc.internal.pageSize.height - 10); // Positioning at the bottom right
         }
-    });
+    
+        doc.save('Inventory_Report(All_Products).pdf');
+    };     
+    
+    
+    // Excel report Generate
 
-    doc.save('inventory_report_with_images.pdf');
-};
+    // Function to generate Excel report
+    const generateExcelReport = () => {
+        // Prepare data for the Excel sheet
+        const data = filteredProducts.map((product, index) => ({
+            No: index + 1,
+            'Product Name': product.name,
+            Category: product.category.name,
+            'Price (Rs.)': product.price.toFixed(2),
+            Qty: product.quantity,
+            'Reorder Level': product.reorderLevel
+        }));
 
+        // Create a new workbook and add the data
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Products');
 
-  const handleGenerateReport = (withImages) => {
-    if (withImages) {
-      generateReportWithImages();
-    } else {
-      generateReportWithoutImages();
-    }
-    closeModal(); // Close the modal after the user makes a choice
-  };
+        // Generate and save the Excel file
+        XLSX.writeFile(workbook, 'Inventory_Report(All_Products).xlsx');
+    };
+    
 
 
     return (
@@ -212,7 +246,7 @@ const generateReportWithImages = () => {
         <div>
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
               <ShopHeader />
-              <Box sx={{ display: 'flex', flexGrow: 1 }}>
+              <Box sx={{ display: 'flex', flexGrow: 1 ,backgroundColor: "#f5f5f5"}}>
                   <InventoryMenu />
                   <Box sx={{ flexGrow: 1, p: 3 }}>
                     <div className='col md-9'>
@@ -229,7 +263,7 @@ const generateReportWithImages = () => {
                             justifyContent: 'center'
                         }}>
                             <span style={{ fontSize: '30px', color: 'white' }}>
-                                {products.length}
+                                {filteredProducts.length}
                             </span>
                         </div>
                     </h1>
@@ -266,68 +300,27 @@ const generateReportWithImages = () => {
                   </Select>
 
 
-                  {/* Generate Report Button */}
-                  <div>
-                    <Button
-                        variant="contained"
-                        onClick={showModal}
-                        style={{ marginBottom: '20px', height: 40, backgroundColor: 'black', color: 'white' }}
-                    >
-                        Generate Report
-                    </Button>
-
-                    <Modal
-                        open={isModalOpen}
-                        onClose={closeModal}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box
-                        sx={{
-                            width: 400,
-                            backgroundColor: 'white',
-                            p: 4,
-                            boxShadow: 24,
-                            borderRadius: '12px',
-                            mx: 'auto',
-                            my: '15vh',
-                            textAlign: 'center',
-                        }}
+                    {/* Generate Report Buttons */}
+                    <div>
+                        <Button
+                            variant="contained"
+                            onClick={generateReportWithoutImages}
+                            style={{ marginBottom: '20px', height: 40, backgroundColor: '#282828', color: 'white', marginRight: '10px' }}
                         >
-                        <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
-                            Generate Report
-                        </Typography>
+                            <DownloadIcon style={{ marginRight: '5px' }} />
+                            PDF Report
+                        </Button>
 
-                        <Divider sx={{ mb: 2 }} />
-
-                        <Typography variant="body1" sx={{ mb: 3 }}>
-                            Select how you want to generate the report:
-                        </Typography>
-
-                        <Stack direction="row" spacing={2} justifyContent="center">
-                            <Button
+                        <Button
                             variant="contained"
-                            color="secondary"
-                            startIcon={<PictureAsPdf />}
-                            onClick={() => handleGenerateReport(false)}
-                            sx={{ minWidth: '150px' }}
-                            >
-                            Without Images
-                            </Button>
-
-                            <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<ImageOutlined />}
-                            onClick={() => handleGenerateReport(true)}
-                            sx={{ minWidth: '150px' }}
-                            >
-                            With Images
-                            </Button>
-                        </Stack>
-                        </Box>
-                    </Modal>
+                            onClick={generateExcelReport}
+                            style={{ marginBottom: '20px', height: 40, backgroundColor: '#282828', color: 'white' }}
+                        >
+                            <DownloadIcon style={{ marginRight: '5px' }} />
+                            Excel Report
+                        </Button>
                     </div>
+
 
 
                 </div>

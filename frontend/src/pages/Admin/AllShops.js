@@ -5,6 +5,7 @@ import AdminMenu from '../../components/Layout/AdminMenu';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import LOGO from "./../../assets/LOGO.png";
+import Header1 from '../../components/Layout/Header1';
 
 const AllShops = () => {
   const [shops, setShops] = useState([]);
@@ -112,15 +113,13 @@ const AllShops = () => {
       // Save the generated PDF
       doc.save('Registered_Shops_Report.pdf');
     };
-    
-    
-    
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography color="error">{error}</Typography>;
+  // if (loading) return <Typography>Loading...</Typography>;
+  // if (error) return <Typography color="error">{error}</Typography>;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <Header1/>
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <AdminMenu />
         <Box sx={{ flexGrow: 1, p: 3 }}>
@@ -151,7 +150,7 @@ const AllShops = () => {
 
               {/* Button to generate PDF */}
               <Button variant="contained" color="primary" onClick={generatePDF}>
-                Download PDF Report
+                PDF Report
               </Button>
             </Box>
 

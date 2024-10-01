@@ -9,6 +9,8 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory'; // New icon for Products
 import WarningIcon from '@mui/icons-material/Warning'; // Icon for Low Level Stock
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import mallLogo from '../../assets/logo_white.png'; // Adjust the path to your logo image
+
 
 const InventoryMenu = () => {
     return (
@@ -36,6 +38,15 @@ const InventoryMenu = () => {
                     marginBottom: '1rem',
                 }}
             >
+                <img 
+                    src={mallLogo} // Path to your logo image
+                    alt="Mall Logo"
+                    style={{
+                        width: '50px', // Set desired width
+                        height: '50px', // Set desired height
+                        marginRight: '16px', // Space between logo and title
+                    }}
+                />
                 <Typography variant="h6" sx={{ color: '#ffffff' }}>Serendib Plaza</Typography>
             </Box>
             <List>

@@ -153,5 +153,3 @@ export const deleteAllCartItem = async (req, res) =>{
         });
     }
 };
-
-
