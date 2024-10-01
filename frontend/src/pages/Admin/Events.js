@@ -10,6 +10,8 @@ import dayjs from 'dayjs';  // Import dayjs for date formatting
 import Header1 from '../../components/Layout/Header1';
 import { Modal,Typography } from 'antd';
 import { useAuth } from '../../context/auth';
+import toast from 'react-hot-toast';
+
 import EventForm from '../../components/Form/eventForm';
 
 
@@ -73,7 +75,7 @@ useEffect(() => {
 
 
   // Fetch events from MongoDB
-  useEffect(() => {
+  // useEffect(() => {
     const fetchEvents = async () => {
         try {
             const response = await axios.get('/api/v1/Event/getAllEvents');  // Assuming the API route is /api/events
@@ -83,12 +85,15 @@ useEffect(() => {
                 end: new Date(events.endDate),     // Convert to Date object
             }));
             setEvents(formattedEvents);
+            fetchEvents();
         } catch (error) {
             console.error("Error fetching events:", error);
         }
     };
+// }, []);
 
-    fetchEvents();
+useEffect(() => {
+  fetchEvents();
 }, []);
 
 // Function to handle event click
@@ -105,6 +110,23 @@ const closeModal = () => {
     setEventImage(null);
 };
 
+    // Handle delete card details
+const handleDeleteItem = async (_id) => {
+  const confirmed = window.confirm("Are you sure you want to remove this Item?");
+  if (confirmed) {
+    try {
+      const { data } = await axios.delete(`/api/v1/Event/delete-event/${_id}`);
+      if (data.success) {
+        toast.success('Item Removed successfully');
+      } else {
+        toast.error(data.message);
+      }
+      closeModal();
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  }
+};
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Header1/>
@@ -180,6 +202,11 @@ const closeModal = () => {
                             />
                           </div>
                         )}
+                        <div>
+                          <button className='btn btn-danger' onClick={() => { handleDeleteItem(selectedEvent._id);}}>
+                            Remove event
+                          </button>
+                        </div>
                     </div>
                 )}
             </Modal>
