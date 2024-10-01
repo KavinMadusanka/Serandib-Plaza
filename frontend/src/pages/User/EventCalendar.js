@@ -56,7 +56,7 @@ const EventCalendar = () => {
       }, [auth]);
 
     // Fetch events from MongoDB
-    useEffect(() => {
+    // useEffect(() => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('/api/v1/Event/getAllEvents');  // Assuming the API route is /api/events
@@ -66,13 +66,19 @@ const EventCalendar = () => {
                     end: new Date(event.endDate),     // Convert to Date object
                 }));
                 setEvents(formattedEvents);
+                fetchEvents();
             } catch (error) {
                 console.error("Error fetching events:", error);
             }
         };
 
+        
+    // }, []);
+
+    useEffect(() => {
         fetchEvents();
-    }, []);
+      }, []);
+      
 
     // Function to handle event click
     const handleEventClick = (event) => {
