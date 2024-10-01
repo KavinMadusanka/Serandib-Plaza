@@ -22,12 +22,21 @@ const localizer = momentLocalizer(moment);
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null); // For the event clicked
+  const [selectedEventUpdate, setSelectedEventUpdate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [auth,setAuth] = useAuth();
   const [email, setEmail] = useState("");
   const [eventImage, setEventImage] = useState(null);
   const [visible, setVisible] = useState(false);
   const [modalContent, setModalContent] = useState(null);
+
+  const [title, setTitle] = useState("");
+  const [venue, setVenue] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [image,setImage] = useState("");
 
 
 
@@ -127,6 +136,53 @@ const handleDeleteItem = async (_id) => {
     }
   }
 };
+
+const handleEventUpdate = (event) => {
+  setSelectedEventUpdate(event); // Set the clicked event as selected
+  setIsModalOpen(true);    // Open the modal
+  fetchEventImage(event._id);
+};
+
+// update product function
+const handleUpdate = async (e) => {
+  e.preventDefault()
+  try {
+    const UpdateEvent = new FormData();
+    UpdateEvent.append("title", title);
+    UpdateEvent.append("venue", venue);
+    UpdateEvent.append("email", email);
+    UpdateEvent.append("startDate", startDate);
+    UpdateEvent.append("endDate", endDate);
+    UpdateEvent.append("startTime", startTime);
+    UpdateEvent.append("endTime", endTime);
+    UpdateEvent.append("image", image);
+    const {data} = await axios.put(`/api/v1/Event/update-event/${selectedEventUpdate._id}`, UpdateEvent);
+      if(data?.success){
+          toast.success('Event Updated Successfully')
+
+      } else{
+          toast.error(data?.message);
+      }
+  } catch (error) {
+      console.log(error)
+      toast.error('something went wrong')
+  }
+};
+
+//only gets alpherbatds
+const handleKeyPress = (event) => {
+  const regex = /^[a-zA-Z\s]*$/;
+  if(!regex.test(event.key)){
+  event.preventDefault();
+  }
+};
+const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Header1/>
@@ -206,7 +262,7 @@ const handleDeleteItem = async (_id) => {
                           <button className='btn btn-danger' onClick={() => { handleDeleteItem(selectedEvent._id);}}>
                             Remove event
                           </button>
-                          <button className='btnsubb' onClick={() => { handleDeleteItem(selectedEvent._id);}}>
+                          <button className='btnsubb' onClick={() => { handleEventUpdate(selectedEvent);}}>
                             Update event
                           </button>
                         </div>
