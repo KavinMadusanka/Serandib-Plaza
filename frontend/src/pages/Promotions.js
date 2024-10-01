@@ -276,7 +276,7 @@ const Promotions = ({ shopId }) => {
                     </Tag>
                 </Modal>
             )}
-
+</div>
         </Layout>
     );
 };
