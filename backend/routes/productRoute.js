@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProductController, deleteProductController, getProductController, getSingleProductController, productCountController, productFiltersController, productListController, productPhotoController, updateProductController, getAllProductController,getTotalProductCountController, updateProductQuantity } from '../controllers/productController.js'
+import { createProductController, deleteProductController, getProductController, getSingleProductController, productCountController, productFiltersController, productListController, productPhotoController, updateProductController, getAllProductController,getTotalProductCountController, updateProductQuantity, relatedProductController } from '../controllers/productController.js'
 import formidable from 'express-formidable';
 
 const router = express.Router()
@@ -45,5 +45,8 @@ router.get('/get-productCount',getTotalProductCountController)
 //piyusha
 //update product quantity
 router.put('/update-product-quantity/:pid',updateProductQuantity)
+
+//similar product
+router.get('/related-product/:pid/:cid', relatedProductController)
 
 export default router
