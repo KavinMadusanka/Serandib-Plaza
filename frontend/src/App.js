@@ -41,6 +41,8 @@ import WishlistPage from "./pages/WishlistPage";
 
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import EventCalendar from "./pages/User/EventCalendar";
+import Events from "./pages/Admin/Events";
+import EventsForm from "./components/Form/eventForm";
 
 
 function App() {
@@ -82,6 +84,8 @@ function App() {
       <Route path="/shops" element={<Shops />}/>
       <Route path="/forgot-password" element={<ForgotPassword /> }/>
       <Route path="/eventcalender" element={<EventCalendar /> }/>
+      <Route path="/EventAdmin" element={<Events /> }/>
+      <Route path="/EventsForm" element={<EventsForm /> }/>
 
 
 
