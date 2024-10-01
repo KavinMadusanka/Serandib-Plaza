@@ -34,8 +34,14 @@ const RegisterShop = () => {
   const [operating_hrs_from, setOpen] = useState('');
   const [operating_hrs_to, setClose] = useState('');
   const [shoplocation, setShopLocation] = useState('');
-  const [shopcontact, setShopContact] = useState('');
+  const [shopcontact, setContact] = useState('');
   const [logo, setLogo] = useState(null); // File state for the logo
+  const [error, setError] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [nicError, setNICError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [contactError, setContactError] = useState('');
+  const [ownerContactError, setOwnerContactError] = useState('');
 
   const navigate = useNavigate();
 
@@ -50,6 +56,26 @@ const RegisterShop = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate contact numbers
+    if (owner_contact.length !== 10) {
+      setOwnerContactError('Contact number must be exactly 10 digits.');
+      return;
+    } else {
+      setOwnerContactError('');
+    }
+
+    if (shopcontact.length !== 10) {
+      setContactError('Contact number must be exactly 10 digits.');
+      return;
+    } else {
+      setContactError('');
+    }
+
+    // Validate NIC
+    if (!validateNIC(nic)) {
+      return;
+    }
 
     // Use FormData to send the image file and other form data
     const formData = new FormData();
@@ -90,9 +116,47 @@ const RegisterShop = () => {
     }
   };
 
+  const validatePassword = (value) => {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/;
+    if (regex.test(value)) {
+      setError('');
+      setIsValid(true);
+    } else {
+      setError('Password must be at least 8 characters long, contain one uppercase letter, one number, and one special character.');
+      setIsValid(false);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    validatePassword(value);
+  };
+
+  const validateEmail = (value) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(value)) {
+      setEmailError('Please enter a valid email address.');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validateNIC = (value) => {
+    const regex = /^[A-Za-z0-9]{10,12}$/; // Adjust based on your NIC format
+    if (!regex.test(value)) {
+      setNICError('NIC must be 10 to 12 characters long and contain only letters and numbers.');
+      return false;
+    } else {
+      setNICError('');
+      return true;
+    }
+  };
+
   return (
     <Layout>
     <Container maxWidth="md">
+      <br/>
     <Paper elevation={3} sx={{ padding: 3, width: '100%' }}>
       <Typography variant="h4" component="h1" sx={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 3 }}>
         Shop Registration
@@ -108,7 +172,12 @@ const RegisterShop = () => {
               <TextField
                 label="Shop Name"
                 value={shopname}
-                onChange={(e) => setShopName(e.target.value)}
+                onChange={(e) => {
+                  const regex = /^[a-zA-Z0-9\s]*$/; // Allow letters, numbers, and spaces
+                  if (regex.test(e.target.value)) {
+                    setShopName(e.target.value);
+                  }
+                }}
                 required
                 fullWidth
               />
@@ -116,17 +185,24 @@ const RegisterShop = () => {
                 label="Email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  validateEmail(e.target.value);
+                }}
                 required
                 fullWidth
+                error={!!emailError}
+                helperText={emailError}
               />
               <TextField
                 label="Password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 required
                 fullWidth
+                error={!!error}
+                helperText={error}
               />
               <FormControl fullWidth required>
                 <InputLabel>Business Type</InputLabel>
@@ -201,9 +277,16 @@ const RegisterShop = () => {
               <TextField
                 label="Shop Contact Number"
                 value={shopcontact}
-                onChange={(e) => setShopContact(e.target.value)}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  if (/^\d{0,10}$/.test(input)) {
+                    setContact(input);
+                  }
+                }}
                 required
                 fullWidth
+                error={!!contactError}
+                helperText={contactError}
               />
             </Box>
           </Grid>
@@ -225,23 +308,40 @@ const RegisterShop = () => {
                 label="Owner Email"
                 type="email"
                 value={owner_email}
-                onChange={(e) => setOwnerEmail(e.target.value)}
+                onChange={(e) => {
+                  setOwnerEmail(e.target.value);
+                  validateEmail(e.target.value);
+                }}
                 required
                 fullWidth
+                error={!!emailError}
+                helperText={emailError}
               />
               <TextField
                 label="Owner Contact Number"
                 value={owner_contact}
-                onChange={(e) => setOwnerContact(e.target.value)}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  if (/^\d{0,10}$/.test(input)) {
+                    setOwnerContact(input);
+                  }
+                }}
                 required
                 fullWidth
+                error={!!ownerContactError}
+                helperText={ownerContactError}
               />
               <TextField
                 label="NIC"
                 value={nic}
-                onChange={(e) => setNIC(e.target.value)}
+                onChange={(e) => {
+                  setNIC(e.target.value);
+                  validateNIC(e.target.value);
+                }}
                 required
                 fullWidth
+                error={!!nicError}
+                helperText={nicError}
               />
               <TextField
                 label="Business Registration Number"
@@ -275,31 +375,26 @@ const RegisterShop = () => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  
-                  // disabled={!isValid}  // Disable submit button until the password is valid
+                  disabled={!isValid}  // Disable submit button until the password is valid
                   sx={{ marginTop: 2,width: '100%', maxWidth: '700px' }}
               >
                 Register
               </Button>
               </Box>
            <br/>
-                <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
-                    <Typography>If you Already have an Account, Please
-                        <Link component="button" variant="body2" onClick={handleLoginClick} sx={{ cursor: 'pointer', color: 'blue', marginLeft: 1 }}>
-                        Login
-                        </Link>
-                    </Typography>
-                </Box>
+            <Box sx={{display: 'flex',flexDirection: 'column',alignItems: 'center',justifyContent: 'center'}}>
+              <Typography>If you Already have an Account, Please
+                <Link component="button" variant="body2" onClick={handleLoginClick} sx={{ cursor: 'pointer', color: 'blue', marginLeft: 1 }}>
+                    Login
+                </Link>
+              </Typography>
+            </Box>
           </form>
-        
-        <br/><br/>
         </Paper>
-        </Container>
-     
-      
-      <Toaster />
-      
-    </Layout>
+      </Container>
+      <br/>
+    <Toaster />
+  </Layout>
   );
 };
 
