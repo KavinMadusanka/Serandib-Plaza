@@ -262,9 +262,9 @@ const getTodayDate = () => {
                           <button className='btn btn-danger' onClick={() => { handleDeleteItem(selectedEvent._id);}}>
                             Remove event
                           </button>
-                          <button className='btnsubb' onClick={() => { handleEventUpdate(selectedEvent);}}>
+                          {/* <button className='btnsubb' onClick={() => { handleEventUpdate(selectedEvent);}}>
                             Update event
-                          </button>
+                          </button> */}
                         </div>
                     </div>
                 )}
