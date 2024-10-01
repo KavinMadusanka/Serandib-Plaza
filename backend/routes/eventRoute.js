@@ -1,5 +1,7 @@
 import express from 'express';
-import { AddNewEvent } from '../controllers/eventController.js';
+import { AddNewEvent,
+        getALLEventController,
+        EventPhotoController } from '../controllers/eventController.js';
 import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 
@@ -11,11 +13,11 @@ router.post('/addNewEvent',uploadMiddleware, AddNewEvent);
 //get single item
 // router.get('/getLostItem/:Iid', getLostSingleItemController);
 
-// //get all items
-// router.get('/getLostItems', getLostItemController);
+//get all items
+router.get('/getAllEvents', getALLEventController);
 
-// //get photo
-// router.get("/getLostItem-photo/:pid",ItemPhotoController);
+//get photo
+router.get("/getAllEvents-photo/:pid",EventPhotoController);
 
 // //delete item
 // router.delete("/delete-item/:id",deleteLostItemController);
