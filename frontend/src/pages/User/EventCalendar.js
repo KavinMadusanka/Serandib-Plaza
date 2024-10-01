@@ -9,6 +9,8 @@ import { useAuth } from '../../context/auth';
 // import Modal from 'react-modal';
 import { Card, List, Typography, Modal, Tag } from 'antd';
 
+const { Title, Paragraph, Text } = Typography;
+
 const localizer = momentLocalizer(moment);
 
 const EventCalendar = () => {
@@ -91,6 +93,10 @@ const EventCalendar = () => {
             <div className="calendar-container">
                 <div className='UPevents'>
                 <h2>Upcoming Events</h2>
+                </div>
+                <div className='ttttt'>
+                <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>Exciting events are coming your way with exclusive offers and fun activities!<br />
+                Stay tuned for giveaways and special surprises!</Title>
                 </div>
                 <Calendar
                     localizer={localizer}
