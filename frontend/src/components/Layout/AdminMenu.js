@@ -110,14 +110,14 @@ const AdminMenu = () => {
         {/* Events */}
         <ListItem 
           button 
-          selected={location.pathname === '/e'} 
-          onClick={() => handleListItemClick('/e')}
-          sx={location.pathname === '/e' ? { backgroundColor: '#1976d2' } : {}}
+          selected={location.pathname === '/EventAdmin'} 
+          onClick={() => handleListItemClick('/EventAdmin')}
+          sx={location.pathname === '/EventAdmin' ? { backgroundColor: '#1976d2' } : {}}
         >
           <ListItemIcon>
             <EventIcon style={{ color: '#fff' }} />
           </ListItemIcon>
-          <ListItemText primary="Events" />
+          <ListItemText primary="Happenings" />
         </ListItem>
 
         {/* Promotions
