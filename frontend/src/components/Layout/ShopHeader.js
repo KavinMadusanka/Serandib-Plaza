@@ -26,7 +26,7 @@ const ShopHeader = () => {
     };
 
     const goToHome = () => {
-        navigate('/home'); // Adjust the route as needed
+        navigate('/shopProfile'); // Adjust the route as needed
     };
 
     const goToPromotions = () => {

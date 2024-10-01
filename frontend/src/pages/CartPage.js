@@ -3,6 +3,10 @@ import Layout from "../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
+import axios from 'axios'; // Import axios for API requests
+
 
 // Utility function to format price in LKR
 const formatPrice = (price) => {
@@ -13,9 +17,93 @@ const CartPage = () => {
     const [auth, setAuth] = useAuth();
     const [cart, setCart] = useCart();
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
+    
+
+    //get all cart details
+    useEffect(() => {
+        const fetchCartDetails = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8088/api/v1/cart/get-cart/${email}`);
+                setCart(response.data.cart);
+                fetchCartDetails();
+            } catch (error) {
+                console.error('Error fetching cart details:', error);
+            }
+        };
+        fetchCartDetails();
+    }, [email]); 
+    
+      // delete cart items 
+  const handleDeleteCartItem = async (id,quantity,productID,cartQuantity) => {
+    try {
+
+      console.log(cartQuantity)
+      await axios.delete(`http://localhost:8000/api/v1/Cart/delete-cart-item/${id}`);
+      // Update the cart state to reflect the deleted item
+
+     // console.log("Cart:", cart);
+      setCart(cart.filter(item =>  item && item._id !== id));
+      toast.success("Item deletion successfully");
+
+        try {
+     
+      const response = await axios.put(`http://localhost:8000/api/v1/product/update-product-quantity/${productID}`, {
+        
+        quantity: quantity +cartQuantity,
+        
+      });
+      if(response && response.data.success){
+        toast.success(response.data.message);
+        // navigate('/payment');
+      }else{
+        toast.error(response.data.message);
+      }
+      
+    } catch (error) {
+      
+      console.error('Error updating  product quantity to cart:', error);
+    }
+
+
+
+    } catch (error) {
+      console.error('Error deleting cart item:', error);
+    }
+
+
+    // try {
+     
+    //   const response = await axios.put(`http://localhost:8000/api/v1/product/update-product-quantity/${id}`, {
+        
+    //     quantity: quantity +1,
+        
+    //   });
+    //   if(response && response.data.success){
+    //     toast.success(response.data.message);
+    //     // navigate('/payment');
+    //   }else{
+    //     toast.error(response.data.message);
+    //   }
+      
+    // } catch (error) {
+      
+    //   console.error('Error updating  product quantity to cart:', error);
+    // }
+
+  };
+
 
     // State to hold quantities locally
     const [quantities, setQuantities] = useState({});
+
+    useEffect(() => {
+        if (auth && auth.user) {
+          setEmail(auth.user.email);
+          setUserName(auth.user.fullname);
+        }
+      }, [auth]);
 
     // Initialize quantities to 1 for new items or retrieve from localStorage
     useEffect(() => {
@@ -49,14 +137,30 @@ const CartPage = () => {
         }
     };
 
+    // Function to update product quantity in MongoDB
+    const updateProductQuantityInDB = async (pid, change) => {
+        try {
+            await axios.patch(`/api/v1/product/update-product-quantity/${pid}`, {
+                change
+            });
+        } catch (error) {
+            console.log("Error updating product quantity in MongoDB:", error);
+        }
+    };
+
     // Update item quantity and ensure it's stored in both the cart state and localStorage
     const updateQuantity = (pid, action) => {
         setQuantities(prevQuantities => {
             const newQuantities = { ...prevQuantities };
+            let currentQuantity = newQuantities[pid] || 1;
+            let change = 0;
+
             if (action === "increase") {
-                newQuantities[pid] = (newQuantities[pid] || 1) + 1; // Increase quantity
-            } else if (action === "decrease" && newQuantities[pid] > 1) {
-                newQuantities[pid] -= 1; // Decrease quantity but not below 1
+                newQuantities[pid] = currentQuantity + 1;
+                change = -1; // Decrease stock in MongoDB
+            } else if (action === "decrease" && currentQuantity > 1) {
+                newQuantities[pid] = currentQuantity - 1;
+                change = 1; // Increase stock in MongoDB
             }
 
             // Update the cart state with new quantities
@@ -72,6 +176,11 @@ const CartPage = () => {
             localStorage.setItem("quantities", JSON.stringify(newQuantities));
             setCart(updatedCart);
 
+            // Update MongoDB with the change in quantity
+            if (change !== 0) {
+                updateProductQuantityInDB(pid, change);
+            }
+
             return newQuantities;
         });
     };
@@ -79,6 +188,12 @@ const CartPage = () => {
     // Delete item from the cart
     const removeCartItem = (pid) => {
         try {
+            const removedItem = cart.find(item => item._id === pid);
+            const currentQuantity = quantities[pid] || 1;
+
+            // Restore stock in MongoDB when item is removed
+            updateProductQuantityInDB(pid, currentQuantity); // Increase stock by the quantity removed
+
             const updatedCart = cart.filter(item => item._id !== pid);
             const updatedQuantities = { ...quantities };
             delete updatedQuantities[pid]; // Remove quantity of deleted item
@@ -97,7 +212,7 @@ const CartPage = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <h1 className="text-center bg-light p-2 mb-1">
-                            {`Hello ${auth?.token && auth?.user?.name}`}
+                            Hello {userName}
                         </h1>
                         <h4 className="text-center">
                             {cart?.length
@@ -114,17 +229,20 @@ const CartPage = () => {
                             <div className="row mb-2 p-3 card flex-row" key={p._id}>
                                 <div className="col-md-4">
                                     <img 
-                                        src={`/api/v1/product/product-photo/${p._id}`}
+                                        src={`http://localhost:8088/api/v1/product/product-photo/${p.product._id}`}
                                         className="card-img-top"
-                                        alt={p.name}
+                                        alt={p.product.name}
                                         width="100px"
                                         height={"100px"}
                                     />
                                 </div>
                                 <div className="col-md-8">
-                                    <p>{p.name}</p>
-                                    <p>{p.description.substring(0, 30)}</p>
-                                    <p>Price: {formatPrice(p.price)}</p>
+                                    <p>{p.product.name}</p>
+                                    {/* <p>{p.description.substring(0, 30)}</p> */}
+                                    
+                                    <p>Price: {formatPrice(p.product.price)}</p>
+                                    <p ><strong> Available: {p.product.quantity<= 0 ? "Out of Stock" :p.product.quantity}</strong></p>
+
 
                                     <div className="quantity-controls">
                                         <button 

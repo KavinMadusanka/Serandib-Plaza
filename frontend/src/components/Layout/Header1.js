@@ -1,6 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../../context/auth'; 
 import { useCart } from '../../context/cart';
@@ -30,9 +29,15 @@ const Header1 = () => {
     return (
         <AppBar position="static" sx={{ backgroundColor: 'black'}}> {/* Set background color to black */}
             <Toolbar>
-                <IconButton edge="start" color="inherit" aria-label="menu">
-                    <MenuIcon />
-                </IconButton>
+                <img 
+                    src={mallLogo} // Path to your logo image
+                    alt="Mall Logo"
+                    style={{
+                        width: '50px', // Set desired width
+                        height: '50px', // Set desired height
+                        marginRight: '16px', // Space between logo and title
+                    }}
+                />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Serendib Plaza
                 </Typography>
@@ -48,6 +53,9 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/shops">
                     Shops
                 </Button>
+                <Button color="inherit" component={Link} to="/DisplayProductpage">
+                    Products
+                </Button>
                 <Button color="inherit" component={Link} to="/promotions">
                     Promotions
                 </Button>
@@ -60,19 +68,15 @@ const Header1 = () => {
                 <Button color="inherit" component={Link} to="/contactus">
                     Contact Us
                 </Button>
-                
-                  
-                <Button  color="inherit" component={Link} to="/cart">
-                       Cart {cart?.length}
+                <Button color="inherit" component={Link} to="/cart">
+                    Cart {cart?.length}
                 </Button>
-               
-                
+
                 {auth && auth.user ? (
                     <>
                         <Button color="inherit" component={Link} to={dashboardLink}>
                             Profile
                         </Button>
-                        
                         <Button color="inherit" onClick={handleLogout}>
                             Logout
                         </Button>
