@@ -186,7 +186,7 @@ const LowLevelStock = () => {
                 overflow: 'linebreak',
             },
             headStyles: {
-                fillColor: [22, 160, 133], // Example color
+                fillColor: [255, 102, 102], // Example color
                 textColor: [255, 255, 255],
             },
             columnStyles: {
