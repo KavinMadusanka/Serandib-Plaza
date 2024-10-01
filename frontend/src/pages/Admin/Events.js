@@ -153,6 +153,7 @@ const closeModal = () => {
                 onCancel={closeModal}
                 contentLabel="Event Details"
                 className="event-modal"
+                footer={null}
             >
                 {selectedEvent && (
                     <div className="event-details">
@@ -170,7 +171,7 @@ const closeModal = () => {
                         )}
                         {/* Display image when event have image  */}
                         {eventImage && (
-                          <div className='Imagebox' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <div className='Imagebox' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '350px' }}>
                             <img
                               src={eventImage}
                               alt={selectedEvent.title}
