@@ -84,7 +84,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                     <h5 className="mb-0">Add New Event</h5>
                                 </div>
                                 <div className="card-body">
-                                    <div className="form-group">
+                                    <div className="form">
                                         <label htmlFor="fullName">Event Title :</label>
                                         <input
                                             type="text"
@@ -96,7 +96,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                         />
                                     </div>
 
-                                    <div className="form-group">
+                                    <div className="form">
                                         <label htmlFor="address">Venue :</label>
                                         <input
                                             type="text"
@@ -136,7 +136,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                         <tbody>
                                             <tr>
                                                 <td style={{ paddingRight: '2%' }}>
-                                                    <div className="form-group">
+                                                    <div className="form">
                                                         <label htmlFor="selectedDate">Select Start Date:</label>
                                                         <input
                                                             type="date"
@@ -148,7 +148,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                                     </div>
                                                 </td>
                                                 <td style={{ paddingRight: '2%' }}>
-                                                    <div className="form-group">
+                                                    <div className="form">
                                                         <label htmlFor="selectedDate">Select End Date:</label>
                                                         <input
                                                             type="date"
@@ -162,7 +162,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div className="form-group">
+                                                    <div className="formTime">
                                                         <label htmlFor="selectedTime">Select Start Time:</label>
                                                         <input
                                                             type="time"
@@ -173,7 +173,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="form-group">
+                                                    <div className="formTime">
                                                         <label htmlFor="selectedTime">Select End Time:</label>
                                                         <input
                                                             type="time"
@@ -188,8 +188,8 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                     </table>
                                 </div>
                                 <br></br>
-                                <div>
-                                    <button className="btnsubb" type="submit">Add Event</button>
+                                <div className="btnsubb">
+                                    <button type="submit">Add Event</button>
                                 </div>
                             </div>
                         </div>
