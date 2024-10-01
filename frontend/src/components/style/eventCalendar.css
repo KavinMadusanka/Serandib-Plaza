@@ -1,7 +1,8 @@
 .calendar-container {
     margin: 0 auto;
     max-width: 1200px;
-    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 .UPevents {
