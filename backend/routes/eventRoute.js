@@ -1,10 +1,12 @@
 import express from 'express';
 import { AddNewEvent } from '../controllers/eventController.js';
+import uploadMiddleware from '../middlewares/uploadMiddleware.js';
+
 
 const router = express.Router();
 
 // Add routes here
-router.post('/addNewEvent', AddNewEvent);
+router.post('/addNewEvent',uploadMiddleware, AddNewEvent);
 
 //get single item
 // router.get('/getLostItem/:Iid', getLostSingleItemController);
