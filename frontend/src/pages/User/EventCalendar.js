@@ -95,8 +95,8 @@ const EventCalendar = () => {
                 <h2>Upcoming Events</h2>
                 </div>
                 <div className='ttttt'>
-                <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>Exciting events are coming your way with exclusive offers and fun activities!<br />
-                Stay tuned for giveaways and special surprises!</Title>
+                    <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>Exciting events are coming your way with exclusive offers and fun activities!<br />
+                    Stay tuned for giveaways and special surprises!</Title>
                 </div>
                 <Calendar
                     localizer={localizer}
