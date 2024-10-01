@@ -7,6 +7,7 @@ const ProductDetails = () => {
     const params = useParams();
     const [product, setProduct] = useState(null); // Initialize as null
     const [error, setError] = useState(null); // Add error state
+    const [relatedProducts, setRelatedProducts] = useState([])
 
     useEffect(() => {
         console.log('Current slug:', params.slug); // Log the slug
@@ -20,7 +21,8 @@ const ProductDetails = () => {
         try {
             const { data } = await axios.get(`/api/v1/product/get-single-product/${params.slug}`);
             console.log(data); // Log the API response
-            setProduct(data?.product); // Ensure data.product is not undefined
+            setProduct(data?.product[0]); // Ensure data.product is not undefined
+            //  getSimilarProduct(data?.product[0]._id, data?.product[0].category._id);
         } catch (error) {
             console.log(error);
             setError("Failed to fetch product details."); // Set an error message
@@ -34,6 +36,17 @@ const ProductDetails = () => {
 
     if (!product) {
         return <div>Loading...</div>; // Optional loading state
+    }
+
+    //get similar product
+    const getSimilarProduct = async (pid, cid) => {
+        try {
+            const { data } = await axios.get(
+                `/api/v1/product/related-product/${pid}/${cid}`
+            );
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

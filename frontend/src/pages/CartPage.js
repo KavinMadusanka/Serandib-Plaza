@@ -38,7 +38,7 @@ const CartPage = () => {
     useEffect(() => {
         if (auth && auth.user) {
             setEmail(auth.user.email); // Set email from auth context
-            setUserName(auth.user.name); // Set userName from auth context
+            setUserName(auth.user.fullname); // Set userName from auth context
         }
     }, [auth]);
 
@@ -110,68 +110,146 @@ const totalPrice = () => {
 
     return (
         <Layout>
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <h1 className="text-center bg-light p-2 mb-1">
-                            Hello {userName}
-                        </h1>
-                        <h4 className="text-center">
-                            {cart?.length
-                                ? `You have ${cart.length} item(s) in your cart ${auth?.token ? "" : "please login to checkout"}`
-                                : "Your Cart is Empty"}
-                        </h4>
-                    </div>
+      <div className="container" style={{ padding: "20px" }}>
+        <div className="row">
+          <div className="col-md-12">
+            <h1 className="text-center bg-light p-3 mb-4">
+              Hello, {userName}
+            </h1>
+            <h4 className="text-center">
+              {cart?.length
+                ? `You have ${cart.length} item(s) in your cart ${
+                    auth?.token ? "" : "please login to checkout"
+                  }`
+                : "Your Cart is Empty"}
+            </h4>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-8">
+            {cart?.map((p) => (
+              <div
+                className="row mb-4 p-3 card flex-row"
+                key={p._id}
+                style={{
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div className="col-md-4">
+                  <img
+                    src={`http://localhost:8088/api/v1/product/product-photo/${p.product._id}`}
+                    alt={p.product.name}
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
                 </div>
-                <div className="row">
-                    <div className="col-md-8">
-                        {cart?.map(p => (
-                            <div className="row mb-2 p-3 card flex-row" key={p._id}>
-                                <div className="col-md-4">
-                                    <img 
-                                        src={`http://localhost:8088/api/v1/product/product-photo/${p.product._id}`}
-                                        className="card-img-top"
-                                        alt={p.product.name}
-                                        width="100px"
-                                        height={"100px"}
-                                    />
-                                </div>
-                                <div className="col-md-8">
-                                    <p>{p.product.name}</p>
-                                    <p>Price: {formatPrice(p.product.price)}</p>
-                                    <p><strong>Available: {p.product.quantity <= 0 ? "Out of Stock" : p.product.quantity}</strong></p>
+                <div className="col-md-8">
+                  <h5 style={{ fontWeight: "bold", marginBottom: "10px" }}>
+                    {p.product.name}
+                  </h5>
+                  <p style={{ color: "#28a745" }}>
+                    Price: {formatPrice(p.product.price)}
+                  </p>
+                  <p>
+                    <strong>
+                      Available:{" "}
+                      {p.product.quantity <= 0 ? "Out of Stock" : p.product.quantity}
+                    </strong>
+                  </p>
 
-                                    <div className="quantity-controls">
-                                    <button 
-                                     className="btn btn-secondary" 
-                                     onClick={() => updateQuantity(p._id, "decrease", quantities[p._id] || p.quantity, p.product._id, p.product.quantity)}
-                                     >−</button>
-                                        <span className="quantity-box mx-2">
-                                         {quantities[p._id] || p.quantity}
-                                        </span>
-                                        <button 
-                                     className="btn btn-secondary" 
-                                     onClick={() => updateQuantity(p._id, "increase", quantities[p._id] || p.quantity, p.product._id, p.product.quantity)}
-                                     >+</button>
-                                    </div>
+                  <div
+                    className="quantity-controls"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() =>
+                        updateQuantity(
+                          p._id,
+                          "decrease",
+                          quantities[p._id] || p.quantity,
+                          p.product._id,
+                          p.product.quantity
+                        )
+                      }
+                      style={{ fontSize: "18px", padding: "5px 10px" }}
+                    >
+                      −
+                    </button>
+                    <span
+                      className="quantity-box mx-2"
+                      style={{
+                        fontSize: "18px",
+                        minWidth: "30px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {quantities[p._id] || p.quantity}
+                    </span>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() =>
+                        updateQuantity(
+                          p._id,
+                          "increase",
+                          quantities[p._id] || p.quantity,
+                          p.product._id,
+                          p.product.quantity
+                        )
+                      }
+                      style={{ fontSize: "18px", padding: "5px 10px" }}
+                    >
+                      +
+                    </button>
+                  </div>
 
-                                    <button 
-                                        className="btn btn-danger mt-2" 
-                                        onClick={() => handleDeleteCartItem(p._id, p.product.quantity, p.product._id, p.quantity)}
-                                    >Remove</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="col-md-4 text-center">
-                        <h2>Cart Summary</h2>
-                        <p>Total | Checkout | Payment</p>
-                        <hr/>
-                        <h4>Total: {formatPrice(totalPrice())}</h4>
-                    </div>
+                  <button
+                    className="btn btn-danger mt-3"
+                    onClick={() =>
+                      handleDeleteCartItem(
+                        p._id,
+                        p.product.quantity,
+                        p.product._id,
+                        p.quantity
+                      )
+                    }
+                    style={{ fontSize: "16px", padding: "8px 16px" }}
+                  >
+                    Remove
+                  </button>
                 </div>
-            </div>
-        </Layout>
+              </div>
+            ))}
+          </div>
+          <div className="col-md-4 text-center">
+            <h2 style={{ fontWeight: "bold", marginBottom: "20px" }}>
+              Cart Summary
+            </h2>
+            <p>Total | Checkout | Payment</p>
+            <hr />
+            <h4 style={{ fontWeight: "bold", color: "#28a745" }}>
+              Total: {formatPrice(totalPrice())}
+            </h4>
+            <button
+              className="btn btn-primary mt-4"
+              style={{ fontSize: "18px", padding: "10px 20px" }}
+              onClick={() => navigate("/checkout")}
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </Layout>
     );
 };
 
