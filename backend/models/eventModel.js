@@ -25,6 +25,14 @@ const eventModel = new mongoose.Schema(
         email:{
             type:String,
             required:true
+        },
+        startTime: {
+            type: String,
+            required: true
+        },
+        endTime: {
+            type: String,
+            required: true
         }
     },{timestamps:true}
 
