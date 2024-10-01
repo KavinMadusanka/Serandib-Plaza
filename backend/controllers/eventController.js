@@ -4,7 +4,11 @@ import eventModel from "../models/eventModel.js";
 export const AddNewEvent = async(req,res) => {
     try {
         const {title,venue,email,startDate,endDate,startTime,endTime} = req.body
-        const {image} = req.files
+        // const {image} = req.files?.image;
+        let image;
+        if (req.files && req.files.image) {
+            image = req.files.image;
+        }
 
         // Validation
         switch(true){
@@ -22,8 +26,6 @@ export const AddNewEvent = async(req,res) => {
                 return res.status(500).send({error:"email is Required"})
             case !endTime:
                 return res.status(500).send({error:"email is Required"})
-            case image && image.size > 1000000:
-                return res.status(500).send({error:"Photo is Required and should be less than 1mb"})
         }
 
             // Create new LostItem document
@@ -31,6 +33,9 @@ export const AddNewEvent = async(req,res) => {
 
         // Handle image upload
         if (image && image.data && image.mimetype) {
+            if(image.size > 1000000){
+                return res.status(500).send({error:"Photo is Required and should be less than 1mb"})
+            }
             newEvent.image.data = image.data;
             newEvent.image.contentType = image.mimetype;
         }
