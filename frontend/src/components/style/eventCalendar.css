@@ -3,6 +3,7 @@
     max-width: 1200px;
     padding-top: 10px;
     padding-bottom: 20px;
+    border-radius: 5px;
 }
 
 .UPevents {
@@ -133,3 +134,41 @@
     border-radius: 5px;
     margin-left: 20px;
 }
+
+.contactS {
+    /* background-color: #0d70ad; */
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  
+  .contactO {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .contactItem {
+    /* background-color: white; */
+    border-color: white;
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .contactO a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+  }
+  
