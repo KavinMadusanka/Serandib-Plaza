@@ -58,15 +58,15 @@ export const AddNewEvent = async(req,res) => {
     }
 }
 
-// // Get all Items controller
-export const getLostItemController = async(req,res) =>{
+// // Get all events controller
+export const getALLEventController = async(req,res) =>{
     try {
-        const Items = await LostModel.find({}).select("-image").limit(12).sort({createdAt: -1});
+        const events = await eventModel.find({}).select("-image").sort({createdAt: -1});
         res.status(200).send({
             success:true,
-            counTotal: Items.length,
+            counTotal: events.length,
             message:"All Items",
-            Items,
+            events,
         });
         
     } catch (error) {
@@ -80,12 +80,12 @@ export const getLostItemController = async(req,res) =>{
 };
 
 // Get product photo controller
-export const ItemPhotoController = async(req,res) => {
+export const EventPhotoController = async(req,res) => {
     try {
-        const item = await LostModel.findById(req.params.pid).select("image");
-        if(item.image.data){
-            res.set("Content-type",item.image.contentType);
-            return res.status(200).send(item.image.data);
+        const event = await eventModel.findById(req.params.pid).select("image");
+        if(event.image.data){
+            res.set("Content-type",event.image.contentType);
+            return res.status(200).send(event.image.data);
         }
         
     } catch (error) {
