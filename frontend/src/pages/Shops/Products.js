@@ -212,7 +212,7 @@ const generateReportWithImages = () => {
         <div>
           <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
               <ShopHeader />
-              <Box sx={{ display: 'flex', flexGrow: 1 }}>
+              <Box sx={{ display: 'flex', flexGrow: 1 ,backgroundColor: "#f5f5f5"}}>
                   <InventoryMenu />
                   <Box sx={{ flexGrow: 1, p: 3 }}>
                     <div className='col md-9'>
