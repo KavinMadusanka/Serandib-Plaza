@@ -113,6 +113,19 @@ const EventCalendar = () => {
                     onSelectEvent={handleEventClick} // Event click handler
                 />
             </div>
+            <div className="contactS">
+                <h2>Call/ E-mail for event bookings</h2>
+                <div className="contactO">
+                    <div className="contactItem">
+                    <span role="img" aria-label="phone">📞</span> 
+                    <a href="tel:+94764886616">+94 112 590 575</a>
+                    </div>
+                    <div className="contactItem">
+                    <span role="img" aria-label="email">📧</span> 
+                    <a href="mailto:mall@serendibplaza.com">mall@serendibplaza.com</a>
+                    </div>
+                </div>
+            </div>
             {/* Modal for displaying event details */}
             <Modal
                 // isOpen={isModalOpen}
