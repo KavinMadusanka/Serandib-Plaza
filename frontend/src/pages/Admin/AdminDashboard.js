@@ -20,6 +20,7 @@ import axios from 'axios'; // Import axios
 import AdminMenu from '../../components/Layout/AdminMenu';
 import { jsPDF } from 'jspdf';
 import LOGO from "./../../assets/LOGO.png";
+import Header1 from '../../components/Layout/Header1';
 
 // Register necessary components for chart.js
 ChartJS.register(
@@ -302,6 +303,7 @@ const AdminDashboard = () => {
     
     return (
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <Header1/>
          <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <AdminMenu/>
             <Box sx={{ flexGrow: 1, p: 3 }}>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
 import AdminMenu from '../../components/Layout/AdminMenu';
 import dayjs from 'dayjs';  // Import dayjs for date formatting
+import Header1 from '../../components/Layout/Header1';
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
@@ -24,11 +25,12 @@ const AllUsers = () => {
     fetchUsers();
   }, []);
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography color="error">{error}</Typography>;
+  // if (loading) return <Typography>Loading...</Typography>;
+  // if (error) return <Typography color="error">{error}</Typography>;
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <Header1/>
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <AdminMenu />
         <Box sx={{ flexGrow: 1, p: 3 }}>
