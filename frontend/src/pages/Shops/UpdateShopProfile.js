@@ -155,7 +155,7 @@ const UpdateShopProfile = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                marginTop: 8,
+                marginTop: 3,
               }}
             >
               <Paper elevation={3} sx={{ padding: 3, width: '100%' }}>
@@ -168,7 +168,7 @@ const UpdateShopProfile = () => {
                     marginBottom: 3,
                   }}
                 >
-                  Update Shop Info
+                  Update Shop Information
                 </Typography>
                 <form onSubmit={handleSubmit}>
                   <Box

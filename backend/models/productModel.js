@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const productSchema = new mongoose.Schema({
     name:{
@@ -26,12 +27,22 @@ const productSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    reorderLevel:{
+        type:Number,
+        required:true,
+        default: 10, // Default reorder level, changeable per product
+        min: 0 // Ensures reorder level is non-negative
+    },
     photo:{
         data:Buffer,
         contentType:String
     },
     shipping:{
         type:Boolean,
+    },
+    email:{
+        type:String,
+        required:true
     }
 },{timestamps:true}
 );

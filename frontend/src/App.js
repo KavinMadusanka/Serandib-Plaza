@@ -25,8 +25,25 @@ import DisplayProductpage from "./pages/DisplayProductpage";
 
 import AllPromo from "./pages/Shops/AllPromo";
 import UpdatePromotion from "./pages/Shops/UpdatePromotion";
+import CartPage from "./pages/CartPage";
 
 
+import { CreateCategory } from "./pages/Shops/CreateCategory";
+import CreateProduct from "./pages/Shops/CreateProduct";
+import LostFound from './pages/User/LostFound';
+
+import Shops from "./pages/Shops";
+import Products from "./pages/Shops/Products";
+import UpdateProduct from './pages/Shops/UpdateProduct';
+import LowLevelStock from './pages/Shops/LowLevelStock';
+import OutOfStock from './pages/Shops/OutOfStock';
+import WishlistPage from "./pages/WishlistPage";
+
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import EventCalendar from "./pages/User/EventCalendar";
+import Events from "./pages/Admin/Events";
+import EventsForm from "./components/Form/eventForm";
+import ProductDetails from "./pages/ProductDetails";
 
 
 function App() {
@@ -43,17 +60,38 @@ function App() {
       <Route path="/userprofile" element={<ProfileUser />} />
       <Route path="/updateShopProfile" element={<UpdateShopProfile />} />
       <Route path="/updateprofile" element={<UpdateUserProfile />}/>
+      <Route path="/lostFound" element={<LostFound />}/>
+     
+    
       <Route path="/adminProfile" element={<AdminDashboard />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/promotions" element={<AllPromotions />} />
       <Route path="/allusers" element={<AllUsers />} />
       <Route path="/allshops" element={<AllShops />} />
       <Route path="/addpromotions" element={<AddPromotion />} />
-
       <Route path="/allpromo" element={<AllPromo />} />
       <Route path="/updatePromotion" element={<UpdatePromotion />} />
-
       <Route path="/displayProductpage" element={<DisplayProductpage/>} />
+      <Route path="/cart" element={<CartPage/>} />
+      <Route path="/wishList" element={<WishlistPage/>} />
+      <Route path="/product/:slug" element={<ProductDetails/>} />
+      <Route path="/createCategory" element={<CreateCategory/>}/>
+      <Route path="/createProduct" element={<CreateProduct/>}/>
+      <Route path="/lowLevelStock" element={<LowLevelStock/>}/>
+      <Route path="/outOfStock" element={<OutOfStock/>}/>
+
+      <Route path="/products/:slug" element={<UpdateProduct/>}/>
+      <Route path="/products" element={<Products/>}/>
+
+      <Route path="/shops" element={<Shops />}/>
+      <Route path="/forgot-password" element={<ForgotPassword /> }/>
+      <Route path="/eventcalender" element={<EventCalendar /> }/>
+      <Route path="/EventAdmin" element={<Events /> }/>
+      <Route path="/EventsForm" element={<EventsForm /> }/>
+
+
+
+
 
     </Routes>
     

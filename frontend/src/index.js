@@ -5,13 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom';
 import { AuthProvider } from './context/auth';
+import { CartProvider } from './context/cart';
+import { WishlistProvider } from './context/wishlist';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <CartProvider>
+      <WishlistProvider> {/* Add WishlistProvider here */}
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </WishlistProvider>
+    </CartProvider>
   </AuthProvider>
 );
 

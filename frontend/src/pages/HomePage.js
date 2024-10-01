@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Button, Container, Box, Grid, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout/Layout';
-//import mall from './../assets/mall.jpeg'; // Correct import for the background image
+import mall from './../assets/mall.webp'; // Correct import for the background image
 
 const HomePage = () => {
     return (
@@ -15,16 +15,16 @@ const HomePage = () => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        py: 4, // Padding for vertical spacing
+                        py: 0, // Padding for vertical spacing
                     }}
                 >
                     <Box
                         sx={{
-                           // backgroundImage: `url(${mall})`, // Use the imported image
+                            backgroundImage: `url(${mall})`, // Use the imported image
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
                             width: '100%',
-                            height: '400px', // Set a fixed height for the background section
+                            height: '500px', // Set a fixed height for the background section
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -40,9 +40,15 @@ const HomePage = () => {
                                 boxShadow: 3,
                             }}
                         >
-                            <Typography variant="h2" component="h1" gutterBottom>
+                            <Typography 
+                                variant="h2" 
+                                component="h1" 
+                                style={{ fontFamily: 'Poppins, sans-serif' }}  // Correct style syntax
+                                gutterBottom
+                            >
                                 Welcome to Serendib Plaza
                             </Typography>
+                            
                             <Typography variant="h5" component="h2" gutterBottom>
                                 Your one-stop shop for discovering and managing the best shops in town.
                             </Typography>
@@ -100,6 +106,7 @@ const HomePage = () => {
                         </Grid>
                     </Container>
                 </Box>
+                <br/><br/>
             </Layout>
         </>
     );

@@ -8,6 +8,8 @@ import { Box, Button } from '@mui/material';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/auth';
 import { useNavigate } from 'react-router-dom';
+import mallLogo from '../../assets/logo_white.png'; // Adjust the path to your logo image
+
 
 const ShopHeader = () => {
     const [auth, setAuth] = useAuth();
@@ -26,15 +28,15 @@ const ShopHeader = () => {
     };
 
     const goToHome = () => {
-        navigate('/home'); // Adjust the route as needed
+        navigate('/shopProfile'); // Adjust the route as needed
     };
 
     const goToPromotions = () => {
-        navigate('/promotions'); // Adjust the route as needed
+        navigate('/allpromo'); // Adjust the route as needed
     };
 
     const goToInventory = () => {
-        navigate('/inventory'); // Adjust the route as needed
+        navigate('/products'); // Adjust the route as needed
     };
 
     const goToAccount = () => {

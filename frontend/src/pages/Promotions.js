@@ -98,6 +98,7 @@ const Promotions = ({ shopId }) => {
 
     return (
         <Layout>
+
             <div className="all-promotions-container" style={{ padding: '20px', backgroundColor: "#ffffff" }}>
                 <Text style={{ display: 'block', textAlign: 'center', marginBottom: '5px', fontFamily: 'Poppins, sans-serif', color: '#333', fontSize: '30px' }}>
                     Promotions
@@ -105,6 +106,11 @@ const Promotions = ({ shopId }) => {
                 <Title style={{ textAlign: 'center', marginBottom: '20px', fontFamily: 'Poppins, sans-serif', fontSize: '18px' }}>
                     Explore our exclusive promotions! Discounts, free gifts, and much more.
                 </Title>
+
+            <div className="all-promotions-container" style={{ padding: '20px' ,backgroundColor: "#f5f5f5"}}>
+                <Title level={1} style={{ textAlign: 'center', marginBottom: '30px' }}>Promotions</Title>
+                <Title level={5} style={{ textAlign: 'center', marginBottom: '30px' }}>We love promotions and it appears you do too! Which is why we have a lot planned for the coming months.<br />
+                    Discounts, free gifts – just to name a few.</Title>
 
                 {loading ? (
                     <p>Loading promotions...</p>

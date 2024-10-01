@@ -81,8 +81,8 @@ export const updateUserProfileController = async (req, res) => {
       const user = await userModel.findById(req.user._id);
   
       // Validate password length
-      if (password && password.length < 5) {
-        return res.json({ error: "Password is required and must be at least 5 characters long" });
+      if (password && password.length < 8) {
+        return res.json({ error: "Password is required and must be at least 8 characters long" });
       }
   
       // Hash the new password if provided
@@ -118,91 +118,38 @@ export const updateUserProfileController = async (req, res) => {
   };
   
 
-//register shop 
-export const shopRegisterController = async(req,res) => {
-    try{
-        const {fullname,
-               owner_email,
-               owner_contact,
-               password,
-               nic,
-               businessregno,
-               tax_id_no,
-               shopname,
-               email,
-               businesstype,
-               category,
-               description,
-               operating_hrs_from,
-               operating_hrs_to,
-               shoplocation,
-               shopcontact
-            } = req.body
+  // Shop Registration Controller
+  export const shopRegisterController = async (req, res) => {
+    try {
+      const {
+        fullname,
+        owner_email,
+        owner_contact,
+        password,
+        nic,
+        businessregno,
+        tax_id_no,
+        shopname,
+        email,
+        businesstype,
+        category,
+        description,
+        operating_hrs_from,
+        operating_hrs_to,
+        shoplocation,
+        shopcontact,
+      } = req.body;
+  
+      // If the request contains a file (image), convert it to binary
+      const logo = {
+        data: req.file.buffer, // Store the file buffer (binary data)
+        contentType: req.file.mimetype, // Store the content type (e.g., 'image/png')
+      };
+  
+      const hashedPassword = await hashPassword(password)
 
-        //validation
-    if (!fullname) {
-        return res.send({ message: "Shop Owner full name is Required" });
-    }
-    if (!owner_email) {
-        return res.send({ message: "Shop Owner email is Required" });
-    }
-    if (!owner_contact) {
-        return res.send({ message: "Shop Owner contact number is Required" });
-    }
-    if (!password) {
-        return res.send({ message: "Password is Required" });
-    }
-    if (!nic) {
-        return res.send({ message: "Shop Owner NIC is Required" });
-    }
-    if (!businessregno) {
-        return res.send({ message: "Business Registration number is Required" });
-    }
-    if (!tax_id_no) {
-        return res.send({ message: "Taxi Identification number is Required" });
-    }
-    if (!shopname) {
-        return res.send({ message: "Shop name is Required" });
-    }
-    if (!email) {
-        return res.send({ message: "Shop email address is Required" });
-    }
-    if (!businesstype) {
-        return res.send({ message: "Business type is Required" });
-    }
-    if (!category) {
-        return res.send({ message: "Business category is Required" });
-    }
-    if (!description) {
-        return res.send({ message: "Shop description is Required" });
-    }
-    if (!operating_hrs_from) {
-        return res.send({ message: "Shop start time is Required" });
-    }
-    if (!operating_hrs_to) {
-        return res.send({ message: "Shop close time is Required" });
-    }
-    if (!shoplocation) {
-        return res.send({ message: "Shop location(floor no) is Required" });
-    }
-    if (!shopcontact) {
-        return res.send({ message: "Shop contact number is Required" });
-    }
-    //check user
-    const existingShop = await shopModel.findOne({email})
-
-    //existing user
-    if(existingShop){
-        return res.status(200).send({
-            success:true,
-            message:'Already Registered shop,Please login'
-        })
-    }
-
-    //register shop
-    const hashedPassword = await hashPassword(password)
-    //save
-    const shop = await new shopModel({
+      // Create the shop object with all details and binary image
+      const shop = await new shopModel({
         fullname,
         owner_email,
         owner_contact,
@@ -218,80 +165,77 @@ export const shopRegisterController = async(req,res) => {
         operating_hrs_from,
         operating_hrs_to,
         shoplocation,
-        shopcontact
-    }).save()
-
-    res.status(201).send({
+        shopcontact,
+        logo, // Save the image data
+      }).save();
+  
+      res.status(201).json({
         success: true,
-        message: "Successfully registered shop",
+        message: 'Shop registered successfully',
         shop,
-    })
-
-    }catch(error){
-        console.log(error)
-        res.status(500).send({
-            success:false,
-            message:'Error in Registration',
-            error
-        })
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: 'Error in registration',
+      });
     }
-}
+  };
+  
 
-
-// Login user, shop owner, or admin
+//login for customer,user and admin  
 export const userLoginController = async (req, res) => {
-  try {
+  
+    try {
       const { email, password } = req.body;
-
+  
       // Validate input
       if (!email || !password) {
-          return res.status(400).send({ success: false, message: "Email and password are required" });
+        return res.status(400).send({ success: false, message: "Email and password are required" });
       }
-
-      // Check in users table (for both user and admin)
+  
+      // Check in users table
       let user = await userModel.findOne({ email });
       if (user) {
-          const match = await comparePassword(password, user.password);
-          if (match) {
-              const role = user.role; // 1 = Admin, 0 = User
-              const token = JWT.sign({ _id: user._id, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
-              return res.status(200).send({
-                  success: true,
-                  message: "Login successful",
-                  token,
-                  role,
-                  user, // Return user details
-              });
-          }
+        const match = await comparePassword(password, user.password);
+        if (match) {
+          const token = JWT.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+          return res.status(200).send({
+            success: true,
+            message: "Login successful",
+            token,
+            role: user.role,
+            user,
+          });
+        }
       }
-
-      // Check in shops table (for shop owner)
+  
+      // Check in shops table
       let shop = await shopModel.findOne({ email });
       if (shop) {
-          const match = await comparePassword(password, shop.password);
-          if (match) {
-              const token = JWT.sign({ _id: shop._id, role: 2 }, process.env.JWT_SECRET, { expiresIn: "7d" });  // 2 = Shop Owner
-              return res.status(200).send({
-                  success: true,
-                  message: "Shop owner login successful",
-                  token,
-                  role: 2,  // Shop owner role
-                  shop, // Return shop details
-              });
-          }
+        const match = await comparePassword(password, shop.password);
+        if (match) {
+          const token = JWT.sign({ _id: shop._id, role: 2 }, process.env.JWT_SECRET, { expiresIn: "7d" });
+          return res.status(200).send({
+            success: true,
+            message: "Shop owner login successful",
+            token,
+            role: 2,
+            shop,
+          });
+        }
       }
-
-      // If no match found in either table
-      return res.status(400).send({
-          success: false,
-          message: "Invalid email or password",
-      });
-
-  } catch (error) {
-      console.error(error);
+  
+      // If no match found
+      return res.status(400).send({ success: false, message: "Invalid email or password" });
+      
+    } catch (error) {
+      console.error("Login error:", error);
       return res.status(500).send({ success: false, message: "Error during login", error });
-  }
-};
+    }
+  };
+  
 
 
 
@@ -321,8 +265,8 @@ export const userLoginController = async (req, res) => {
       const shop = await shopModel.findById(req.user._id);
   
       // Validate password length
-      if (password && password.length < 5) {
-        return res.json({ error: "Password is required and must be at least 5 characters long" });
+      if (password && password.length < 8) {
+        return res.json({ error: "Password is required and must be at least 8 characters long" });
       }
   
       // Hash the new password if provided
@@ -473,14 +417,256 @@ export const deleteShopProfileController = async (req, res) => {
   };
   
 
+  export const forgotPasswordController = async (req, res) => {
+    try {
+      const { email, newPassword, re_Password } = req.body;
+  
+      // Validate input fields
+      if (!email) {
+        return res.status(400).send({ message: 'Email is required' });
+      }
+      if (!newPassword) {
+        return res.status(400).send({ message: 'New password is required' });
+      }
+      if (!re_Password) {
+        return res.status(400).send({ message: 'Please confirm your new password' });
+      }
+      if (newPassword !== re_Password) {
+        return res.status(400).send({ message: 'Passwords do not match' });
+      }
+  
+      // Check if the user exists
+      const user = await userModel.findOne({ email });
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: "User with this email does not exist",
+        });
+      }
+  
+      // Hash the new password
+      const hashedPassword = await hashPassword(newPassword);
+  
+      // Update the user's password
+      await userModel.findByIdAndUpdate(user._id, { password: hashedPassword });
+  
+      return res.status(200).send({
+        success: true,
+        message: "Password reset successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        success: false,
+        message: 'Something went wrong',
+        error: error.message,  // More descriptive error message
+      });
+    }
+  };
+  
+
+  // Controller to get total user and shop count
+export const getTotalUserCountController = async (req, res) => {
+  try {
+      // Get the total count of users
+      const userCount = await userModel.countDocuments();
+
+      res.status(200).send({
+          success: true,
+          message: "Total user counts fetched successfully",
+          data: {
+              totalUsers: userCount,
+          }
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error fetching total counts",
+          error: error.message,
+      });
+  }
+};
+
+// Controller to get total user and shop count
+export const getTotalShopCountController = async (req, res) => {
+  try {
+      // Get the total count of shops
+      const shopCount = await shopModel.countDocuments();
+
+      res.status(200).send({
+          success: true,
+          message: "Total shop count fetched successfully",
+          data: {
+              totalShops: shopCount,
+          }
+      });
+  } catch (error) {
+      console.log(error);
+      res.status(500).send({
+          success: false,
+          message: "Error fetching total counts",
+          error: error.message,
+      });
+  }
+};
 
 
+// Controller to get user growth over time
+export const getUserGrowthController = async (req, res) => {
+    try {
+        // MongoDB aggregation pipeline to get user count per month
+        const userGrowthData = await userModel.aggregate([
+            {
+                // Match users that have a createdAt timestamp
+                $match: {
+                    createdAt: { $exists: true }
+                }
+            },
+            {
+                // Group users by month and year
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    userCount: { $sum: 1 } // Count users for each group
+                }
+            },
+            {
+                // Sort by year and month
+                $sort: { "_id.year": 1, "_id.month": 1 }
+            },
+            {
+                // Format the month and year for frontend
+                $project: {
+                    _id: 0,
+                    month: {
+                        $concat: [
+                            { $arrayElemAt: [["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "$_id.month"] },
+                            " ",
+                            { $toString: "$_id.year" }
+                        ]
+                    },
+                    userCount: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: userGrowthData
+        });
+    } catch (error) {
+        console.error("Error fetching user growth data:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching user growth data",
+            error: error.message
+        });
+    }
+};
 
 
+// Controller to get shop growth over time
+export const getShopGrowthController = async (req, res) => {
+    try {
+        // MongoDB aggregation pipeline to get shop count per month
+        const shopGrowthData = await shopModel.aggregate([
+            {
+                // Match shops that have a createdAt timestamp
+                $match: {
+                    createdAt: { $exists: true }
+                }
+            },
+            {
+                // Group shops by month and year
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    shopCount: { $sum: 1 } // Count shops for each group
+                }
+            },
+            {
+                // Sort by year and month
+                $sort: { "_id.year": 1, "_id.month": 1 }
+            },
+            {
+                // Format the month and year for frontend
+                $project: {
+                    _id: 0,
+                    month: {
+                        $concat: [
+                            { $arrayElemAt: [["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "$_id.month"] },
+                            " ",
+                            { $toString: "$_id.year" }
+                        ]
+                    },
+                    shopCount: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: shopGrowthData
+        });
+    } catch (error) {
+        console.error("Error fetching shop growth data:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching shop growth data",
+            error: error.message
+        });
+    }
+};
 
 
+// Controller to get shop count by category
+export const getShopCountByCategoryController = async (req, res) => {
+    try {
+        const categoryCounts = await shopModel.aggregate([
+            {
+                $group: {
+                    _id: "$category", // Group by the category field
+                    count: { $sum: 1 } // Count the number of shops in each category
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data: categoryCounts
+        });
+    } catch (error) {
+        console.error("Error fetching shop count by category:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error fetching shop count by category",
+            error: error.message
+        });
+    }
+};
 
 
-
-
+//get promotiom image
+export const logoController = async(req,res) => {
+    try{
+        const shop = await shopModel.findById(req.params.pid).select("logo");
+        if(shop.logo){
+            res.set("Content-type",shop.logo.contentType);
+            return res.status(200).send(shop.logo.data)
+        }
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error while getting promotion image',
+            error
+        })
+    }
+}
 

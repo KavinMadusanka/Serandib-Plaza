@@ -163,6 +163,7 @@ const AddPromotion = () => {
                             <Input value={applicableItems} onChange={(e) => setApplicableItems(e.target.value)} />
                         </Form.Item>
 
+                        <Form.Item label="Promotion Banner" name="promo banner">
                         <div className='mb-3'>
                             <label className='btn btn-outline-secondary col-md-12'>
                                 {promotionImage ? promotionImage.name:"Upload promotion banner"}
@@ -172,6 +173,7 @@ const AddPromotion = () => {
                                 />
                             </label>
                         </div>
+                        </Form.Item>
 
                         <div className='mb-3'>
                             {promotionImage && (

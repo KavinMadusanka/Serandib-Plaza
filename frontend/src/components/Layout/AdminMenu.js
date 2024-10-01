@@ -1,14 +1,14 @@
 import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EventIcon from '@mui/icons-material/Event';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import PeopleIcon from '@mui/icons-material/People';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+//import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import StoreIcon from '@mui/icons-material/Store';
 import { useLocation, useNavigate } from 'react-router-dom';
+import mallLogo from '../../assets/logo_white.png'; // Adjust the path to your logo image
 
 const drawerWidth = 280;
 
@@ -36,27 +36,28 @@ const AdminMenu = () => {
       variant="permanent"
       anchor="left"
     >
-      <Box sx={{ padding: 2 }}>
-        <Typography variant="h6" noWrap component="div" sx={{ textAlign: 'center', color: '#fff' }}>
-          Shopping Mall Dashboard
-        </Typography>
-      </Box>
-      
-      <List>
-        {/* Home */}
-        <ListItem 
-          button 
-          selected={location.pathname === '/'} 
-          onClick={() => handleListItemClick('/')}
-          sx={location.pathname === '/' ? { backgroundColor: '#1976d2' } : {}}
+      <Box sx={{ padding: 2, display: 'flex', alignItems: 'center' }}>
+        <img 
+          src={mallLogo} // Path to your logo image
+          alt="Mall Logo"
+          style={{
+            width: '50px', 
+            height: '50px',
+            marginRight: '16px',
+          }}
+        />
+        <span 
+          style={{
+            fontSize: '24px',  // Increase the font size as needed
+            fontFamily: 'Poppins, sans-serif',
+            fontWeight: 'bold',
+          }}
         >
-          <ListItemIcon>
-            <HomeIcon style={{ color: '#fff' }} />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItem>
+        Serendib Plaza
+      </span>
+      </Box>
 
-
+      <List>
         <ListItem 
           button 
           selected={location.pathname === '/adminProfile'} 
@@ -94,19 +95,6 @@ const AdminMenu = () => {
           </ListItemIcon>
           <ListItemText primary="All Users" />
         </ListItem>
-
-        {/* Category */}
-        <ListItem 
-          button 
-          selected={location.pathname === '/c'} 
-          onClick={() => handleListItemClick('/c')}
-          sx={location.pathname === '/c' ? { backgroundColor: '#1976d2' } : {}}
-        >
-          <ListItemIcon>
-            <CategoryIcon style={{ color: '#fff' }} />
-          </ListItemIcon>
-          <ListItemText primary="Category" />
-        </ListItem>
         
         {/* Products */}
         <ListItem 
@@ -124,17 +112,17 @@ const AdminMenu = () => {
         {/* Events */}
         <ListItem 
           button 
-          selected={location.pathname === '/e'} 
-          onClick={() => handleListItemClick('/e')}
-          sx={location.pathname === '/e' ? { backgroundColor: '#1976d2' } : {}}
+          selected={location.pathname === '/EventAdmin'} 
+          onClick={() => handleListItemClick('/EventAdmin')}
+          sx={location.pathname === '/EventAdmin' ? { backgroundColor: '#1976d2' } : {}}
         >
           <ListItemIcon>
             <EventIcon style={{ color: '#fff' }} />
           </ListItemIcon>
-          <ListItemText primary="Events" />
+          <ListItemText primary="Happenings" />
         </ListItem>
 
-        {/* Promotions */}
+        {/* Promotions
         <ListItem 
           button 
           selected={location.pathname === '/p'} 
@@ -145,10 +133,10 @@ const AdminMenu = () => {
             <LocalOfferIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="Promotions" />
-        </ListItem>
+        </ListItem> */}
 
         {/* Logout */}
-        <ListItem 
+        {/* <ListItem 
           button 
           selected={location.pathname === '/logout'} 
           onClick={() => handleListItemClick('/logout')}
@@ -158,7 +146,7 @@ const AdminMenu = () => {
             <ExitToAppIcon style={{ color: '#fff' }} />
           </ListItemIcon>
           <ListItemText primary="Log out" />
-        </ListItem>
+        </ListItem> */}
       </List>
     </Drawer>
   );
