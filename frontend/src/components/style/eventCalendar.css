@@ -16,7 +16,7 @@
 .eventbut {
     display: flex;            /* Enable Flexbox */
     justify-content: flex-end; /* Align items to the right */
-    padding: 10px;          Optional: add some padding
+    padding: 10px;          /*Optional: add some padding */
 }
 
 .eventbut button {
