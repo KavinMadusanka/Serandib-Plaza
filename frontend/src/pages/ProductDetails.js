@@ -22,7 +22,7 @@ const ProductDetails = () => {
             const { data } = await axios.get(`/api/v1/product/get-single-product/${params.slug}`);
             console.log(data); // Log the API response
             setProduct(data?.product[0]); // Ensure data.product is not undefined
-            //  getSimilarProduct(data?.product[0]._id, data?.product[0].category._id);
+            //getSimilarProduct(data?.product[0]._id, data?.product[0].category._id);
         } catch (error) {
             console.log(error);
             setError("Failed to fetch product details."); // Set an error message
@@ -67,8 +67,8 @@ const ProductDetails = () => {
                         <p><strong>Price:</strong> {new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR' }).format(product.price)}</p>
                         <p><strong>Category:</strong> {product?.category?.name}</p>
                         <p><strong>Stock Available:</strong> {product.quantity}</p>
-                        <p><strong>Reorder Level:</strong> {product.reorderLevel}</p>
-                        <p><strong>Seller Contact:</strong> {product.email}</p>
+                        {/* <p><strong>Reorder Level:</strong> {product.reorderLevel}</p>
+                        <p><strong>Seller Contact:</strong> {product.email}</p> */}
 
                         {/* Add button for "Add to Cart" */}
                         <button className="btn btn-primary" disabled={product.quantity < 1}>
@@ -76,7 +76,12 @@ const ProductDetails = () => {
                         </button>
                     </div>
                 </div>
+
             </div>
+            {/* <div className='row'>
+                <h1>Similar Products</h1>
+                {JSON.stringify(relatedProducts, null, 4)}
+            </div> */}
         </Layout>
     );
 };

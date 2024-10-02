@@ -208,19 +208,19 @@ const DisplayProductpage = () => {
     return (
         <Layout title={"All Products - Best offers"}>
             
-            <Button
+            {/* <Button
                             type="default"
                             icon={<HeartOutlined />}
                             onClick={() =>  navigate('/wishlist')} // Add to wishlist button
-                            style={{ flex: 1 }} // No margin needed on the left button
+                            style={{ marginRight: '100px', backgroundColor: '#f5f5f5', borderColor: '#ccc', color: 'black' }}// No margin needed on the left button
                         >
                             My Wishlist
-                        </Button>
+                        </Button> */}
 
             <div className="row mt-3">
                 <div className="col-md-3">
                     <h4 className="text-center" color="black">Filter By Category</h4>
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column align-items-left">
                         {categories?.map((c) => (
                             <Checkbox
                                 key={c._id}
@@ -256,6 +256,15 @@ const DisplayProductpage = () => {
 
                 <div className="col-md-9">
                     <h1 className="text-center">All Products</h1>
+
+                    <Button 
+                            type="default"
+                            icon={<HeartOutlined />}
+                            onClick={() =>  navigate('/wishlist')} // Add to wishlist button
+                            style={{ marginleft: '100px', backgroundColor: '#f5f5f5', borderColor: '#ccc', color: 'black' }}// No margin needed on the left button
+                        >
+                            My Wishlist
+                        </Button> 
 
                     {/* Search Bar */}
                <div className="mb-4" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -293,6 +302,8 @@ const DisplayProductpage = () => {
     />
   </div>
 </div>
+
+
 
                     <div className="d-flex flex-wrap">
                         {filteredProducts.map((p) => (
