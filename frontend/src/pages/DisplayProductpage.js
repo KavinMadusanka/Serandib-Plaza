@@ -179,7 +179,7 @@ const DisplayProductpage = () => {
           console.error('Error adding item to cart:', error);
         }
     
-    //decrease quantity by one when adding to cart
+    
         // try {
          
         //   const response = await axios.put(`http://localhost:8000/api/v1/product/update-product-quantity/${productId}`, {
