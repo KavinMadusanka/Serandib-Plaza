@@ -278,8 +278,11 @@ const Promotions = ({ shopId }) => {
                             }}
                         />
                         <Paragraph>{selectedPromotion.promotionDescription}</Paragraph>
+                        <Text><strong>Applicable Items:</strong> {selectedPromotion.applicableItems || 'All Items'}</Text><br/>
+                        <Text><strong>Discount:</strong> {selectedPromotion.discountValue} {selectedPromotion.discountType === 'percentage' ? '%' : 'Rs'}</Text><br/>
                         <Text><strong>Start Date:</strong> {new Date(selectedPromotion.startDate).toLocaleDateString()}</Text><br />
                         <Text><strong>End Date:</strong> {new Date(selectedPromotion.endDate).toLocaleDateString()}</Text><br />
+                        <Text><strong>Terms and Conditions:</strong> {selectedPromotion.termsConditions}</Text><br/>
                         <Text><strong>Status:</strong> {selectedPromotion.isActive ? 'Active' : 'Inactive'}</Text><br />
                     </Modal>
                 )}
