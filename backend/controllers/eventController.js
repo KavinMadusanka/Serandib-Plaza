@@ -257,30 +257,3 @@ export const getAllLostNotify = async(req,res) =>{
         });
     }
 };
-
-//delete Notification
-export const deleteLostNotifyController = async (req, res) =>{
-    try {
-        const { ItemID } = req.params;
-
-        // const exisitingNotifyID = await LostNotify.findOne(ItemID);
-
-        // if(exisitingNotifyID){
-        //     await LostNotify.findOneAndDelete(exisitingNotifyID),
-        //     deleteLostNotifyController();
-        // }
-
-        // await LostNotify.deleteMany(ItemID);
-        res.status(200).send({
-            success: true,
-            // message: "Items Removed Successfully",
-        });
-    } catch (error) {
-        console.log(error)
-        res.status(500).send({
-            success: false,
-            // message: "error while deleting Address",
-            error,
-        });
-    }
-};
