@@ -5,11 +5,16 @@ import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from 'axios'; // Import axios for API requests
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';// Import jsPDF for report generation
+
 
 // Utility function to format price in LKR
 const formatPrice = (price) => {
     return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR' }).format(price);
 };
+
+
 
 const CartPage = () => {
     const [auth, setAuth] = useAuth();
@@ -108,6 +113,90 @@ const totalPrice = () => {
     //     }
     // };
 
+
+    const generateShoppingCartReport = () => {
+      const doc = new jsPDF();
+  
+      // Company Name and Header Details
+      const companyName = "Kindify";
+      const reportTitle = "Shopping Cart Report";
+      const currentDate = new Date().toLocaleDateString();
+      const userName = auth?.user?.name || "Customer"; // Assuming you have the user's name
+      const totalItemsInCart = cart.length; // Using the correct 'cart' array
+  
+      // Header
+      doc.setFontSize(22);
+      doc.setFont("helvetica", "bold");
+      doc.text(companyName, 14, 20); // Company name at the top-left corner
+  
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Date: ${currentDate}`, 14, 30); // Date below the company name
+  
+      doc.setFontSize(14);
+      doc.text(`Customer: ${userName}`, 14, 40); // Customer name
+  
+      // Centered Report Title
+      doc.setFontSize(18);
+      const textWidth = doc.getTextWidth(reportTitle);
+      const pageWidth = doc.internal.pageSize.width;
+      doc.text(reportTitle, (pageWidth - textWidth) / 2, 50);
+  
+      // Draw a horizontal line below the header
+      doc.setLineWidth(0.5);
+      doc.line(14, 55, pageWidth - 14, 55);
+  
+      // Table Columns for Cart Items
+      const columns = ["No.", "Product Name", "Price (Rs.)", "Quantity", "Subtotal (Rs.)"];
+      const data = cart.map((item, index) => [
+          index + 1,
+          item.product.name,
+          item.product.price.toFixed(2),
+          item.quantity,
+          (item.product.price * item.quantity).toFixed(2),
+      ]);
+  
+      // Auto Table for Cart Items
+      doc.autoTable({
+          head: [columns],
+          body: data,
+          startY: 60, // Positioning the table after the header
+          styles: {
+              cellPadding: 3,
+              fontSize: 12,
+              overflow: 'linebreak',
+          },
+          headStyles: {
+              fillColor: [0, 123, 255], // Example blue color for the header
+              textColor: [255, 255, 255],
+          },
+          columnStyles: {
+              2: { halign: 'right' }, // Right-align the price column
+              4: { halign: 'right' }, // Right-align the subtotal column
+          },
+          margin: { top: 10 },
+      });
+  
+      // Add Total and Summary at the Bottom
+      const finalY = doc.lastAutoTable.finalY; // Position after the table
+      const totalAmount = cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+  
+      doc.setFontSize(14);
+      doc.text(`Total Items: ${totalItemsInCart}`, 14, finalY + 10); // Left-aligned total items
+      doc.text(`Total Amount: Rs. ${totalAmount.toFixed(2)}`, pageWidth - 14, finalY + 10, { align: 'right' }); // Right-aligned total amount
+  
+      // Footer with Page Number
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          const pageText = `Page ${i} of ${pageCount}`;
+          const pageTextWidth = doc.getTextWidth(pageText);
+          doc.text(pageText, pageWidth - pageTextWidth - 14, doc.internal.pageSize.height - 10); // Bottom-right corner
+      }
+  
+      // Save the PDF
+      doc.save(`Kindify_Shopping_Cart_Report.pdf`);
+  };
     return (
         <Layout>
       <div className="container" style={{ padding: "20px" }}>
@@ -245,6 +334,15 @@ const totalPrice = () => {
               onClick={() => navigate("/checkout")}
             >
               Proceed to Checkout
+            </button>
+
+            {/* Button to generate PDF report */}
+            <button
+              className="btn btn-secondary mt-4"
+              onClick={generateShoppingCartReport}
+              style={{ fontSize: "18px", padding: "10px 20px" }}
+            >
+              Generate Report
             </button>
           </div>
         </div>
