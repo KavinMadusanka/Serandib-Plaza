@@ -118,7 +118,7 @@ const totalPrice = () => {
       const doc = new jsPDF();
   
       // Company Name and Header Details
-      const companyName = "Kindify";
+      const companyName = "Serendib Plaza";
       const reportTitle = "Shopping Cart Report";
       const currentDate = new Date().toLocaleDateString();
       const userName = auth?.user?.name || "Customer"; // Assuming you have the user's name
