@@ -236,24 +236,3 @@ export const addNotifyControll = async(req,res) => {
         
     }
 }
-
-// // Get all Items controller
-export const getAllLostNotify = async(req,res) =>{
-    try {
-        const notifies = await LostNotify.find({}).populate('ItemID').limit(12).sort({createdAt: -1});
-        res.status(200).send({
-            success:true,
-            // counTotal: Items.length,
-            message:"All Notification",
-            notifies,
-        });
-        
-    } catch (error) {
-        console.log(error)
-        res.status(500).send({
-            success:false,
-            message:"Error in getting Notification",
-            error: error.message,
-        });
-    }
-};
