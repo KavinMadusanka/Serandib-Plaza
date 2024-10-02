@@ -133,7 +133,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <div className="form">
+                                                    <div className="formDate">
                                                         <label htmlFor="startDate">Select Start Date:</label>
                                                         <input
                                                             type="date"
@@ -145,7 +145,7 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="form">
+                                                    <div className="formDate">
                                                         <label htmlFor="endDate">Select End Date:</label>
                                                         <input
                                                             type="date"
