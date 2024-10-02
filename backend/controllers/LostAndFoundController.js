@@ -228,8 +228,6 @@ export const deleteLostNotifyController = async (req, res) =>{
     try {
         const { ItemID } = req.params;
 
-        // const exisitingNotifyID = await LostNotify.findOne(ItemID);
-
 
         // await LostNotify.deleteMany(ItemID);
         res.status(200).send({
