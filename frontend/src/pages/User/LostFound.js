@@ -384,9 +384,6 @@ useEffect(() => {
                                         // onClick={() => handleItemClick(f)} // Handle click
                                     >
                                       <div style={{marginTop:"-20px"}}>
-                                            {/* {f.userName}<br></br>
-                                            {f.userPNumber}<br></br>
-                                            {f.email} */}
                                             {f.ItemID.role === "lost" &&(
                                                     <div>
                                                       Your {f.ItemID.itemName} has been found. Please contact {f.userName} at {f.userPNumber} to collect it.
