@@ -98,7 +98,6 @@ const updateQuantity = async (id, type, currentQuantity, productID, productQuant
     }
 };
 
-// Total price calculation
 const totalPrice = () => {
     return cart.reduce((total, item) => total + item.product.price * (quantities[item._id] || item.quantity), 0);
 };
