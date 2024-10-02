@@ -204,7 +204,6 @@ useEffect(() => {
     <Layout title={"Lost & Found"}>
         <div className ="row flex-nowrap">
           <div className ="col-auto col-md-3 col-xl-3 px-sm-3 px-0" 
-          // style={{backgroundColor:"#BFEA7C"}}
           >
             <div className='left'>
             <div 
