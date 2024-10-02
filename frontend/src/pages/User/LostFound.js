@@ -411,9 +411,6 @@ useEffect(() => {
           <div className="p-2 m-2 d-flex justify-content-between" style={{ marginLeft: '2%'}}>
             <div style={{ marginLeft: '20%'}}>
               <h3>Lost & Found Items</h3>
-              {/* {email}<br></br>
-              {userName}<br></br>
-              {userPNumber} */}
             </div>
               <div>
                 <select value={selectedItemRole} onChange={handleRoleChange} className='selectitem'>
