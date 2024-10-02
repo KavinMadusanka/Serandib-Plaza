@@ -219,12 +219,6 @@ useEffect(() => {
                   </div>
                   <div className='item2'>
                     <div className='KAbar'>
-                          {/* <ul className="KAbarInn">
-                            
-                            <li className="KAbarIn">
-                              Add a New Card
-                            </li>
-                          </ul> */}
                     </div>
                   </div>
                   {/* Photo Upload */}
