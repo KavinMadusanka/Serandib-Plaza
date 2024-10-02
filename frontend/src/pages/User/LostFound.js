@@ -487,7 +487,13 @@ useEffect(() => {
                                                     </button>
                                                   )}
                                                   {p.email !== email && p.role === "lost" &&(
-                                                    <button className='btnsubb' 
+                                                    <button style={{paddingLeft: '10px',
+                                                      paddingRight: '10px;',
+                                                      height: '38px',
+                                                      paddingTop: '3px',
+                                                      paddingBottom: '3px',
+                                                      borderRadius: '5px',
+                                                      marginLeft: '20px;'}} 
                                                     onClick={() => {
                                                       notificationData(p._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
@@ -496,7 +502,13 @@ useEffect(() => {
                                                     </button>
                                                   )}
                                                   {p.email !== email && p.role === "found" &&(
-                                                    <button className='btnsubb'
+                                                    <button style={{paddingLeft: '10px',
+                                                      paddingRight: '10px;',
+                                                      height: '38px',
+                                                      paddingTop: '3px',
+                                                      paddingBottom: '3px',
+                                                      borderRadius: '5px',
+                                                      marginLeft: '20px;'}}
                                                     onClick={() => {
                                                       notificationData(p._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
@@ -565,7 +577,13 @@ useEffect(() => {
                                                     </button>
                                                   )}
                                                   {selectedItem.email !== email && selectedItem.role === "lost" &&(
-                                                    <button className='btnsubb'
+                                                    <button style={{paddingLeft: '10px',
+                                                      paddingRight: '10px;',
+                                                      height: '38px',
+                                                      paddingTop: '3px',
+                                                      paddingBottom: '3px',
+                                                      borderRadius: '5px',
+                                                      marginLeft: '20px;'}}
                                                     onClick={() => {
                                                       notificationData(selectedItem._id);
                                                       // Optionally, trigger your logic to send a message to the owner here
@@ -574,7 +592,13 @@ useEffect(() => {
                                                     </button>
                                                   )}
                                                   {selectedItem.email !== email && selectedItem.role === "found" &&(
-                                                    <button className='btnsubb'
+                                                    <button style={{paddingLeft: '10px',
+                                                      paddingRight: '10px;',
+                                                      height: '38px',
+                                                      paddingTop: '3px',
+                                                      paddingBottom: '3px',
+                                                      borderRadius: '5px',
+                                                      marginLeft: '20px;'}}
                                                     onClick={() => {
                                                       notificationData(selectedItem._id);
                                                       // Optionally, trigger your logic to send a message to the owner here

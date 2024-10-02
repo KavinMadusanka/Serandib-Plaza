@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/auth';
 import ShopMenu from '../../components/Layout/ShopMenu';
 import ShopHeader from '../../components/Layout/ShopHeader';
@@ -14,9 +14,38 @@ import PersonIcon from '@mui/icons-material/Person';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import axios from 'axios';
 
 const ShopProfile = () => {
     const [auth] = useAuth();
+    const [logo, setLogo] = useState(null);  // State for storing the logo URL
+    const [error, setError] = useState(null);  // State for storing any errors
+    const [loading, setLoading] = useState(true);  // Loading state
+    const shopId = auth?.shopOwner?._id;  // Get the shop ID from auth context
+
+    // Fetch the shop logo on component mount
+    useEffect(() => {
+        const fetchLogo = async () => {
+            if (!shopId) {
+                setError('Shop ID is not available');
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await axios.get(`/api/v1/userauth/logo/${shopId}`, { responseType: 'blob' });
+                const logoUrl = URL.createObjectURL(new Blob([response.data]));  // Create a URL for the blob data
+                setLogo(logoUrl);  // Set the logo URL in the state
+            } catch (err) {
+                setError('Error fetching logo');
+                console.error('Error fetching logo:', err);
+            } finally {
+                setLoading(false);  // Set loading to false when done
+            }
+        };
+
+        fetchLogo();
+    }, [shopId]);  // Depend on shopId to trigger the fetch when it becomes available
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -28,11 +57,32 @@ const ShopProfile = () => {
                         Welcome back, {auth?.shopOwner?.shopname}
                     </Typography>
 
+                    {/* Logo Section */}
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginBottom: '20px' }}>
+                        {loading ? (
+                            <Typography variant="h6">Loading logo...</Typography>
+                        ) : error ? (
+                            <Typography color="error">{error}</Typography>
+                        ) : logo ? (
+                            <img
+                                src={logo}
+                                alt="Shop Logo"
+                                style={{
+                                    width: '150px',
+                                    height: '150px',
+                                    objectFit: 'cover',
+                                    borderRadius: '8px',
+                                    border: '1px solid #ddd',
+                                    marginBottom: '20px',
+                                }}
+                            />
+                        ) : (
+                            <Typography>No logo available</Typography>
+                        )}
+                    </div>
+
                     {/* Shop Details Section */}
                     <Paper elevation={3} sx={{ padding: 3, marginBottom: 4 }}>
-                        {/* <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
-                            Shop Details
-                        </Typography> */}
                         <Stack spacing={2}>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <EmailIcon sx={{ marginRight: 1, color: 'secondary.main' }} />

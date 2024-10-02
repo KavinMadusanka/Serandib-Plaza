@@ -1,7 +1,9 @@
 .calendar-container {
     margin: 0 auto;
     max-width: 1200px;
-    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-radius: 5px;
 }
 
 .UPevents {
@@ -9,6 +11,33 @@
     font-size: 28px;
     color: #000;
     /* color: #6a0dad; */
+    margin-bottom: 20px;
+}
+
+.eventbut {
+    display: flex;            /* Enable Flexbox */
+    justify-content: flex-end; /* Align items to the right */
+    padding: 10px;          /*Optional: add some padding */
+}
+
+.eventbut button {
+    /* Optional: Add some button styles */
+    padding: 10px 15px;
+    background-color: #0d70ad; /* Bootstrap primary color */
+    color: white;
+    height: fit-content;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.eventbut button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+.ttttt{
+    text-align: center;
+    color: #000;
     margin-bottom: 20px;
 }
 
@@ -95,3 +124,51 @@
     max-width: 100%;
     height: auto;
 }
+
+.btnsubb{
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 38px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.contactS {
+    /* background-color: #0d70ad; */
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  
+  .contactO {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+  
+  .contactItem {
+    /* background-color: white; */
+    border-color: white;
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .contactO a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: bold;
+  }
+  

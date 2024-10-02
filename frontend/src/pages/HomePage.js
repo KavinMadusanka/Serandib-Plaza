@@ -40,9 +40,15 @@ const HomePage = () => {
                                 boxShadow: 3,
                             }}
                         >
-                            <Typography variant="h2" component="h1" gutterBottom>
+                            <Typography 
+                                variant="h2" 
+                                component="h1" 
+                                style={{ fontFamily: 'Poppins, sans-serif' }}  // Correct style syntax
+                                gutterBottom
+                            >
                                 Welcome to Serendib Plaza
                             </Typography>
+                            
                             <Typography variant="h5" component="h2" gutterBottom>
                                 Your one-stop shop for discovering and managing the best shops in town.
                             </Typography>

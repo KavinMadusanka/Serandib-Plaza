@@ -5,7 +5,7 @@ import { useAuth } from "../../context/auth";
 import { useNavigate } from 'react-router-dom';
 import {} from '../style/EventForm.css'
 
-const EventForm = () => { // Updated the component name to start with an uppercase letter
+const updateEvent = () => { // Updated the component name to start with an uppercase letter
     const [title, setTitle] = useState("");
     const [venue, setVenue] = useState("");
     const [email, setEmail] = useState("");
@@ -52,16 +52,16 @@ const EventForm = () => { // Updated the component name to start with an upperca
             NewEvent.append("endTime", endTime);
             NewEvent.append("image", image);
             const res = await axios.post("/api/v1/Event/addNewEvent", NewEvent);
-            if(res?.success){
-                toast.success(res.message);
-                setTitle('');
-                setEmail('');
-                setStartDate('');
-                setEndDate('');
-                setStartTime('');
-                setEndTime('');
-                setImage(null);
-              }
+            // if(res?.success){
+            //     toast.success(res.message);
+            //     setTitle('');
+            //     setEmail('');
+            //     setStartDate('');
+            //     setEndDate('');
+            //     setStartTime('');
+            //     setEndTime('');
+            //     setImage(null);
+            //   }
             if (res && res.data.success) {
                 toast.success(res.data.message);
                 navigate('/EventAdmin');
@@ -75,34 +75,35 @@ const EventForm = () => { // Updated the component name to start with an upperca
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div className="containerF">
-                    <div className="row d-flex justify-content-start my-4"> {/* Removed padding and centered alignment */}
+            <form onSubmit={handleSubmit}> {/* Corrected the onSubmit function */}
+                <div className="container py-0">
+                    <div className="row d-flex justify-content-center my-4">
                         <div className="col-md-8">
                             <div className="card mb-4">
-                                <div className="card-header">
+                                <div className="card-header py-3">
                                     <h5 className="mb-0">Add New Event</h5>
                                 </div>
                                 <div className="card-body">
-                                    <div className="form">
+                                    <div className="form-group">
                                         <label htmlFor="fullName">Event Title :</label>
                                         <input
                                             type="text"
                                             value={title}
                                             onChange={(e) => setTitle(e.target.value)}
-                                            placeholder="Enter event title"
+                                            placeholder="Enter your full name"
                                             onKeyPress={handleKeyPress}
                                             required
                                         />
                                     </div>
 
-                                    <div className="form">
-                                        <label htmlFor="venue">Venue :</label>
+                                    <div className="form-group">
+                                        <label htmlFor="address">Venue :</label>
                                         <input
                                             type="text"
                                             value={venue}
                                             onChange={(e) => setVenue(e.target.value)}
-                                            placeholder="Enter event venue"
+                                            placeholder="Enter your address"
+                                            // onKeyPress={handleKeyPress}
                                             required
                                         />
                                     </div>
@@ -122,19 +123,21 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                     </div>
                                     {/* Display Uploaded Photo */}
                                     <div>
-                                        {image && (
-                                            <div className="text-start"> {/* Align the image to the left */}
-                                                <img src={URL.createObjectURL(image)} alt="Event Image" height={"200px"} className="img img-responsive" />
-                                            </div>
-                                        )}
+                                        <div className="mb-3">
+                                            {image && (
+                                                <div className="text-center">
+                                                <img src={URL.createObjectURL(image)} alt="LOst or Found Image" height={"200px"} className="img img-responsive" />
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
 
                                     <table style={{ width: '100%' }}>
                                         <tbody>
                                             <tr>
-                                                <td>
-                                                    <div className="formDate">
-                                                        <label htmlFor="startDate">Select Start Date:</label>
+                                                <td style={{ paddingRight: '2%' }}>
+                                                    <div className="form-group">
+                                                        <label htmlFor="selectedDate">Select Start Date:</label>
                                                         <input
                                                             type="date"
                                                             value={startDate}
@@ -144,9 +147,9 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                                         />
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div className="formDate">
-                                                        <label htmlFor="endDate">Select End Date:</label>
+                                                <td style={{ paddingRight: '2%' }}>
+                                                    <div className="form-group">
+                                                        <label htmlFor="selectedDate">Select End Date:</label>
                                                         <input
                                                             type="date"
                                                             value={endDate}
@@ -159,8 +162,8 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div className="formTime">
-                                                        <label htmlFor="startTime">Select Start Time:</label>
+                                                    <div className="form-group">
+                                                        <label htmlFor="selectedTime">Select Start Time:</label>
                                                         <input
                                                             type="time"
                                                             value={startTime}
@@ -170,8 +173,8 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div className="formTime">
-                                                        <label htmlFor="endTime">Select End Time:</label>
+                                                    <div className="form-group">
+                                                        <label htmlFor="selectedTime">Select End Time:</label>
                                                         <input
                                                             type="time"
                                                             value={endTime}
@@ -184,8 +187,9 @@ const EventForm = () => { // Updated the component name to start with an upperca
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="btnsubb">
-                                    <button type="submit">Add Event</button>
+                                <br></br>
+                                <div>
+                                    <button className="btnsubb" type="submit">Add Event</button>
                                 </div>
                             </div>
                         </div>
@@ -196,4 +200,4 @@ const EventForm = () => { // Updated the component name to start with an upperca
     );
 }
 
-export default EventForm; // Ensure the export matches the updated component name
+export default updateEvent; // Ensure the export matches the updated component name

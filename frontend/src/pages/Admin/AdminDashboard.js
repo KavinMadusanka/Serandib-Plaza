@@ -21,6 +21,7 @@ import AdminMenu from '../../components/Layout/AdminMenu';
 import { jsPDF } from 'jspdf';
 import LOGO from "./../../assets/LOGO.png";
 import Header1 from '../../components/Layout/Header1';
+import DownloadIcon from '@mui/icons-material/Download';
 
 // Register necessary components for chart.js
 ChartJS.register(
@@ -191,6 +192,7 @@ const AdminDashboard = () => {
                     'rgba(255, 206, 86, 0.5)',
                     'rgba(0, 128, 0, 0.5)',
                     'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 99, 71, 0.2)',
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -198,6 +200,7 @@ const AdminDashboard = () => {
                     'rgba(255, 206, 86, 1)',
                     'rgba(0, 128, 0, 1)',
                     'rgba(153, 102, 255, 1)',
+                    'rgba(255, 99, 71, 0.2)',
                 ],
                 borderWidth: 1,
             },
@@ -307,14 +310,29 @@ const AdminDashboard = () => {
          <Box sx={{ display: 'flex', flexGrow: 1 }}>
             <AdminMenu/>
             <Box sx={{ flexGrow: 1, p: 3 }}>
-                <Typography variant="h4" gutterBottom>
-                    Dashboard
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom>
-                    Hi, Welcome back! Here's an overview of your shopping mall’s performance.
-                </Typography>
+                {/* Container for Dashboard and Button */}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    {/* Heading and Subtitle */}
+                        <Box>
+                            <Typography variant="h4" gutterBottom>
+                                Dashboard
+                            </Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                Welcome back! Here's an overview of your shopping mall’s performance.
+                            </Typography>
+                            </Box>
+
+                    {/* Download Button */}
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={generateReport} 
+                        startIcon={<DownloadIcon />}
+                    >
+                        Analysis Report
+                    </Button>
+                </Box>
                 <br/>
-                
                 {/* Display the statistics (Total Users, Shops, Products, Promotions) */}
                 <Grid container spacing={3}>
                     <StatCard title="Total Users" count={userCount} IconComponent={PeopleIcon} />
@@ -349,11 +367,6 @@ const AdminDashboard = () => {
                     </Box>
                 </Grid>
                 </Grid>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-    <               Button variant="contained" color="primary" onClick={generateReport}>
-                        Download Analysis Report
-                    </Button>
-                </Box>
             </Box>
         </Box>
       </Box>
