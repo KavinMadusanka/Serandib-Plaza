@@ -13,15 +13,15 @@ export const AddItemController = async(req,res) => {
         // Validation
         switch(true){
             case !name:
-                return res.status(500).send({error:'Name is Required'})
+                return res.status(400).send({error:'Name is Required'})
             case !pNumber:
-                return res.status(500).send({error:"Phone Number is Required"})
+                return res.status(400).send({error:"Phone Number is Required"})
             case !role:
-                return res.status(500).send({error:"role is Required"})
+                return res.status(400).send({error:"role is Required"})
             case !itemName:
-                return res.status(500).send({error:"item is Required"})
+                return res.status(400).send({error:"item is Required"})
             case image && image.size > 1000000:
-                return res.status(500).send({error:"Photo is Required and should be less than 1mb"})
+                return res.status(400).send({error:"Photo is Required and should be less than 1mb"})
         }
 
         // const savedItem = await AddLostItem.save();
@@ -67,7 +67,7 @@ export const AddItemController = async(req,res) => {
             res.status(500).send({
                 success:false,
                 error,
-                message:"Error in lost item adding",
+                message:"Error in adding lost item",
             });
     }
 }

@@ -40,7 +40,7 @@ const LostFound = () => {
         setUserName(auth.user.fullname);
         setUserPNumber(auth.user.phone);
       }
-    }, [auth]);
+    }, []);
 
     const handleRoleChange = (e) => {
       const value = e.target.value;
@@ -120,7 +120,7 @@ const LostFound = () => {
     try {
       const { data } = await axios.get("http://localhost:8088/api/v1/LostAndFound/getLostItems");
       setItems(data.Items);
-      getAllItems();
+      // getAllItems();
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch Items");
@@ -177,7 +177,7 @@ const getAllNotification = async () => {
   try {
     const { data } = await axios.get("http://localhost:8088/api/v1/LostAndFound/getAllNotift");
     setAllNotify(data.notifies);
-    getAllNotification();
+    // getAllNotification();
   } catch (error) {
     console.log(error);
     toast.error("Failed to fetch Notifications");
@@ -261,7 +261,7 @@ useEffect(() => {
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Name"
                             onKeyPress={handleKeyPress}
-                            required
+                            // required
                             />                      
                             </td>
                             <td className='texting'>
@@ -273,7 +273,7 @@ useEffect(() => {
                             placeholder="07xxxxxxxx"
                             onKeyPress={handleKeyNumber}
                             maxLength={10}
-                            required
+                            // required
                             />
                             </td></tr>
                             {/* <tr><br/></tr> */}
@@ -292,7 +292,7 @@ useEffect(() => {
                             onChange={(e) => setItemName(e.target.value)}
                             placeholder="Item Name"
                             onKeyPress={handleKeyPress}
-                            required
+                            // required
                             /> 
                               </td>
                             </tr>
@@ -326,7 +326,7 @@ useEffect(() => {
                             value={Description} 
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder=" write a description"
-                            required
+                            // required
                             />
                               </td></tr>
                       </tbody></table>

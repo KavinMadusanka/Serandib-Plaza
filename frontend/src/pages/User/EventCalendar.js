@@ -66,7 +66,7 @@ const EventCalendar = () => {
                     end: new Date(event.endDate),     // Convert to Date object
                 }));
                 setEvents(formattedEvents);
-                fetchEvents();
+                // fetchEvents();
             } catch (error) {
                 console.error("Error fetching events:", error);
             }
